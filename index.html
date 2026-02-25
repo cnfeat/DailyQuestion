@@ -4,6 +4,7 @@
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
     <title>日课一问</title>
+    <link rel='icon' href='icon.png' type='image/png'>
     <link rel='stylesheet' href='style.css'>
 </head>
 <body>
@@ -12,6 +13,7 @@
             <div id='gregorian-date'></div>
             <div class='card-id' id='card-id'>NO.000</div>
         </div>
+        
         <div class='card-content'>
             <h1 id='question-display'>正在抽取今日问题...</h1>
             <div class='divider'></div>
@@ -22,13 +24,33 @@
                 <div id='progress-grid' class='progress-grid'></div>
             </div>
         </div>
+        
         <div class='card-footer'>
             <div class='footer-brand'>日课一问</div>
-            <div class='footer-note'>出品：小红书@卡片创作实验室</div>
+            
+            <div class='footer-right'>
+                <div class='footer-info'>
+                    <div class='footer-note'>出品：小红书@卡片创作实验室</div>
+                    <div class='footer-matrix'>
+                        <a href='https://www.yuque.com/hardwaylab/zzybgv/kd6zc9' target='_blank'>《笨方法文化手册》</a>
+                        <a href='https://www.yuque.com/hardwaylab/zzybgv/kd6zc9' target='_blank'>《个人生产力系统指南》</a>
+                        <a href='https://www.yuque.com/hardwaylab/zzybgv/kd6zc9' target='_blank'>《卡片创作100讲》</a>
+                    </div>
+                </div>
+                
+                <button id='download-btn' class='action-btn' title='生成专属海报'>
+                    <svg viewBox='0 0 24 24' width='16' height='16' stroke='currentColor' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'>
+                        <path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'></path>
+                        <polyline points='7 10 12 15 17 10'></polyline>
+                        <line x1='12' y1='15' x2='12' y2='3'></line>
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
     
     <script src='data.js'></script>
+    <script src='html2canvas.min.js'></script>
     <script src='script.js'></script>
 </body>
 </html>

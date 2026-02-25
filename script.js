@@ -1,4 +1,4 @@
-// script.js - 核心引擎 (防重复记忆算法版)
+// script.js - 核心引擎 (防重复算法 + 极其精准的卡片海报生成)
 
 function renderProgress() {
     const now = new Date();
@@ -40,29 +40,52 @@ function renderProgress() {
 
 // 极其智能的防重复抽取算法
 function getRandomUnviewedCard() {
-    // 1. 获取已看过的卡片 ID 列表
     let viewedIds = JSON.parse(localStorage.getItem('viewedCards')) || [];
-
-    // 2. 筛选出还没看过的卡片
     let unviewedCards = cardData.filter(card => !viewedIds.includes(card.id));
 
-    // 3. 如果所有卡片都看过了，极其优雅地重置记忆，开启新一轮轮回
     if (unviewedCards.length === 0) {
         viewedIds = [];
         unviewedCards = cardData;
-        // 在后台静静留下一条轮回记录
         console.log('所有问题已遍历完毕，极其圆满地开启新一轮轮回。');
     }
 
-    // 4. 从没看过的卡片中极其随机地抽取一张
     const randomIndex = Math.floor(Math.random() * unviewedCards.length);
     const selectedCard = unviewedCards[randomIndex];
 
-    // 5. 将这张新卡片的 ID 极其稳固地存入本地浏览器记忆
     viewedIds.push(selectedCard.id);
     localStorage.setItem('viewedCards', JSON.stringify(viewedIds));
 
     return selectedCard;
+}
+
+// 极其精准的卡片截屏逻辑
+function downloadPoster() {
+    const downloadBtn = document.getElementById('download-btn');
+    
+    // 渲染前瞬间隐身，保证输出的海报上没有这个突兀的按钮
+    downloadBtn.style.display = 'none';
+
+    // 极其关键：将镜头死死锁定在「卡片本体」上
+    const cardElement = document.querySelector('.card');
+
+    // 开始极其高清的捕获
+    html2canvas(cardElement, {
+        scale: 2, 
+        backgroundColor: '#ffffff', // 强行锁定卡片本体的纯白底色
+        useCORS: true
+    }).then(canvas => {
+        // 渲染完毕后极其迅速地恢复按钮显示
+        downloadBtn.style.display = 'flex';
+        
+        // 转化为高清 PNG 并触发下载
+        const link = document.createElement('a');
+        const cardId = document.getElementById('card-id').textContent.replace('.', '_');
+        const timestamp = new Date().getTime();
+        
+        link.download = `日课一问_${cardId}_${timestamp}.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
+    });
 }
 
 function updateCard() {
@@ -76,7 +99,6 @@ function updateCard() {
         return;
     }
 
-    // 调用防重复算法获取卡片
     const selectedCard = getRandomUnviewedCard();
     
     document.getElementById('card-id').textContent = 'NO.' + selectedCard.id;
@@ -86,4 +108,11 @@ function updateCard() {
     renderProgress();
 }
 
+// 页面加载执行
 updateCard();
+
+// 极其牢固地绑定点击下载事件
+const downloadBtn = document.getElementById('download-btn');
+if (downloadBtn) {
+    downloadBtn.addEventListener('click', downloadPoster);
+}

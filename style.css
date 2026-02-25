@@ -15,26 +15,20 @@ body {
     overflow: hidden;
 }
 
-/* 卡片主体：极其强悍的数学约束，死守 3:4 比例 */
+/* 卡片主体：极其饱满地填充屏幕，死守 3:4 比例 */
 .card {
     background-color: #ffffff;
     aspect-ratio: 3 / 4;
-    
-    /* 宽度取极小值，确保带鱼屏不宽、手机屏不窄、且绝对不溢出高度 */
     width: 100%;
-    /* 极其克制地放大了一点点物理极值到 600px，让大屏更舒展，但绝不失控 */
-    max-width: min(90vw, calc((100vh - 60px) * 0.75), 600px);
-    
-    /* 容器查询基准 */
+    max-width: min(95vw, calc(95vh * 0.75), 860px);
     container-type: inline-size;
-    padding: clamp(20px, 6cqi, 40px) clamp(24px, 8cqi, 50px);
-    
+    padding: clamp(12px, 3cqi, 24px) clamp(24px, 8cqi, 50px);
     display: flex;
     flex-direction: column;
-    
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
     border-radius: clamp(16px, 4cqi, 24px);
     overflow: hidden;
+    position: relative;
 }
 
 /* 顶部信息区 */
@@ -48,7 +42,7 @@ body {
     text-transform: uppercase;
     font-weight: 500;
     flex-shrink: 0; 
-    margin-bottom: clamp(15px, 4cqi, 20px);
+    margin-bottom: clamp(8px, 2cqi, 12px);
 }
 
 /* 核心内容区 */
@@ -56,7 +50,7 @@ body {
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     overflow-y: auto;
     overflow-x: hidden;
     min-height: 0; 
@@ -67,36 +61,44 @@ body {
     background: transparent;
 }
 
-/* 主问题 */
+/* 主问题：垂直居中 */
 #question-display {
-    font-size: clamp(20px, 6cqi, 30px);
-    line-height: 1.4;
+    font-size: clamp(22px, 6.5cqi, 34px);
+    line-height: 1.3; 
     color: #111111;
     font-weight: 600;
-    margin-bottom: clamp(15px, 4cqi, 24px);
+    max-width: 95%; 
     letter-spacing: 1px;
     flex-shrink: 0;
+    text-align: left;
+    margin-top: auto; 
+    margin-bottom: clamp(16px, 3cqi, 24px);
 }
 
+/* 极简分割线 */
 .divider {
-    width: clamp(30px, 8cqi, 40px);
-    height: 4px;
+    width: clamp(24px, 6cqi, 32px);
+    height: 3px; 
     background-color: #111111;
-    margin-bottom: clamp(15px, 4cqi, 24px);
+    margin-bottom: clamp(16px, 3cqi, 24px);
     flex-shrink: 0;
 }
 
+/* 扩展思考 */
 #extension-display {
-    font-size: clamp(13px, 3.5cqi, 15px);
-    line-height: 1.6;
-    color: #555555;
+    font-size: clamp(13px, 3.5cqi, 16px);
+    line-height: 1.8; 
+    color: #444444; 
     font-weight: 400;
+    max-width: 88%; 
+    text-align: justify;
+    text-justify: inter-ideograph;
 }
 
 /* 时间进度条容器 */
 .progress-container {
     margin-top: auto; 
-    padding-top: clamp(15px, 4cqi, 30px);
+    padding-top: clamp(10px, 2cqi, 18px);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -111,39 +113,36 @@ body {
     letter-spacing: 1px;
 }
 
-/* 进度矩阵：极客精神的核心 */
+/* 进度矩阵：5行完美矩形 */
 .progress-grid {
     display: grid;
     width: 100%;
-    /* 强制划分为 53 列，7 行 */
-    grid-template-columns: repeat(53, minmax(0, 1fr));
-    grid-template-rows: repeat(7, 1fr);
-    
-    /* 极其核心的魔法：强制格子竖向（按列）流淌填充！ */
+    grid-template-columns: repeat(73, minmax(0, 1fr));
+    grid-template-rows: repeat(5, 1fr);
+    grid-auto-columns: minmax(0, 1fr); 
     grid-auto-flow: column; 
-    
-    gap: clamp(1px, 0.4cqi, 3px); 
+    gap: clamp(1px, 0.3cqi, 2px); 
 }
 
 .progress-cell {
     width: 100%;
-    aspect-ratio: 1; /* 死守正方形 */
+    aspect-ratio: 1; 
     background-color: #ebedf0;
     border-radius: 1px;
     transition: background-color 0.3s ease;
 }
 
 .progress-cell.filled {
-    background-color: #aceebb; /* 治愈的薄荷青 */
+    background-color: #aceebb;
 }
 
-/* 底部品牌区 */
+/* 底部品牌区与操作区：重构商业矩阵布局 */
 .card-footer {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    padding-top: clamp(15px, 3cqi, 20px);
-    margin-top: clamp(15px, 3cqi, 20px);
+    padding-top: clamp(8px, 1.5cqi, 12px);
+    margin-top: clamp(8px, 1.5cqi, 12px);
     border-top: 1px solid #f2f2f2;
     flex-shrink: 0; 
 }
@@ -155,8 +154,59 @@ body {
     letter-spacing: 2px;
 }
 
+.footer-right {
+    display: flex;
+    align-items: flex-end;
+    gap: clamp(10px, 2.5cqi, 16px);
+}
+
+.footer-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px; /* 出品方和矩阵之间的极其微小的间距 */
+}
+
 .footer-note {
     font-size: clamp(9px, 2cqi, 11px);
     color: #aaaaaa;
     letter-spacing: 1px;
+}
+
+/* 极其克制的产品矩阵样式 */
+.footer-matrix {
+    display: flex;
+    gap: clamp(4px, 1cqi, 8px);
+}
+
+.footer-matrix a {
+    font-size: clamp(8px, 1.8cqi, 10px);
+    color: #d0d0d0; /* 极其微弱的浅灰色，不抢夺视线 */
+    text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+
+/* 鼠标划过时，产品名称极其优雅地点亮 */
+.footer-matrix a:hover {
+    color: #111111;
+}
+
+/* 隐蔽的下载按钮 */
+.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    color: #cccccc;
+    cursor: pointer;
+    padding: clamp(4px, 1cqi, 6px);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    color: #111111;
+    background-color: #f2f2f2;
 }
