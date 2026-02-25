@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "日课一问",
+  "version": "1.0",
+  "description": "每天一个直击灵魂的问题，极其硬核的时间流逝矩阵。",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "icons": {
+    "128": "icon.png"
+  }
+}

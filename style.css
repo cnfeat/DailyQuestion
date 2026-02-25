@@ -1,0 +1,162 @@
+/* 全局重置与基础设置 */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #f8f6f4; 
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* 卡片主体：极其强悍的数学约束，死守 3:4 比例 */
+.card {
+    background-color: #ffffff;
+    aspect-ratio: 3 / 4;
+    
+    /* 宽度取极小值，确保带鱼屏不宽、手机屏不窄、且绝对不溢出高度 */
+    width: 100%;
+    /* 极其克制地放大了一点点物理极值到 600px，让大屏更舒展，但绝不失控 */
+    max-width: min(90vw, calc((100vh - 60px) * 0.75), 600px);
+    
+    /* 容器查询基准 */
+    container-type: inline-size;
+    padding: clamp(20px, 6cqi, 40px) clamp(24px, 8cqi, 50px);
+    
+    display: flex;
+    flex-direction: column;
+    
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.06);
+    border-radius: clamp(16px, 4cqi, 24px);
+    overflow: hidden;
+}
+
+/* 顶部信息区 */
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: clamp(10px, 2.5cqi, 12px);
+    color: #888888;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 500;
+    flex-shrink: 0; 
+    margin-bottom: clamp(15px, 4cqi, 20px);
+}
+
+/* 核心内容区 */
+.card-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-height: 0; 
+}
+
+.card-content::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+/* 主问题 */
+#question-display {
+    font-size: clamp(20px, 6cqi, 30px);
+    line-height: 1.4;
+    color: #111111;
+    font-weight: 600;
+    margin-bottom: clamp(15px, 4cqi, 24px);
+    letter-spacing: 1px;
+    flex-shrink: 0;
+}
+
+.divider {
+    width: clamp(30px, 8cqi, 40px);
+    height: 4px;
+    background-color: #111111;
+    margin-bottom: clamp(15px, 4cqi, 24px);
+    flex-shrink: 0;
+}
+
+#extension-display {
+    font-size: clamp(13px, 3.5cqi, 15px);
+    line-height: 1.6;
+    color: #555555;
+    font-weight: 400;
+}
+
+/* 时间进度条容器 */
+.progress-container {
+    margin-top: auto; 
+    padding-top: clamp(15px, 4cqi, 30px);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: clamp(6px, 2cqi, 12px);
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.progress-text {
+    font-size: clamp(9px, 2.2cqi, 11px);
+    color: #888;
+    letter-spacing: 1px;
+}
+
+/* 进度矩阵：极客精神的核心 */
+.progress-grid {
+    display: grid;
+    width: 100%;
+    /* 强制划分为 53 列，7 行 */
+    grid-template-columns: repeat(53, minmax(0, 1fr));
+    grid-template-rows: repeat(7, 1fr);
+    
+    /* 极其核心的魔法：强制格子竖向（按列）流淌填充！ */
+    grid-auto-flow: column; 
+    
+    gap: clamp(1px, 0.4cqi, 3px); 
+}
+
+.progress-cell {
+    width: 100%;
+    aspect-ratio: 1; /* 死守正方形 */
+    background-color: #ebedf0;
+    border-radius: 1px;
+    transition: background-color 0.3s ease;
+}
+
+.progress-cell.filled {
+    background-color: #aceebb; /* 治愈的薄荷青 */
+}
+
+/* 底部品牌区 */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding-top: clamp(15px, 3cqi, 20px);
+    margin-top: clamp(15px, 3cqi, 20px);
+    border-top: 1px solid #f2f2f2;
+    flex-shrink: 0; 
+}
+
+.footer-brand {
+    font-size: clamp(12px, 3.5cqi, 16px);
+    font-weight: 700;
+    color: #111111;
+    letter-spacing: 2px;
+}
+
+.footer-note {
+    font-size: clamp(9px, 2cqi, 11px);
+    color: #aaaaaa;
+    letter-spacing: 1px;
+}
