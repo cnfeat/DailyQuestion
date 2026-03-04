@@ -3,15 +3,19 @@
 <head>
     <meta charset='UTF-8'>
     <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <title>日课一问</title>
+    <title>日课一问 | 破局人生</title>
     <link rel='icon' href='icon.png' type='image/png'>
     <link rel='stylesheet' href='style.css'>
 </head>
 <body>
-    <div class='card'>
+    <div class='card' id='daily-card'>
         <div class='card-header'>
-            <div id='gregorian-date'></div>
-            <div class='card-id' id='card-id'>NO.000</div>
+            <div class='header-brand'>
+                <a href='https://github.com/cnfeat/DailyQuestion' target='_blank' class='brand-link'>日课一问 | 每日一问，破局人生</a>
+            </div>
+            <div class='header-meta'>
+                <div class='card-id' id='card-id'>NO.000</div>
+            </div>
         </div>
         
         <div class='card-content'>
@@ -20,17 +24,20 @@
             <p id='extension-display'>思考加载中...</p>
             
             <div class='progress-container'>
+                <div id='gregorian-date' class='card-date-bottom'></div>
                 <div id='progress-text' class='progress-text'></div>
                 <div id='progress-grid' class='progress-grid'></div>
             </div>
         </div>
         
         <div class='card-footer'>
-            <div class='footer-brand'>日课一问</div>
+            <div class='footer-left'>
+                <a href='https://github.com/cnfeat/DailyQuestion' target='_blank' class='footer-share-link'>欢迎分享你的日课一问</a>
+            </div>
             
             <div class='footer-right'>
                 <div class='footer-info'>
-                    <div class='footer-note'>出品：小红书@卡片创作实验室</div>
+                    <a href='https://www.xiaohongshu.com/user/profile/5f114dd500000000010071a0' target='_blank' class='footer-note'>出品：小红书@卡片创作实验室</a>
                     <div class='footer-matrix'>
                         <a href='https://www.yuque.com/hardwaylab/zzybgv/kd6zc9' target='_blank'>《笨方法文化手册》</a>
                         <a href='https://www.yuque.com/hardwaylab/zzybgv/kd6zc9' target='_blank'>《个人生产力系统指南》</a>
@@ -38,7 +45,7 @@
                     </div>
                 </div>
                 
-                <button id='download-btn' class='action-btn' title='生成专属海报'>
+                <button id='download-btn' class='action-btn' title='下载这张问题'>
                     <svg viewBox='0 0 24 24' width='16' height='16' stroke='currentColor' stroke-width='2' fill='none' stroke-linecap='round' stroke-linejoin='round'>
                         <path d='M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4'></path>
                         <polyline points='7 10 12 15 17 10'></polyline>
@@ -49,6 +56,7 @@
         </div>
     </div>
     
+    <script src='data.js'></script>
     <script src='html2canvas.min.js'></script>
     <script src='script.js'></script>
 </body>
