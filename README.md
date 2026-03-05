@@ -125,7 +125,7 @@ Chrome 应用商店地址：
 - 激励增补更多高质量原创题库
 - 购买更多的咖啡，支撑起每一个深夜的 Bug 修复或升级。
 
-![mm_facetoface_collect_qrcode_1772674936380.png](https://s3.bmp.ovh/2026/03/05/0d71Izt5.png)
+![幻灯片2.png](https://s3.bmp.ovh/2026/03/05/QZHsZcwr.png)
 
 
 
