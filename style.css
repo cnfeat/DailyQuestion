@@ -1,4 +1,4 @@
-/* 全局基础设置 */
+/* 全局基础设置保持不变 */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
     background-color: #f8f6f4; 
@@ -11,69 +11,33 @@ body {
     aspect-ratio: 3 / 4; 
     width: 100%;
     max-width: min(95vw, calc(95vh * 0.75), 860px);
-    
-    /* 核心修改：统一并优化四周间距，增加呼吸感 */
-    /* 之前的比例约为 1:2，现在调整为更接近 1:1.2 的均衡比例 */
     padding: clamp(30px, 6cqi, 50px) clamp(30px, 8cqi, 60px);
-    
     display: flex; flex-direction: column;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
     border-radius: clamp(16px, 4cqi, 24px);
     overflow: hidden; position: relative;
 }
 
-/* 顶部：水平对齐 */
-.card-header {
-    display: flex; justify-content: space-between; align-items: baseline;
-    flex-shrink: 0; 
-    margin-bottom: clamp(20px, 4cqi, 40px); /* 增加顶部与内容的距离 */
-}
+/* 顶部与内容区样式保持不变 */
+.card-header { display: flex; justify-content: space-between; align-items: baseline; flex-shrink: 0; margin-bottom: clamp(20px, 4cqi, 40px); }
 .header-brand { display: flex; align-items: baseline; }
-
-.brand-link {
-    font-size: clamp(9px, 2.2cqi, 11px);
-    font-weight: normal; 
-    color: #aaaaaa; 
-    text-decoration: none; 
-    letter-spacing: 1px; 
-    transition: color 0.3s;
-}
+.brand-link { font-size: clamp(9px, 2.2cqi, 11px); font-weight: normal; color: #aaaaaa; text-decoration: none; letter-spacing: 1px; transition: color 0.3s; }
 .brand-link:hover { color: #888888; }
-
 .card-id { font-size: clamp(9px, 2.2cqi, 11px); color: #cccccc; letter-spacing: 1px; }
 
-/* 内容区 */
 .card-content { flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-start; overflow: hidden; }
-#question-display {
-    font-size: clamp(22px, 6.5cqi, 34px); line-height: 1.35; color: #111111;
-    font-weight: 600; letter-spacing: 1px; margin-top: auto; margin-bottom: clamp(16px, 3cqi, 24px);
-}
+#question-display { font-size: clamp(22px, 6.5cqi, 34px); line-height: 1.35; color: #111111; font-weight: 600; letter-spacing: 1px; margin-top: auto; margin-bottom: clamp(16px, 3cqi, 24px); }
 .divider { width: 32px; height: 3px; background-color: #111111; margin-bottom: 24px; flex-shrink: 0; }
-#extension-display {
-    font-size: clamp(13px, 3.5cqi, 16px); line-height: 1.8; color: #444444; 
-    text-align: justify; min-height: 120px;
-}
+#extension-display { font-size: clamp(13px, 3.5cqi, 16px); line-height: 1.8; color: #444444; text-align: justify; min-height: 120px; }
 
-/* 进度矩阵模块 */
 .progress-container { margin-top: auto; padding-top: 20px; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
-
-.card-date-bottom {
-    font-size: clamp(9px, 2.2cqi, 11px);
-    color: #888888; 
-    letter-spacing: 1px;
-    margin-bottom: 2px;
-}
-
+.card-date-bottom { font-size: clamp(9px, 2.2cqi, 11px); color: #888888; letter-spacing: 1px; margin-bottom: 2px; }
 .progress-text { font-size: 10px; color: #888888; margin-bottom: 4px; }
-.progress-grid {
-    display: grid; width: 100%; gap: 1px;
-    grid-template-columns: repeat(73, minmax(0, 1fr));
-    grid-template-rows: repeat(5, 1fr); grid-auto-flow: column;
-}
+.progress-grid { display: grid; width: 100%; gap: 1px; grid-template-columns: repeat(73, minmax(0, 1fr)); grid-template-rows: repeat(5, 1fr); grid-auto-flow: column; }
 .progress-cell { width: 100%; aspect-ratio: 1; background-color: #ebedf0; }
 .progress-cell.filled { background-color: #aceebb; }
 
-/* 底部区域 */
+/* 底部区域：位置保持 flex-end 不变 */
 .card-footer {
     display: flex; justify-content: space-between; align-items: flex-end;
     padding-top: 16px; margin-top: 20px; border-top: 1px solid #f2f2f2; flex-shrink: 0;
@@ -83,19 +47,20 @@ body {
     text-decoration: none; transition: color 0.3s;
 }
 .footer-share-link:hover { color: #888888; }
-.footer-right { display: flex; align-items: flex-end; gap: 15px; }
-.footer-info { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
-.footer-note { font-size: 9px; color: #aaaaaa; text-decoration: none; }
-.footer-matrix { display: flex; gap: 8px; }
-.footer-matrix a { font-size: 8px; color: #d0d0d0; text-decoration: none; }
 
-/* 下载按钮 */
-.action-btn {
-    background: none; border: none; color: #cccccc; cursor: pointer;
-    padding: 6px; border-radius: 4px; transition: 0.3s;
-}
-.action-btn:hover { color: #111111; background-color: #f2f2f2; }
+/* 核心修改：确保图标与文字在底部基线上精准对齐 */
+.footer-right { display: flex; align-items: baseline; gap: 15px; }
+.footer-info { display: flex; flex-direction: column; align-items: flex-end; }
 
-#change-btn {
-    height: 18px; line-height: 18px; margin-top: 10px;
+.footer-note { 
+    font-size: clamp(11px, 2.8cqi, 13px); 
+    color: #bbbbbb; 
+    text-decoration: none; 
 }
+
+/* 下载按钮：移除多余 padding 干扰对齐，使用 line-height: 0 确保重心稳定 */
+.action-btn { 
+    background: none; border: none; color: #cccccc; cursor: pointer; 
+    padding: 0; transition: 0.3s; line-height: 0;
+}
+.action-btn:hover { color: #111111; }
