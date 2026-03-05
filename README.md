@@ -11,6 +11,8 @@
 
 ![幻灯片2.PNG](https://s3.bmp.ovh/2026/03/04/QTjcfg2E.png)
 
+在线体验网址：https://cnfeat.github.io/DailyQuestion/ （首次在线体验会解压问题略慢）
+
 
 ## 2、🎶核心特性
 
