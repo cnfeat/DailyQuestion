@@ -1,5 +1,7 @@
 # 日课一问 (Daily Question)：每日一问，破局人生
 
+最新版仓库地址：https://github.com/cnfeat/DailyQuestion
+
 
 ## 1、🎉简介
 
