@@ -1,24 +1,22 @@
 {
   "manifest_version": 3,
-  "name": "日课一问 | 每日一问，破局人生",
-  "version": "1.0.0",
-  "description": "每日一问，破局人生。一个基于卡片创作系统的深度思考工具。",
+  "name": "日课一问 | 每日三省，破局人生",
+  "version": "2.0.01",
+  "description": "每日三省，破局人生。「日课一问」是一套精选卡片问题集，内置 365+ 个启发性问题，让你每次打开浏览器新标签页，都是直接与灵魂深度对话。",
   "author": "cnfeat",
   "background": {
     "service_worker": "background.js"
   },
   "action": {
-    "default_popup": "index.html",
     "default_icon": {
       "16": "icon.png",
       "48": "icon.png",
       "128": "icon.png"
     }
   },
-  "permissions": [
-    "storage",
-    "tabs"
-  ],
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
   "host_permissions": [
     "https://github.com/cnfeat/DailyQuestion"
   ]
