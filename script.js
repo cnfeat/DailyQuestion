@@ -2,17 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initCardSystem();
     renderProgress();
     setupDownloadFeature();
-    setupJumpFeature();
-    
-    // 增加容错检查，防止 HTML 元素不存在时报错
-    const saveBtn = document.getElementById('save-local-btn');
-    if (saveBtn) saveBtn.onclick = saveCurrentEdit;
-
-    const refreshBtn = document.getElementById('refresh-batch-btn');
-    if (refreshBtn) refreshBtn.onclick = refreshBatch;
-
-    const exportBtn = document.getElementById('export-file-btn');
-    if (exportBtn) exportBtn.onclick = exportToFile;
 });
 
 let memoryCardPool = null;
@@ -60,96 +49,6 @@ function getDecryptedCards() {
     }
 }
 
-// 导出功能：同步更新加密逻辑，确保导出的文件能被自身读取[cite: 6, 8]
-function exportToFile() {
-    const pool = getDecryptedCards();
-    const jsonStr = JSON.stringify(pool);
-    // 使用 TextEncoder 处理 UTF-8 字符
-    const encoder = new TextEncoder();
-    const bytes = encoder.encode(jsonStr);
-    
-    let encrypted = "";
-    for (let i = 0; i < bytes.length; i++) {
-        // 第一步：执行循环异或[cite: 8]
-        let processed = bytes[i] ^ SECRET_KEY[i % SECRET_KEY.length];
-        // 第二步：执行二进制偏移并转为字符[cite: 8]
-        encrypted += String.fromCharCode((processed + OFFSET) % 256);
-    }
-    
-    // 转为 Base64 存储
-    const base64Data = btoa(encrypted);
-    const fileContent = `window.__SECRET_BASE__ = "${base64Data}";`;
-    
-    const blob = new Blob([fileContent], { type: "text/javascript" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "data.js";
-    link.click();
-    URL.revokeObjectURL(url);
-    alert("加固版 data.js 已生成，替换后提交审核即可");
-}
-
-function saveCurrentEdit() {
-    const cardIdElement = document.getElementById('card-id');
-    if (!cardIdElement) return;
-    
-    const currentId = cardIdElement.textContent.replace('NO.', '');
-    const pool = getDecryptedCards();
-    const cardIndex = pool.findIndex(c => c.id == currentId);
-    
-    if (cardIndex !== -1) {
-        pool[cardIndex].question = document.getElementById('question-display').innerText;
-        pool[cardIndex].extension = document.getElementById('extension-display').innerText;
-        
-        localStorage.setItem('local_test_question_pool', JSON.stringify(pool));
-        
-        let cache = JSON.parse(localStorage.getItem('dailyCardCache'));
-        if (cache && cache.cards) {
-            const dailyIdx = cache.cards.findIndex(c => c.id == currentId);
-            if (dailyIdx !== -1) {
-                cache.cards[dailyIdx] = {...pool[cardIndex]};
-                localStorage.setItem('dailyCardCache', JSON.stringify(cache));
-            }
-        }
-        alert("修改已存入缓存（点击 EXPORT 可生成加固文件）");
-    }
-}
-
-function setupJumpFeature() {
-    const input = document.getElementById('jump-input');
-    if (!input) return;
-    input.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-            const targetId = input.value.trim().padStart(3, '0');
-            const pool = getDecryptedCards();
-            const card = pool.find(c => c.id === targetId);
-            if (card) {
-                const todayStr = new Date().toLocaleDateString();
-                let cache = { date: todayStr, cards: [card], currentIndex: 0 };
-                localStorage.setItem('dailyCardCache', JSON.stringify(cache));
-                renderCard(card, 0, 1);
-                input.value = '';
-            }
-        }
-    });
-}
-
-function refreshBatch() {
-    const pool = getDecryptedCards();
-    const todayStr = new Date().toLocaleDateString();
-    let newCards = [];
-    let tempPool = [...pool];
-    for (let i = 0; i < 3; i++) {
-        if (tempPool.length === 0) break;
-        const randomIndex = Math.floor(Math.random() * tempPool.length);
-        newCards.push(tempPool.splice(randomIndex, 1)[0]);
-    }
-    let cache = { date: todayStr, cards: newCards, currentIndex: 0 };
-    localStorage.setItem('dailyCardCache', JSON.stringify(cache));
-    renderCard(newCards[0], 0, 3);
-}
-
 function initCardSystem() {
     const now = new Date();
     const dateElement = document.getElementById('gregorian-date');
@@ -162,7 +61,12 @@ function initCardSystem() {
 
 function loadCurrentCard() {
     const todayStr = new Date().toLocaleDateString();
-    let cache = JSON.parse(localStorage.getItem('dailyCardCache'));
+    let cache;
+    try {
+        cache = JSON.parse(localStorage.getItem('dailyCardCache'));
+    } catch (e) {
+        cache = null;
+    }
     if (!cache || cache.date !== todayStr) {
         cache = { date: todayStr, cards: [], currentIndex: 0 };
     }
@@ -173,7 +77,13 @@ function loadCurrentCard() {
 function drawNewCard(cache) {
     const pool = getDecryptedCards();
     if (pool.length === 0) return;
-    let viewed = JSON.parse(localStorage.getItem('viewedCards')) || [];
+    let viewed;
+    try {
+        viewed = JSON.parse(localStorage.getItem('viewedCards'));
+    } catch (e) {
+        viewed = null;
+    }
+    viewed = viewed || [];
     let available = pool.filter(c => !viewed.includes(c.id));
     if (available.length === 0) { viewed = []; available = pool; }
     const card = available[Math.floor(Math.random() * available.length)];
@@ -205,12 +115,16 @@ function setupChangeButton() {
     if (!btn && displayEl) {
         btn = document.createElement('div');
         btn.id = 'change-btn';
-        btn.style = 'cursor:pointer; opacity:0.3; font-size:12px; margin-top:20px; text-align:right; transition:0.3s; height: 18px; line-height: 18px;';
         displayEl.after(btn);
     }
     if (btn) {
         btn.onclick = () => {
-            let cache = JSON.parse(localStorage.getItem('dailyCardCache'));
+            let cache;
+            try {
+                cache = JSON.parse(localStorage.getItem('dailyCardCache'));
+            } catch (e) {
+                cache = { date: new Date().toLocaleDateString(), cards: [], currentIndex: 0 };
+            }
             if (cache.cards.length < 3) drawNewCard(cache);
             else {
                 cache.currentIndex = (cache.currentIndex + 1) % cache.cards.length;
@@ -225,18 +139,34 @@ function renderProgress() {
     const grid = document.getElementById('progress-grid');
     const txt = document.getElementById('progress-text');
     if (!grid || !txt) return;
-    grid.innerHTML = '';
+
     const now = new Date();
     const year = now.getFullYear();
-    const start = new Date(year, 0, 0);
-    const dayOfYear = Math.floor((now - start) / 86400000);
-    const totalDays = (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0)) ? 366 : 365;
+
+    // 从当年 1 月 1 日开始计算，更直观
+    const startOfYear = new Date(year, 0, 1);
+    const dayOfYear = Math.floor((now - startOfYear) / 86400000) + 1;
+
+    const isLeap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+    const totalDays = isLeap ? 366 : 365;
+
     txt.textContent = `今天是 ${year} 年的第 ${dayOfYear} 天，进度 ${((dayOfYear / totalDays) * 100).toFixed(1)}%`;
+
+    // 动态计算网格列数，闰年 366 天用 61×6，平年 365 天用 73×5
+    const cols = totalDays <= 365 ? 73 : 61;
+    const rows = Math.ceil(totalDays / cols);
+    grid.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
+    grid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+
+    // 使用 DocumentFragment 批量创建 DOM，减少回流
+    grid.innerHTML = '';
+    const fragment = document.createDocumentFragment();
     for (let i = 1; i <= totalDays; i++) {
         const cell = document.createElement('div');
         cell.className = 'progress-cell' + (i <= dayOfYear ? ' filled' : '');
-        grid.appendChild(cell);
+        fragment.appendChild(cell);
     }
+    grid.appendChild(fragment);
 }
 
 function setupDownloadFeature() {
@@ -258,6 +188,9 @@ function setupDownloadFeature() {
             link.download = `日课一问_${new Date().getTime()}.png`;
             link.href = canvas.toDataURL('image/png');
             link.click();
+        }).catch(err => {
+            console.error("截图失败:", err);
+            alert("截图生成失败，请重试。");
         });
     };
 }

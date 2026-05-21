@@ -16,6 +16,7 @@ body {
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
     border-radius: clamp(16px, 4cqi, 24px);
     overflow: hidden; position: relative;
+    container-type: inline-size;
 }
 
 /* 顶部与内容区样式保持不变 */
@@ -33,7 +34,7 @@ body {
 .progress-container { margin-top: auto; padding-top: 20px; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
 .card-date-bottom { font-size: clamp(9px, 2.2cqi, 11px); color: #888888; letter-spacing: 1px; margin-bottom: 2px; }
 .progress-text { font-size: 10px; color: #888888; margin-bottom: 4px; }
-.progress-grid { display: grid; width: 100%; gap: 1px; grid-template-columns: repeat(73, minmax(0, 1fr)); grid-template-rows: repeat(5, 1fr); grid-auto-flow: column; }
+.progress-grid { display: grid; width: 100%; gap: 1px; grid-auto-flow: column; }
 .progress-cell { width: 100%; aspect-ratio: 1; background-color: #ebedf0; }
 .progress-cell.filled { background-color: #aceebb; }
 
@@ -57,6 +58,10 @@ body {
     color: #bbbbbb; 
     text-decoration: none; 
 }
+
+/* 换一问按钮 */
+#change-btn { cursor: pointer; opacity: 0.3; font-size: 12px; margin-top: 20px; text-align: right; transition: opacity 0.3s; height: 18px; line-height: 18px; }
+#change-btn:hover { opacity: 0.6; }
 
 /* 下载按钮：移除多余 padding 干扰对齐，使用 line-height: 0 确保重心稳定 */
 .action-btn { 

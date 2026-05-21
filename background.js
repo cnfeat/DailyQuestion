@@ -2,7 +2,9 @@
 chrome.runtime.onInstalled.addListener((details) => {
     if (details.reason === "install") {
         chrome.tabs.create({
-            url: "https://www.yuque.com/hardwaylab/zzybgv/lgg21yyuagwbm6qt" 
+            url: "https://www.cnfeat.com/"
+        }).catch(err => {
+            console.error("打开安装引导页失败:", err);
         });
     }
 });
@@ -11,5 +13,7 @@ chrome.runtime.onInstalled.addListener((details) => {
 chrome.action.onClicked.addListener(() => {
     chrome.tabs.create({
         url: "index.html"
+    }).catch(err => {
+        console.error("打开新标签页失败:", err);
     });
 });
