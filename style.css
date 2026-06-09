@@ -1,71 +1,222 @@
-/* 全局基础设置保持不变 */
+/* ═══════════════════════════════════════
+   日课一问 · 豆瓣绿主题
+   ═══════════════════════════════════════ */
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
+
 body {
-    background-color: #f8f6f4; 
+    background-color: #f5f3ef; 
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden;
+    display: flex; justify-content: center; align-items: center; 
+    height: 100vh; overflow: hidden;
 }
 
+/* ═══ 卡片 ═══ */
 .card {
     background-color: #ffffff; 
     aspect-ratio: 3 / 4; 
     width: 100%;
-    max-width: min(95vw, calc(95vh * 0.75), 860px);
-    padding: clamp(30px, 6cqi, 50px) clamp(30px, 8cqi, 60px);
+    max-width: min(95vw, calc(95vh * 0.75), 820px);
+    /* 四周边距一致 */
+    padding: clamp(34px, 12cqi, 80px);
     display: flex; flex-direction: column;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    border-radius: clamp(16px, 4cqi, 24px);
+    box-shadow: 0 2px 24px rgba(0,0,0,0.06), 0 8px 48px rgba(0,0,0,0.04);
+    border-radius: clamp(18px, 4cqi, 28px);
+    border: 1px solid rgba(0,0,0,0.04);
     overflow: hidden; position: relative;
     container-type: inline-size;
 }
 
-/* 顶部与内容区样式保持不变 */
-.card-header { display: flex; justify-content: space-between; align-items: baseline; flex-shrink: 0; margin-bottom: clamp(20px, 4cqi, 40px); }
+/* ═══ 卡片头部 ═══ */
+.card-header { 
+    display: flex; justify-content: space-between; align-items: baseline; 
+    flex-shrink: 0; 
+    margin-bottom: clamp(24px, 5cqi, 48px); 
+}
 .header-brand { display: flex; align-items: baseline; }
-.brand-link { font-size: clamp(9px, 2.2cqi, 11px); font-weight: normal; color: #aaaaaa; text-decoration: none; letter-spacing: 1px; transition: color 0.3s; }
-.brand-link:hover { color: #888888; }
-.card-id { font-size: clamp(9px, 2.2cqi, 11px); color: #cccccc; letter-spacing: 1px; }
+.brand-link { 
+    font-size: clamp(9px, 2cqi, 11px); 
+    font-weight: 500; color: #3C9D4E; 
+    text-decoration: none; letter-spacing: 1.5px; 
+    transition: opacity 0.25s; 
+}
+.brand-link:hover { opacity: 0.6; }
+.card-id { 
+    font-size: clamp(9px, 2cqi, 11px); 
+    color: #cccccc; letter-spacing: 1.5px; 
+    font-weight: 400;
+}
 
-.card-content { flex-grow: 1; display: flex; flex-direction: column; justify-content: flex-start; overflow: hidden; }
-#question-display { font-size: clamp(22px, 6.5cqi, 34px); line-height: 1.35; color: #111111; font-weight: 600; letter-spacing: 1px; margin-top: auto; margin-bottom: clamp(16px, 3cqi, 24px); }
-.divider { width: 32px; height: 3px; background-color: #111111; margin-bottom: 24px; flex-shrink: 0; }
-#extension-display { font-size: clamp(13px, 3.5cqi, 16px); line-height: 1.8; color: #444444; text-align: justify; min-height: 120px; }
+/* ═══ 内容区 ═══ */
+.card-content { 
+    flex-grow: 1; display: flex; flex-direction: column; 
+    justify-content: flex-start; overflow: hidden; 
+}
 
-.progress-container { margin-top: auto; padding-top: 20px; display: flex; flex-direction: column; gap: 6px; flex-shrink: 0; }
-.card-date-bottom { font-size: clamp(9px, 2.2cqi, 11px); color: #888888; letter-spacing: 1px; margin-bottom: 2px; }
-.progress-text { font-size: 10px; color: #888888; margin-bottom: 4px; }
-.progress-grid { display: grid; width: 100%; gap: 1px; grid-auto-flow: column; }
-.progress-cell { width: 100%; aspect-ratio: 1; background-color: #ebedf0; }
-.progress-cell.filled { background-color: #aceebb; }
+/* 正常状态 — 三分结构：上半区 · 分割线 · 下半区 */
+#normal-state {
+    flex-grow: 1;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+}
 
-/* 底部区域：位置保持 flex-end 不变 */
+/* ── 上半区：问题 ── */
+.question-area {
+    flex: 1;
+    display: flex; align-items: flex-end;  /* 问题靠上半区底部 */
+    overflow: hidden;
+}
+#question-display { 
+    font-size: clamp(20px, 5.5cqi, 30px); 
+    line-height: 1.45; 
+    color: #1a1a1a; 
+    font-weight: 700; 
+    letter-spacing: 0.5px; 
+    font-family: "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", "Noto Sans CJK SC", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    padding-bottom: clamp(14px, 3cqi, 22px);
+    margin: 0;
+}
+
+/* ── 分割线（固定居中） ── */
+.divider { 
+    width: 48px; height: 2px; 
+    background-color: #3C9D4E; 
+    border-radius: 1px;
+    flex-shrink: 0; 
+    opacity: 0.8;
+    margin: 0 auto clamp(14px, 3cqi, 22px) 0;
+}
+
+/* ── 下半区：延伸反思 ── */
+.extension-area {
+    flex: 1;
+    display: flex; align-items: center;  /* 扩展文字居中 */
+    overflow: hidden;
+}
+#extension-display { 
+    font-size: clamp(13px, 3.5cqi, 16px); 
+    line-height: 1.9; 
+    color: #555555; 
+    text-align: justify; 
+    margin: 0;
+}
+
+/* ═══ 年度进度 ═══ */
+.progress-container { 
+    margin-top: auto; 
+    padding-top: clamp(20px, 4cqi, 32px); 
+    display: flex; flex-direction: column; 
+    gap: 8px; flex-shrink: 0; 
+}
+.card-date-bottom { 
+    font-size: clamp(9px, 2cqi, 11px); 
+    color: #999999; letter-spacing: 0.8px; 
+    margin-bottom: 4px; 
+}
+.progress-text { 
+    font-size: 10px; color: #aaaaaa; 
+    margin-bottom: 6px; letter-spacing: 0.3px;
+}
+.progress-grid { 
+    display: grid; width: 100%; 
+    gap: 2px; 
+    grid-auto-flow: column; 
+}
+.progress-cell { 
+    width: 100%; aspect-ratio: 1; 
+    background-color: #eeedeb; 
+    border-radius: 1px;
+}
+.progress-cell.filled { 
+    background-color: #3C9D4E; 
+    opacity: 0.82;
+}
+
+/* ═══ 底部 ═══ */
 .card-footer {
     display: flex; justify-content: space-between; align-items: flex-end;
-    padding-top: 16px; margin-top: 20px; border-top: 1px solid #f2f2f2; flex-shrink: 0;
+    padding-top: clamp(14px, 2.5cqi, 20px); 
+    margin-top: clamp(18px, 3cqi, 28px); 
+    border-top: 1px solid #f0eeea; 
+    flex-shrink: 0;
 }
 .footer-share-link {
-    font-size: clamp(11px, 2.8cqi, 13px); color: #bbbbbb; 
-    text-decoration: none; transition: color 0.3s;
-}
-.footer-share-link:hover { color: #888888; }
-
-/* 核心修改：确保图标与文字在底部基线上精准对齐 */
-.footer-right { display: flex; align-items: baseline; gap: 15px; }
-.footer-info { display: flex; flex-direction: column; align-items: flex-end; }
-
-.footer-note { 
-    font-size: clamp(11px, 2.8cqi, 13px); 
-    color: #bbbbbb; 
+    font-size: clamp(11px, 2.6cqi, 13px); 
+    color: #3C9D4E;
     text-decoration: none; 
+    transition: opacity 0.25s; 
+    font-weight: 500;
+    letter-spacing: 0.3px;
 }
+.footer-share-link:hover { opacity: 0.6; }
 
-/* 换一问按钮 */
-#change-btn { cursor: pointer; opacity: 0.3; font-size: 12px; margin-top: 20px; text-align: right; transition: opacity 0.3s; height: 18px; line-height: 18px; }
-#change-btn:hover { opacity: 0.6; }
+.footer-right { 
+    display: flex; align-items: baseline; 
+    gap: 18px; 
+}
+.footer-info { 
+    display: flex; flex-direction: column; 
+    align-items: flex-end; 
+}
+.footer-note { 
+    font-size: clamp(11px, 2.6cqi, 13px); 
+    color: #cccccc; 
+    text-decoration: none; 
+    letter-spacing: 0.3px;
+    transition: color 0.25s;
+}
+.footer-note:hover { color: #999999; }
 
-/* 下载按钮：移除多余 padding 干扰对齐，使用 line-height: 0 确保重心稳定 */
+/* ═══ 换一题按钮 ═══ */
+#change-btn { 
+    cursor: pointer; 
+    opacity: 0.25; 
+    font-size: clamp(11px, 2.8cqi, 13px); 
+    margin-top: clamp(18px, 3cqi, 28px); 
+    text-align: right; 
+    transition: opacity 0.25s; 
+    height: 20px; line-height: 20px; 
+    color: #666666;
+    letter-spacing: 0.3px;
+    user-select: none;
+}
+#change-btn:hover { opacity: 0.55; }
+
+/* ═══ 下载按钮 ═══ */
 .action-btn { 
-    background: none; border: none; color: #cccccc; cursor: pointer; 
-    padding: 0; transition: 0.3s; line-height: 0;
+    background: none; border: none; 
+    color: #cccccc; cursor: pointer; 
+    padding: 0; transition: color 0.25s, transform 0.2s; 
+    line-height: 0;
 }
-.action-btn:hover { color: #111111; }
+.action-btn:hover { 
+    color: #3C9D4E; 
+    transform: translateY(-1px);
+}
+
+/* ═══ 错误降级 ═══ */
+.error-state { 
+    display: none; text-align: center; 
+    padding: clamp(24px, 4cqi, 40px) 0; 
+}
+.error-state.show { display: block; }
+.error-state .error-icon { font-size: 36px; margin-bottom: 16px; }
+.error-state .error-msg { 
+    font-size: clamp(13px, 3cqi, 15px); 
+    color: #999999; 
+    margin-bottom: 20px; 
+    line-height: 1.8; 
+}
+.error-state .retry-btn {
+    display: inline-block; 
+    background: #3C9D4E; color: #fff;
+    padding: 10px 32px; border-radius: 6px; 
+    font-size: 13px;
+    cursor: pointer; border: none; letter-spacing: 0.5px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    transition: opacity 0.2s, transform 0.15s;
+}
+.error-state .retry-btn:hover { 
+    opacity: 0.85; 
+    transform: translateY(-1px);
+}

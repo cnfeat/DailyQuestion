@@ -11,7 +11,7 @@
     <div class='card' id='daily-card'>
         <div class='card-header'>
             <div class='header-brand'>
-                <a href='https://www.cnfeat.com/' target='_blank' class='brand-link'>日课一问 | 每日三省，破局人生</a>
+                <a href='https://github.com/cnfeat/DailyQuestion#readme' target='_blank' class='brand-link'>日课一问 | 每日三省，破局人生</a>
             </div>
             <div class='header-meta'>
                 <div class='card-id' id='card-id'>NO.000</div>
@@ -19,10 +19,24 @@
         </div>
         
         <div class='card-content'>
-            <h1 id='question-display'>正在抽取今日问题...</h1>
-            <div class='divider'></div>
-            <p id='extension-display'>思考加载中...</p>
-            <div id='change-btn'></div>
+            <!-- 正常状态 -->
+            <div id='normal-state'>
+                <div class='question-area'>
+                    <h1 id='question-display'>正在抽取今日问题...</h1>
+                </div>
+                <div class='divider'></div>
+                <div class='extension-area'>
+                    <p id='extension-display'>思考加载中...</p>
+                </div>
+                <div id='change-btn'></div>
+            </div>
+            
+            <!-- 错误降级 -->
+            <div id='error-state' class='error-state'>
+                <div class='error-icon'>🍃</div>
+                <p class='error-msg'>题目加载失败<br>请刷新页面重试</p>
+                <button class='retry-btn' onclick='location.reload()'>重新加载</button>
+            </div>
             
             <div class='progress-container'>
                 <div id='gregorian-date' class='card-date-bottom'></div>
@@ -33,7 +47,7 @@
         
         <div class='card-footer'>
             <div class='footer-left'>
-                <a href='https://www.cnfeat.com/' target='_blank' class='footer-share-link'>欢迎分享你的日课一问</a>
+                <a href='https://github.com/cnfeat/DailyQuestion#readme' target='_blank' class='footer-share-link'>📋 获取完整 420 题 A6 卡片 PDF →</a>
             </div>
             
             <div class='footer-right'>
@@ -53,7 +67,6 @@
     </div>
     
     <script src='data.js'></script>
-    <script src='html2canvas.min.js'></script>
     <script src='script.js'></script>
 </body>
 </html>

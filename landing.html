@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日课一问 · 每日三省，破局人生</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: "Noto Serif SC", "Songti SC", "STSong", "SimSun", "Source Han Serif SC", Georgia, "Times New Roman", serif;
+    background: #fafaf8;
+    color: #1a1a1a;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ═══ Hero ═══ */
+  .hero {
+    background: #111111;
+    color: #ffffff;
+    padding: 80px 20px 60px;
+    text-align: center;
+  }
+  .hero-brand {
+    font-size: 12px;
+    letter-spacing: 4px;
+    color: #777777;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  .hero-title {
+    font-size: clamp(28px, 6vw, 48px);
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  .hero-sub {
+    font-size: clamp(14px, 2.5vw, 18px);
+    color: #999999;
+    font-weight: 400;
+    margin-bottom: 40px;
+  }
+
+  /* ═══ 卡牌模拟 ═══ */
+  .card-showcase {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+    perspective: 800px;
+  }
+  .mock-card {
+    width: 120px;
+    height: 169px; /* A6 ratio */
+    background: #ffffff;
+    border-radius: 6px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    font-size: 7px;
+    transform: rotate(-3deg);
+    transition: transform 0.3s ease;
+  }
+  .mock-card:nth-child(2) { transform: rotate(1deg) translateY(-8px); }
+  .mock-card:nth-child(3) { transform: rotate(4deg) translateY(-4px); }
+  .mock-card:nth-child(4) { transform: rotate(-2deg) translateY(-12px); }
+  .mock-card:hover { transform: rotate(0deg) translateY(-16px) scale(1.05); }
+  .mock-card .mc-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    color: #cccccc;
+    font-family: -apple-system, sans-serif;
+    font-size: 5px;
+  }
+  .mock-card .mc-q {
+    font-weight: 700;
+    color: #222222;
+    font-size: 7px;
+    line-height: 1.4;
+    flex: 1;
+    overflow: hidden;
+  }
+  .mock-card .mc-divider {
+    width: 20px;
+    height: 1px;
+    background: #222222;
+    margin: 4px 0;
+  }
+  .mock-card .mc-ext {
+    color: #888888;
+    font-size: 5px;
+    line-height: 1.5;
+    flex: 1;
+    overflow: hidden;
+  }
+  .mock-card .mc-tag {
+    font-size: 4px;
+    color: #999999;
+    background: #f5f5f5;
+    display: inline-block;
+    padding: 1px 3px;
+    border-radius: 2px;
+    margin-top: auto;
+    font-family: -apple-system, sans-serif;
+  }
+
+  /* ═══ 内容区块 ═══ */
+  .section {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 60px 20px;
+  }
+  .section-title {
+    text-align: center;
+    font-size: clamp(20px, 4vw, 28px);
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+    color: #111111;
+  }
+  .section-sub {
+    text-align: center;
+    font-size: 14px;
+    color: #888888;
+    margin-bottom: 40px;
+  }
+
+  /* 卖点 */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 32px;
+    margin-bottom: 40px;
+  }
+  .feature {
+    text-align: center;
+    padding: 24px;
+  }
+  .feature-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+  }
+  .feature-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #111111;
+    letter-spacing: 0.5px;
+  }
+  .feature-desc {
+    font-size: 13px;
+    color: #666666;
+    line-height: 1.7;
+  }
+
+  /* ═══ 产品详情 ═══ */
+  .product-detail {
+    background: #ffffff;
+    border: 1px solid #eeeeee;
+    border-radius: 12px;
+    padding: 40px 32px;
+  }
+  .product-detail h3 {
+    font-size: 14px;
+    color: #888888;
+    font-weight: 400;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+    font-family: -apple-system, sans-serif;
+  }
+  .product-detail .pd-list {
+    list-style: none;
+    margin-top: 16px;
+  }
+  .product-detail .pd-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid #f5f5f5;
+    font-size: 14px;
+    color: #444444;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .product-detail .pd-list li:last-child { border-bottom: none; }
+  .product-detail .pd-list .check {
+    color: #4a9e6b;
+    font-weight: 700;
+    font-family: -apple-system, sans-serif;
+  }
+
+  /* ═══ 价格区 ═══ */
+  .pricing {
+    text-align: center;
+    padding: 40px 0;
+  }
+  .price-tag {
+    font-size: 48px;
+    font-weight: 700;
+    color: #111111;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+  .price-note {
+    font-size: 13px;
+    color: #888888;
+    margin-bottom: 24px;
+  }
+  .buy-info {
+    background: #E8F5E9;
+    border: 1px solid #C8E6C9;
+    border-radius: 8px;
+    padding: 24px;
+    display: inline-block;
+    text-align: center;
+  }
+  .buy-info .qr-code {
+    width: 160px;
+    height: 160px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+  }
+  .buy-info p {
+    font-size: 14px;
+    color: #333333;
+    line-height: 1.8;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  .buy-info strong {
+    color: #3C9D4E;
+    font-weight: 700;
+  }
+  .buy-btn { display: none; }
+    display: inline-block;
+    background: #111111;
+    color: #ffffff;
+    padding: 14px 48px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    letter-spacing: 1px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+
+  /* ═══ FAQ ═══ */
+  .faq { margin-top: 20px; }
+  .faq-item { margin-bottom: 20px; }
+  .faq-q {
+    font-size: 14px;
+    font-weight: 700;
+    color: #333333;
+    margin-bottom: 4px;
+  }
+  .faq-a {
+    font-size: 13px;
+    color: #666666;
+    line-height: 1.7;
+  }
+
+  /* ═══ 试读CTA ═══ */
+  .cta-sample {
+    background: #f5f5f3;
+    border-radius: 12px;
+    padding: 40px 32px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .cta-sample h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #111111;
+  }
+  .cta-sample p {
+    font-size: 14px;
+    color: #666666;
+    margin-bottom: 20px;
+  }
+  .cta-sample .sample-btn {
+    display: inline-block;
+    background: #ffffff;
+    color: #111111;
+    border: 1px solid #dddddd;
+    padding: 12px 36px;
+    border-radius: 6px;
+    font-size: 14px;
+    text-decoration: none;
+    letter-spacing: 1px;
+    font-family: -apple-system, sans-serif;
+    transition: all 0.2s;
+  }
+  .cta-sample .sample-btn:hover {
+    border-color: #111111;
+    background: #111111;
+    color: #ffffff;
+  }
+
+  /* ═══ Footer ═══ */
+  .footer {
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 12px;
+    color: #bbbbbb;
+    letter-spacing: 1px;
+  }
+  .footer a {
+    color: #888888;
+    text-decoration: none;
+  }
+  .footer a:hover { color: #444444; }
+
+  /* ═══ 响应式 ═══ */
+  @media (max-width: 480px) {
+    .hero { padding: 60px 16px 40px; }
+    .section { padding: 40px 16px; }
+    .product-detail { padding: 24px 20px; }
+    .mock-card { width: 80px; height: 113px; padding: 8px; }
+    .mock-card .mc-q { font-size: 5px; }
+    .mock-card .mc-ext { font-size: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ Hero ═══ -->
+<section class="hero">
+  <div class="hero-brand">卡片创作实验室</div>
+  <h1 class="hero-title">日课一问</h1>
+  <p class="hero-sub">每日三省，破局人生</p>
+
+  <!-- 卡片模拟 -->
+  <div class="card-showcase">
+    <div class="mock-card">
+      <div class="mc-header"><span>日课一问</span><span>NO.001</span></div>
+      <div class="mc-q">你的注意力，今天被谁偷走得最多？</div>
+      <div class="mc-divider"></div>
+      <div class="mc-ext">你回想一下今天，走神的次数比专注的次数多还是少？如果明天你只能在「深度专注一小时」和「碎片浏览一整天」里二选一...</div>
+      <div class="mc-tag">底层认知</div>
+    </div>
+    <div class="mock-card">
+      <div class="mc-header"><span>日课一问</span><span>NO.108</span></div>
+      <div class="mc-q">你的技能树中，哪两项看似无关的能力组合能形成碾压级优势？</div>
+      <div class="mc-divider"></div>
+      <div class="mc-ext">你正在同时修炼两门以上能交叉赋能的技艺吗？你的哪项隐藏技能一直被低估...</div>
+      <div class="mc-tag">技能成长</div>
+    </div>
+    <div class="mock-card">
+      <div class="mc-header"><span>日课一问</span><span>NO.250</span></div>
+      <div class="mc-q">你有没有一个「做了就值了」的事？</div>
+      <div class="mc-divider"></div>
+      <div class="mc-ext">如果这件事没有任何人知道、没有任何回报，你还是会做吗？你上一次纯粹为了自己而做的事情是什么？</div>
+      <div class="mc-tag">人生意义</div>
+    </div>
+    <div class="mock-card">
+      <div class="mc-header"><span>日课一问</span><span>NO.420</span></div>
+      <div class="mc-q">每天你都留出多少时间审视自己的目标？</div>
+      <div class="mc-divider"></div>
+      <div class="mc-ext">在忙碌的间隙，你有没有停下来问自己：我现在做的事，是在朝目标前进还是原地打转？</div>
+      <div class="mc-tag">事业经营</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 产品介绍 ═══ -->
+<section class="section">
+  <h2 class="section-title">420 道灵魂拷问，陪你度过清醒的一年</h2>
+  <p class="section-sub">A6 卡片 · PDF 电子版 · 随时打印 · 永久收藏</p>
+
+  <div class="features">
+    <div class="feature">
+      <div class="feature-icon">📋</div>
+      <div class="feature-title">420 道深度反思题</div>
+      <div class="feature-desc">覆盖事业经营、创作输出、底层认知、关系连接、技能成长、人生意义 6 大主题</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📐</div>
+      <div class="feature-title">A6 精致卡片</div>
+      <div class="feature-desc">105×148mm 掌心尺寸，每道题一道延伸反思。可打印、可收藏、可随手携带</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">⏱️</div>
+      <div class="feature-title">每天 5 分钟</div>
+      <div class="feature-desc">不是课程、不是任务，只是每天停下来问自己一个问题。比大多数人都清醒</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🧩</div>
+      <div class="feature-title">Chrome 扩展联动</div>
+      <div class="feature-desc">搭配免费 Chrome 新标签页插件，每次打开浏览器自动推送今日问题，无需刻意打开</div>
+    </div>
+  </div>
+
+  <!-- 产品详情 -->
+  <div class="product-detail">
+    <h3>📦 产品包含</h3>
+    <ul class="pd-list">
+      <li><span class="check">✓</span> 420 张 A6 卡片（PDF 电子版，可直接打印）</li>
+      <li><span class="check">✓</span> 1 页黑色封面</li>
+      <li><span class="check">✓</span> 每卡含：编号 · 主问题 · 延伸反思 · 主题标签</li>
+      <li><span class="check">✓</span> 覆盖 6 大主题领域，结构化思维训练</li>
+      <li><span class="check">✓</span> 适配 A6 纸张，国内文具店随处可买</li>
+      <li><span class="check">✓</span> 永久有效，一次购买，终身使用</li>
+    </ul>
+  </div>
+
+  <!-- 价格 -->
+  <div class="pricing">
+    <div class="price-tag">¥19.9</div>
+    <div class="price-note">420 题 · 不到 5 分钱一道 · 永久使用</div>
+    <div class="buy-info">
+      <img src="cnfeat 个人微信.png" alt="微信扫码购买" class="qr-code">
+      <p>📱 扫码或添加微信 <strong>cnfeat</strong></p>
+      <p>备注「日课一问」，付款后即时发送完整版 PDF</p>
+    </div>
+  </div>
+
+  <!-- 试读CTA -->
+  <div class="cta-sample">
+    <h3>📖 先试读，再决定</h3>
+    <p>免费下载前 20 题试读版，体验完整排版和内容质量。<br>满意后再购买完整 420 题。</p>
+    <a class="sample-btn" href="日课一问_试读版.pdf" download>下载试读版（免费）</a>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq">
+    <div class="faq-item">
+      <div class="faq-q">Q: 这是什么格式？怎么使用？</div>
+      <div class="faq-a">PDF 电子版。你可以用手机/平板阅读，也可以用 A6 纸打印成实体卡片，每天抽取一张。A6 纸在淘宝/文具店很容易买到。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Q: 这跟手机 App 有什么区别？</div>
+      <div class="faq-a">我们同时提供免费的 Chrome 扩展「日课一问」作为日常入口。PDF 卡片版是「深度模式」——打印出来放在桌上，没有通知干扰，只有你和一道题。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Q: 买了之后可以退款吗？</div>
+      <div class="faq-a">因为是数字产品，购买后不支持退款。但我们提供了免费试读版，建议你先下载体验，确认喜欢再购买。</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Q: 这些题目是谁出的？</div>
+      <div class="faq-a">题目来自「卡片创作实验室」主理人陈财猫（cnfeat）。这些问题源自他四年多的每日反思实践，最初作为 Chrome 扩展发布，现已成为一个持续迭代的思维训练系统。</div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p><a href="https://www.cnfeat.com">卡片创作实验室</a> · 日课一问</p>
+  <p style="margin-top:4px;">© 2026 陈财猫 · 保留所有权利</p>
+</footer>
+
+</body>
+</html>
