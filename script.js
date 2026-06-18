@@ -2,13 +2,30 @@ document.addEventListener('DOMContentLoaded', () => {
     initCardSystem();
     renderProgress();
     setupDownloadFeature();
+    setupImportFeature();
 });
 
 let _h2cLoaded = false;
 
 // ═══ 题库（明文，开源免费） ═══
 function getCards() {
+    const custom = getCustomCards();
+    if (custom && custom.length > 0) return custom;
     return window.__QUESTIONS__ || [];
+}
+
+function getCustomCards() {
+    try {
+        const raw = localStorage.getItem('_dq_custom_cards');
+        if (!raw) return null;
+        const arr = JSON.parse(raw);
+        if (!Array.isArray(arr) || arr.length === 0) return null;
+        return arr;
+    } catch (e) { return null; }
+}
+
+function hasCustomCards() {
+    return !!getCustomCards();
 }
 
 // ═══ 错误降级 ═══
@@ -38,9 +55,10 @@ function initCardSystem() {
     const now = new Date();
     const dateElement = document.getElementById('gregorian-date');
     if (dateElement) {
+        const weekNum = getWeekNumber(now);
         dateElement.textContent = now.toLocaleDateString('zh-CN', { 
             year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' 
-        });
+        }) + ' · 第' + weekNum + '周';
     }
     setupChangeButton(); 
     loadCurrentCard();
@@ -127,6 +145,14 @@ function setupChangeButton() {
     }
 }
 
+// ═══ ISO 周数 ═══
+function getWeekNumber(d) {
+    const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+    date.setUTCDate(date.getUTCDate() + 4 - (date.getUTCDay() || 7));
+    const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+    return Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+}
+
 // ═══ 年度进度矩阵 ═══
 function renderProgress() {
     const grid = document.getElementById('progress-grid');
@@ -187,4 +213,152 @@ function setupDownloadFeature() {
             })
             .catch(() => { alert('截图生成失败，请重试。'); });
     };
+}
+
+// ═══ 自定义题库导入 ═══
+function setupImportFeature() {
+    const trigger = document.getElementById('import-trigger');
+    const footerBtn = document.getElementById('import-footer');
+    const input = document.getElementById('import-input');
+    if (!trigger || !input) return;
+
+    updateImportIndicator();
+
+    const doImport = () => {
+        if (hasCustomCards()) {
+            resetToDefault();
+        } else {
+            input.click();
+        }
+    };
+
+    trigger.onclick = doImport;
+    if (footerBtn) footerBtn.onclick = doImport;
+
+    // 文件选择
+    input.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            const result = importCards(ev.target.result);
+            if (result.success) {
+                showToast(`已导入 ${result.count} 道题目`);
+                reloadCardSystem();
+            } else {
+                showToast(result.error, true);
+            }
+        };
+        reader.onerror = () => { showToast('文件读取失败，请重试。', true); };
+        reader.readAsText(file);
+
+        // 重置 input，允许重复选同一个文件
+        input.value = '';
+    };
+}
+
+function validateCards(arr) {
+    if (!Array.isArray(arr)) return { valid: false, error: '文件格式错误：应为 JSON 数组。' };
+    if (arr.length === 0) return { valid: false, error: '题库为空，请至少包含 1 道题目。' };
+    if (arr.length > 2000) return { valid: false, error: '题库过大（最多 2000 道）。' };
+
+    const issues = [];
+    for (let i = 0; i < arr.length; i++) {
+        const c = arr[i];
+        if (!c || typeof c !== 'object') { issues.push(`第 ${i + 1} 项不是对象`); continue; }
+        if (!c.question || typeof c.question !== 'string' || c.question.trim() === '') {
+            issues.push(`第 ${i + 1} 项缺少 question 字段`);
+        }
+        if (c.id === undefined && c.id !== 0) {
+            // 自动补 id
+            c.id = i + 1;
+        }
+        if (!c.extension) c.extension = '';
+    }
+
+    if (issues.length > 0) {
+        return { valid: false, error: `校验失败：${issues.slice(0, 3).join('；')}${issues.length > 3 ? '...' : ''}` };
+    }
+    return { valid: true, count: arr.length };
+}
+
+function importCards(jsonStr) {
+    let arr;
+    try {
+        arr = JSON.parse(jsonStr);
+    } catch (e) {
+        return { success: false, error: 'JSON 解析失败：请检查文件格式。' };
+    }
+
+    const validation = validateCards(arr);
+    if (!validation.valid) return { success: false, error: validation.error };
+
+    localStorage.setItem('_dq_custom_cards', JSON.stringify(arr));
+    // 清除当日缓存，让新题库生效
+    localStorage.removeItem('_dq_cache');
+    localStorage.removeItem('_dq_viewed');
+
+    return { success: true, count: validation.count };
+}
+
+function resetToDefault() {
+    localStorage.removeItem('_dq_custom_cards');
+    localStorage.removeItem('_dq_cache');
+    localStorage.removeItem('_dq_viewed');
+    updateImportIndicator();
+    reloadCardSystem();
+    showToast('已恢复默认题库');
+}
+
+function updateImportIndicator() {
+    const trigger = document.getElementById('import-trigger');
+    const footerBtn = document.getElementById('import-footer');
+    if (hasCustomCards()) {
+        if (trigger) {
+            trigger.textContent = '\u21BA';
+            trigger.classList.add('custom-active');
+            trigger.title = '恢复默认题库';
+        }
+        if (footerBtn) {
+            footerBtn.textContent = '↺ 恢复默认题库';
+            footerBtn.title = '恢复默认题库';
+        }
+    } else {
+        if (trigger) {
+            trigger.textContent = '+';
+            trigger.classList.remove('custom-active');
+            trigger.title = '导入自定义题库';
+        }
+        if (footerBtn) {
+            footerBtn.textContent = '🎨 导入题库';
+            footerBtn.title = '导入自定义题库';
+        }
+    }
+}
+
+function reloadCardSystem() {
+    updateImportIndicator();
+    initCardSystem();
+}
+
+function showToast(msg, isError) {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+
+    // 清除之前的定时器
+    if (toast._timer) clearTimeout(toast._timer);
+    if (toast._hideTimer) clearTimeout(toast._hideTimer);
+
+    toast.textContent = msg;
+    toast.style.background = isError ? '#8b3a3a' : 'var(--ink-primary)';
+    toast.classList.remove('hide');
+    toast.classList.add('show');
+
+    toast._timer = setTimeout(() => {
+        toast.classList.add('hide');
+        toast._hideTimer = setTimeout(() => {
+            toast.classList.remove('show', 'hide');
+        }, 300);
+    }, 3000);
 }
