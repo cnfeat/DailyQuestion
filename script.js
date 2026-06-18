@@ -1,88 +1,15 @@
-(function() {
-'use strict';
+document.addEventListener('DOMContentLoaded', () => {
+    initCardSystem();
+    renderProgress();
+    setupDownloadFeature();
+});
 
-// ═══ 安全模块：闭包内保存题库，外部不可访问 ═══
-const OFFSET = 7;
-const SECRET_KEY = [0x12, 0x34, 0x56];
+let _h2cLoaded = false;
 
-// localStorage 简单混淆密钥（防随手翻看，不追求高强度）
-const STORAGE_SALT = 0xA5;
-
-let _pool = null;        // 仅闭包内可访问的题库
-let _decrypted = false;  // 是否已解密
-
-function _decryptPool() {
-    if (_pool) return _pool;
-    try {
-        const obfuscated = window.__SECRET_BASE__;
-        if (!obfuscated) throw new Error('题库数据缺失');
-        
-        const binaryString = atob(obfuscated);
-        const bytes = new Uint8Array(binaryString.length);
-        for (let i = 0; i < binaryString.length; i++) {
-            let temp = (binaryString.charCodeAt(i) - OFFSET + 256) % 256;
-            bytes[i] = temp ^ SECRET_KEY[i % SECRET_KEY.length];
-        }
-        const decodedText = new TextDecoder('utf-8').decode(bytes);
-        _pool = JSON.parse(decodedText);
-        _decrypted = true;
-        return _pool;
-    } catch (e) {
-        return null;
-    }
+// ═══ 题库（明文，开源免费） ═══
+function getCards() {
+    return window.__QUESTIONS__ || [];
 }
-
-// ═══ localStorage 混淆读写（防止随手翻 DevTools → Application → Local Storage） ═══
-function _lsGet(key) {
-    try {
-        const raw = localStorage.getItem(key);
-        if (!raw) return null;
-        // 简单异或 → Base64 解码 → JSON
-        const decoded = atob(raw);
-        let result = '';
-        for (let i = 0; i < decoded.length; i++) {
-            result += String.fromCharCode(decoded.charCodeAt(i) ^ STORAGE_SALT);
-        }
-        return JSON.parse(result);
-    } catch (e) {
-        return null;
-    }
-}
-
-function _lsSet(key, value) {
-    try {
-        const json = JSON.stringify(value);
-        let encoded = '';
-        for (let i = 0; i < json.length; i++) {
-            encoded += String.fromCharCode(json.charCodeAt(i) ^ STORAGE_SALT);
-        }
-        localStorage.setItem(key, btoa(encoded));
-    } catch (e) {}
-}
-
-// ═══ 对外暴露的安全 API ═══
-// 这些是闭包内函数映射到 window 上的唯一入口
-const CardAPI = {
-    isReady: function() { return _decrypted && _pool && _pool.length > 0; },
-    totalCount: function() { return _pool ? _pool.length : 0; },
-    
-    // 按 ID 取单张卡（不暴露整池）
-    getById: function(id) {
-        if (!_pool) return null;
-        return _pool.find(c => c.id === id) || null;
-    },
-    
-    // 随机取一张未看过的卡
-    drawUnseen: function(viewedIds) {
-        if (!_pool) return null;
-        const viewed = viewedIds || [];
-        let available = _pool.filter(c => !viewed.includes(c.id));
-        if (available.length === 0) return null; // 全部看过
-        return available[Math.floor(Math.random() * available.length)];
-    },
-    
-    resetViewed: function() { /* no-op, 由调用方管理 */ }
-};
 
 // ═══ 错误降级 ═══
 function showErrorState() {
@@ -101,8 +28,8 @@ function showNormalState() {
 
 // ═══ 卡片系统 ═══
 function initCardSystem() {
-    _decryptPool();
-    if (!CardAPI.isReady()) {
+    const pool = getCards();
+    if (!pool || pool.length === 0) {
         showErrorState();
         return;
     }
@@ -121,38 +48,34 @@ function initCardSystem() {
 
 function loadCurrentCard() {
     const todayStr = new Date().toLocaleDateString();
-    let cache = _lsGet('_dq_cache');
+    let cache;
+    try {
+        cache = JSON.parse(localStorage.getItem('_dq_cache'));
+    } catch (e) { cache = null; }
     if (!cache || cache.date !== todayStr) {
         cache = { date: todayStr, ids: [], currentIndex: 0 };
     }
     if (cache.ids.length === 0) drawNewCard(cache);
     else {
-        const card = CardAPI.getById(cache.ids[cache.currentIndex]);
+        const card = getCards().find(c => c.id === cache.ids[cache.currentIndex]);
         renderCard(card, cache.currentIndex, cache.ids.length);
     }
 }
 
 function drawNewCard(cache) {
-    let viewed = _lsGet('_dq_viewed') || [];
-    const card = CardAPI.drawUnseen(viewed);
-    if (!card) {
-        // 全部看过了，重置
-        viewed = [];
-        const retry = CardAPI.drawUnseen([]);
-        if (!retry) return;
-        viewed.push(retry.id);
-        _lsSet('_dq_viewed', viewed);
-        cache.ids.push(retry.id);
-        cache.currentIndex = cache.ids.length - 1;
-        _lsSet('_dq_cache', cache);
-        renderCard(retry, cache.currentIndex, cache.ids.length);
-        return;
-    }
+    const pool = getCards();
+    if (pool.length === 0) return;
+    let viewed;
+    try { viewed = JSON.parse(localStorage.getItem('_dq_viewed')); } catch (e) { viewed = null; }
+    viewed = viewed || [];
+    let available = pool.filter(c => !viewed.includes(c.id));
+    if (available.length === 0) { viewed = []; available = pool; }
+    const card = available[Math.floor(Math.random() * available.length)];
     viewed.push(card.id);
-    _lsSet('_dq_viewed', viewed);
+    localStorage.setItem('_dq_viewed', JSON.stringify(viewed));
     cache.ids.push(card.id);
     cache.currentIndex = cache.ids.length - 1;
-    _lsSet('_dq_cache', cache);
+    localStorage.setItem('_dq_cache', JSON.stringify(cache));
     renderCard(card, cache.currentIndex, cache.ids.length);
 }
 
@@ -190,15 +113,14 @@ function setupChangeButton() {
     }
     if (btn) {
         btn.onclick = () => {
-            let cache = _lsGet('_dq_cache');
-            if (!cache) {
-                cache = { date: new Date().toLocaleDateString(), ids: [], currentIndex: 0 };
-            }
+            let cache;
+            try { cache = JSON.parse(localStorage.getItem('_dq_cache')); } catch (e) { cache = null; }
+            if (!cache) { cache = { date: new Date().toLocaleDateString(), ids: [], currentIndex: 0 }; }
             if (cache.ids.length < 3) drawNewCard(cache);
             else {
                 cache.currentIndex = (cache.currentIndex + 1) % cache.ids.length;
-                _lsSet('_dq_cache', cache);
-                const card = CardAPI.getById(cache.ids[cache.currentIndex]);
+                localStorage.setItem('_dq_cache', JSON.stringify(cache));
+                const card = getCards().find(c => c.id === cache.ids[cache.currentIndex]);
                 renderCard(card, cache.currentIndex, cache.ids.length);
             }
         };
@@ -236,14 +158,9 @@ function renderProgress() {
 }
 
 // ═══ 下载功能（html2canvas 懒加载） ═══
-let _h2cLoaded = false;
-
 function loadHtml2canvas() {
     return new Promise((resolve, reject) => {
-        if (_h2cLoaded && typeof html2canvas !== 'undefined') {
-            resolve();
-            return;
-        }
+        if (_h2cLoaded && typeof html2canvas !== 'undefined') { resolve(); return; }
         const script = document.createElement('script');
         script.src = 'html2canvas.min.js';
         script.onload = () => { _h2cLoaded = true; resolve(); };
@@ -261,27 +178,13 @@ function setupDownloadFeature() {
             return;
         }
         const card = document.getElementById('daily-card');
-        html2canvas(card, { 
-            scale: 2, 
-            backgroundColor: '#f8f6f4', 
-            useCORS: true,
-            logging: false
-        }).then(canvas => {
-            const link = document.createElement('a');
-            link.download = `日课一问_${new Date().getTime()}.png`;
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-        }).catch(() => {
-            alert('截图生成失败，请重试。');
-        });
+        html2canvas(card, { scale: 2, backgroundColor: '#f8f6f4', useCORS: true, logging: false })
+            .then(canvas => {
+                const link = document.createElement('a');
+                link.download = `日课一问_${new Date().getTime()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            })
+            .catch(() => { alert('截图生成失败，请重试。'); });
     };
 }
-
-// ═══ 启动 ═══
-document.addEventListener('DOMContentLoaded', () => {
-    initCardSystem();
-    renderProgress();
-    setupDownloadFeature();
-});
-
-})();

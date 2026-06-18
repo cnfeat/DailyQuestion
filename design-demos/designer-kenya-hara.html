@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>日课一问 | 每日三省，破局人生</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;600;700&family=Inter:wght@300;400;500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* ===== 重置 ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* ===== 设计系统 ===== */
+        :root {
+            /* 原研哉色彩哲学：低饱和、有温度、从极淡到深 */
+            --color-bg: #F5F3EF;           /* 和纸底色，温暖米白 */
+            --color-card: #FDFCFA;         /* 卡片底色，比背景稍亮 */
+            --color-text-primary: #2C2C2C; /* 墨黑，非纯黑 */
+            --color-text-secondary: #8C8C8C; /* 次要文字，灰 */
+            --color-text-tertiary: #B8B5B0;  /* 极淡，退隐 */
+            --color-accent: #A69B8C;       /* 暖灰褐，品牌色 */
+            --color-accent-deep: #8B7E6E;  /* 深暖褐 */
+            --color-divider: #E0DDD7;      /* 分割线 */
+            --color-progress-start: #EFEBE5; /* 进度方块起始色 */
+            --color-progress-end: #A69B8C;   /* 进度方块结束色 */
+
+            /* 字体系统 */
+            --font-serif: 'Noto Serif SC', 'Songti SC', serif;
+            --font-sans: 'Inter', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+            --font-display: 'EB Garamond', 'Noto Serif SC', serif;
+
+            /* 间距系统：用「距离」建立层级 */
+            --space-xs: 8px;
+            --space-sm: 16px;
+            --space-md: 28px;
+            --space-lg: 44px;
+            --space-xl: 64px;
+            --space-xxl: 96px;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-bg);
+            color: var(--color-text-primary);
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ===== 卡片容器 ===== */
+        .card {
+            width: 100%;
+            max-width: 480px;
+            aspect-ratio: 3 / 4;
+            background-color: var(--color-card);
+            padding: 56px 48px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            /* 和纸质感：微妙阴影，不抢眼 */
+            box-shadow:
+                0 1px 2px rgba(0,0,0,0.04),
+                0 4px 12px rgba(0,0,0,0.03),
+                0 16px 40px rgba(0,0,0,0.02);
+            /* 反AI slop：不用大圆角 */
+            border-radius: 2px;
+        }
+
+        /* ===== 头部：品牌名 + 编号 ===== */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: var(--space-xl);
+        }
+
+        .brand {
+            font-family: var(--font-sans);
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 0.12em;
+            color: var(--color-text-tertiary);
+            text-transform: uppercase;
+        }
+
+        .brand-sub {
+            font-family: var(--font-serif);
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 0.08em;
+            color: var(--color-text-tertiary);
+            margin-left: 6px;
+        }
+
+        .card-number {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            color: var(--color-text-tertiary);
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ===== 问题区：核心焦点 ===== */
+        .question-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        .question {
+            font-family: var(--font-serif);
+            font-size: 26px;
+            font-weight: 600;
+            line-height: 1.7;
+            letter-spacing: 0.06em;
+            color: var(--color-text-primary);
+            text-align: justify;
+        }
+
+        /* ===== 分割线：极简短横线 ===== */
+        .divider {
+            width: 24px;
+            height: 1px;
+            background-color: var(--color-divider);
+            margin: var(--space-md) 0;
+        }
+
+        /* ===== 延伸反思 ===== */
+        .reflection {
+            font-family: var(--font-serif);
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.9;
+            letter-spacing: 0.03em;
+            color: var(--color-text-secondary);
+            text-align: justify;
+        }
+
+        /* ===== 换题按钮：极简文字链接 ===== */
+        .action-area {
+            margin-top: auto;
+            padding-top: var(--space-lg);
+        }
+
+        .refresh-btn {
+            font-family: var(--font-sans);
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            color: var(--color-text-secondary);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 0;
+            position: relative;
+            transition: color 0.4s ease;
+        }
+
+        .refresh-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background-color: var(--color-accent-deep);
+            transition: width 0.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        .refresh-btn:hover {
+            color: var(--color-text-primary);
+        }
+
+        .refresh-btn:hover::after {
+            width: 100%;
+        }
+
+        /* ===== 年度进度区 ===== */
+        .progress-section {
+            margin-top: var(--space-xl);
+            padding-top: var(--space-lg);
+            border-top: 1px solid var(--color-divider);
+        }
+
+        .date-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: var(--space-sm);
+        }
+
+        .date {
+            font-family: var(--font-sans);
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            color: var(--color-text-secondary);
+        }
+
+        .day-count {
+            font-family: var(--font-display);
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 0.03em;
+            color: var(--color-text-tertiary);
+        }
+
+        .day-count strong {
+            color: var(--color-text-secondary);
+            font-weight: 500;
+        }
+
+        /* ===== 365格方块矩阵 ===== */
+        .progress-grid {
+            display: grid;
+            grid-template-columns: repeat(26, 1fr);
+            gap: 3px;
+            margin-top: var(--space-sm);
+        }
+
+        .progress-cell {
+            aspect-ratio: 1;
+            border-radius: 1px;
+            transition: transform 0.3s ease, background-color 0.6s ease;
+        }
+
+        .progress-cell:hover {
+            transform: scale(1.3);
+            z-index: 1;
+        }
+
+        /* 已过去的日期：从极淡到品牌色的渐变 */
+        .progress-cell.past {
+            background-color: var(--color-accent);
+        }
+
+        /* 未来的日期：极淡 */
+        .progress-cell.future {
+            background-color: var(--color-progress-start);
+        }
+
+        /* 今天：稍深 */
+        .progress-cell.today {
+            background-color: var(--color-accent-deep);
+        }
+
+        /* ===== 底部栏 ===== */
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: var(--space-lg);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--color-divider);
+        }
+
+        .footer-left,
+        .footer-right {
+            display: flex;
+            align-items: center;
+            gap: var(--space-sm);
+        }
+
+        .footer-link {
+            font-family: var(--font-sans);
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 0.06em;
+            color: var(--color-text-tertiary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--color-text-secondary);
+        }
+
+        .download-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: none;
+            border: 1px solid var(--color-divider);
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .download-btn:hover {
+            border-color: var(--color-accent);
+            background-color: rgba(166, 155, 140, 0.06);
+        }
+
+        .download-btn svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--color-text-tertiary);
+            transition: stroke 0.3s ease;
+        }
+
+        .download-btn:hover svg {
+            stroke: var(--color-accent-deep);
+        }
+
+        /* ===== 响应式 ===== */
+        @media (max-width: 560px) {
+            .card {
+                max-width: 92vw;
+                padding: 40px 32px;
+            }
+
+            .question {
+                font-size: 22px;
+            }
+
+            .reflection {
+                font-size: 13px;
+            }
+
+            .progress-grid {
+                grid-template-columns: repeat(20, 1fr);
+            }
+        }
+
+        @media (max-height: 700px) {
+            .card {
+                padding: 36px 32px;
+            }
+
+            .question-section {
+                margin-bottom: var(--space-md);
+            }
+
+            .progress-section {
+                margin-top: var(--space-lg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <!-- 头部 -->
+        <div class="header">
+            <div>
+                <span class="brand">日课一问</span>
+                <span class="brand-sub">每日三省，破局人生</span>
+            </div>
+            <span class="card-number">NO.001</span>
+        </div>
+
+        <!-- 问题区 -->
+        <div class="question-section">
+            <h1 class="question">你的注意力，今天被谁偷走得最多？</h1>
+            <div class="divider"></div>
+            <p class="reflection">
+                你回想一下今天，走神的次数比专注的次数多还是少？如果明天你只能在「深度专注一小时」和「碎片浏览一整天」里二选一，你会怎么选？
+            </p>
+        </div>
+
+        <!-- 换题按钮 -->
+        <div class="action-area">
+            <button class="refresh-btn">换一题 (1/3)</button>
+        </div>
+
+        <!-- 年度进度 -->
+        <div class="progress-section">
+            <div class="date-info">
+                <span class="date">2026年6月17日 星期二</span>
+                <span class="day-count">第 <strong>168</strong> 天 / 365，46%</span>
+            </div>
+            <div class="progress-grid" id="progressGrid"></div>
+        </div>
+
+        <!-- 底部栏 -->
+        <div class="footer">
+            <div class="footer-left">
+                <a href="#" class="footer-link">完整 420 题 PDF →</a>
+            </div>
+            <div class="footer-right">
+                <a href="#" class="footer-link">卡片创作实验室</a>
+                <button class="download-btn" aria-label="下载卡片">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 3v12m0 0l-4-4m4 4l4-4"/>
+                        <path d="M5 21h14"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 生成365格进度方块，带诗意的色阶渐变
+        (function() {
+            const grid = document.getElementById('progressGrid');
+            const totalDays = 365;
+            const currentDay = 168; // 第168天
+            const cols = 26;
+            const rows = 14;
+
+            // 计算每个已过去方块的色阶：从极淡到品牌色
+            function getPastColor(dayIndex) {
+                const ratio = dayIndex / currentDay;
+                // 起始色 #EFEBE5 -> 结束色 #A69B8C
+                const startR = 239, startG = 235, startB = 229;
+                const endR = 166, endG = 155, endB = 140;
+
+                const r = Math.round(startR + (endR - startR) * ratio);
+                const g = Math.round(startG + (endG - startG) * ratio);
+                const b = Math.round(startB + (endB - startB) * ratio);
+
+                return `rgb(${r}, ${g}, ${b})`;
+            }
+
+            for (let i = 1; i <= totalDays; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'progress-cell';
+
+                if (i < currentDay) {
+                    cell.classList.add('past');
+                    cell.style.backgroundColor = getPastColor(i);
+                } else if (i === currentDay) {
+                    cell.classList.add('today');
+                } else {
+                    cell.classList.add('future');
+                }
+
+                // 添加tooltip显示日期
+                cell.title = `第 ${i} 天`;
+
+                grid.appendChild(cell);
+            }
+        })();
+    </script>
+</body>
+</html>

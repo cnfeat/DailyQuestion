@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>日课一问 | 每日三省，破局人生</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ===== 基础重置 ===== */
+  *, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #0A0A0A;
+    font-family: "Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    color: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ===== 暗房容器 ===== */
+  .gallery-darkroom {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4vh 4vw;
+  }
+
+  /* ===== 裱框卡片 ===== */
+  .framed-card {
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 3 / 4;
+    background-color: #0A0A0A;
+    border: 1px solid #1a1a1a;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 6vh 7%;
+    overflow: hidden;
+  }
+
+  /* ===== 头部 EXIF ===== */
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6vh;
+    flex-shrink: 0;
+  }
+
+  .brand {
+    font-size: 10px;
+    font-weight: 200;
+    letter-spacing: 0.08em;
+    color: #444444;
+    text-transform: uppercase;
+  }
+
+  .card-id {
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    color: #555555;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ===== 核心问题区 ===== */
+  .question-zone {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2vh 0;
+  }
+
+  .question-text {
+    font-size: clamp(22px, 3.2vw, 32px);
+    font-weight: 300;
+    line-height: 1.55;
+    letter-spacing: 0.02em;
+    color: #F5F5F5;
+    word-break: normal;
+    overflow-wrap: break-word;
+    text-align: left;
+  }
+
+  /* ===== 分割线 ===== */
+  .divider {
+    width: 24px;
+    height: 1px;
+    background-color: #333333;
+    margin: 4vh 0;
+    flex-shrink: 0;
+  }
+
+  /* ===== 延伸反思 ===== */
+  .reflection-text {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #888888;
+    letter-spacing: 0.01em;
+    max-width: 100%;
+  }
+
+  /* ===== 换题按钮 ===== */
+  .action-row {
+    margin-top: 5vh;
+    flex-shrink: 0;
+  }
+
+  .shuffle-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: 1px solid #2a2a2a;
+    color: #777777;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+  }
+
+  .shuffle-btn:hover {
+    border-color: #444444;
+    color: #AAAAAA;
+  }
+
+  .shuffle-btn:active {
+    transform: scale(0.98);
+  }
+
+  .shuffle-icon {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ===== 年度进度区 ===== */
+  .progress-zone {
+    margin-top: auto;
+    padding-top: 5vh;
+    flex-shrink: 0;
+  }
+
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+
+  .progress-date {
+    font-size: 10px;
+    font-weight: 200;
+    color: #555555;
+    letter-spacing: 0.04em;
+  }
+
+  .progress-text {
+    font-size: 10px;
+    font-weight: 200;
+    color: #444444;
+    letter-spacing: 0.02em;
+  }
+
+  .progress-text .highlight {
+    color: #3C9D4E;
+    font-weight: 300;
+  }
+
+  /* ===== 365格方块矩阵 ===== */
+  .day-grid {
+    display: grid;
+    grid-template-columns: repeat(26, 1fr);
+    gap: 3px;
+    width: 100%;
+  }
+
+  .day-cell {
+    aspect-ratio: 1 / 1;
+    background-color: #1a1a1a;
+    transition: background-color 0.2s ease;
+  }
+
+  .day-cell.past {
+    background-color: #3C9D4E;
+  }
+
+  .day-cell.today {
+    background-color: #4DBF62;
+    box-shadow: 0 0 0 1px #3C9D4E inset;
+  }
+
+  /* ===== 底部栏 ===== */
+  .card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4vh;
+    padding-top: 3vh;
+    border-top: 1px solid #141414;
+    flex-shrink: 0;
+  }
+
+  .footer-left a {
+    font-size: 10px;
+    font-weight: 200;
+    color: #555555;
+    text-decoration: none;
+    letter-spacing: 0.04em;
+    transition: color 0.2s ease;
+  }
+
+  .footer-left a:hover {
+    color: #888888;
+  }
+
+  .footer-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .studio-name {
+    font-size: 10px;
+    font-weight: 200;
+    color: #444444;
+    letter-spacing: 0.04em;
+  }
+
+  .download-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid #222222;
+    color: #555555;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    outline: none;
+  }
+
+  .download-btn:hover {
+    border-color: #444444;
+    color: #888888;
+  }
+
+  .download-icon {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    stroke-width: 1.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ===== 响应式微调 ===== */
+  @media (max-width: 520px) {
+    .framed-card {
+      padding: 5vh 6%;
+    }
+    .question-text {
+      font-size: clamp(18px, 5.5vw, 24px);
+    }
+    .reflection-text {
+      font-size: 12px;
+    }
+    .day-grid {
+      gap: 2px;
+    }
+  }
+
+  @media (min-width: 1440px) {
+    .framed-card {
+      max-width: 520px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="gallery-darkroom">
+  <div class="framed-card">
+
+    <!-- 头部 EXIF -->
+    <div class="card-header">
+      <span class="brand">日课一问 | 每日三省，破局人生</span>
+      <span class="card-id">NO.001</span>
+    </div>
+
+    <!-- 核心问题 -->
+    <div class="question-zone">
+      <h1 class="question-text">你的注意力，今天被谁偷走得最多？</h1>
+    </div>
+
+    <!-- 分割线 -->
+    <div class="divider"></div>
+
+    <!-- 延伸反思 -->
+    <p class="reflection-text">
+      你回想一下今天，走神的次数比专注的次数多还是少？如果明天你只能在「深度专注一小时」和「碎片浏览一整天」里二选一，你会怎么选？
+    </p>
+
+    <!-- 换题按钮 -->
+    <div class="action-row">
+      <button class="shuffle-btn">
+        <svg class="shuffle-icon" viewBox="0 0 24 24">
+          <polyline points="16 3 21 3 21 8"></polyline>
+          <line x1="4" y1="20" x2="21" y2="3"></line>
+          <polyline points="21 16 21 21 16 21"></polyline>
+          <line x1="15" y1="15" x2="21" y2="21"></line>
+          <line x1="4" y1="4" x2="9" y2="9"></line>
+        </svg>
+        换一题 (1/3，今日还能抽 2 题)
+      </button>
+    </div>
+
+    <!-- 年度进度 -->
+    <div class="progress-zone">
+      <div class="progress-meta">
+        <span class="progress-date">2026年6月17日 星期二</span>
+        <span class="progress-text">今天是 2026 年的第 <span class="highlight">168</span> 天，进度 <span class="highlight">46.0%</span></span>
+      </div>
+      <div class="day-grid" id="dayGrid"></div>
+    </div>
+
+    <!-- 底部栏 -->
+    <div class="card-footer">
+      <div class="footer-left">
+        <a href="#">获取完整 420 题 A6 卡片 PDF &rarr;</a>
+      </div>
+      <div class="footer-right">
+        <span class="studio-name">出品：卡片创作实验室</span>
+        <button class="download-btn" aria-label="下载">
+          <svg class="download-icon" viewBox="0 0 24 24">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  // 生成 365 格年度进度矩阵
+  (function() {
+    const grid = document.getElementById('dayGrid');
+    const totalDays = 365;
+    const passedDays = 168;
+    const cols = 26;
+    const rows = Math.ceil(totalDays / cols);
+
+    for (let i = 0; i < totalDays; i++) {
+      const cell = document.createElement('div');
+      cell.className = 'day-cell';
+      if (i < passedDays - 1) {
+        cell.classList.add('past');
+      } else if (i === passedDays - 1) {
+        cell.classList.add('today');
+      }
+      grid.appendChild(cell);
+    }
+  })();
+</script>
+
+</body>
+</html>

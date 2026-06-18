@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "日课一问 | 每日三省，破局人生",
-  "version": "2.1.0",
-  "description": "每日三省，破局人生。「日课一问」精选 420 个启发性问题，每次打开新标签页都是一次与灵魂的深度对话。获取完整 420 题 A6 卡片 PDF →",
+  "version": "2.2.0",
+  "description": "每日三省，破局人生。「日课一问」精选 420 个启发性问题，每次打开新标签页都是一次与灵魂的深度对话。开源免费。",
   "author": "cnfeat",
   "background": {
     "service_worker": "background.js"
