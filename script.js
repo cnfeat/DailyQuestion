@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupImportFeature();
 });
 
-let _h2cLoaded = false;
+let _d2iLoaded = false;
 
 // ═══ 题库（明文，开源免费） ═══
 function getCards() {
@@ -183,14 +183,14 @@ function renderProgress() {
     grid.appendChild(fragment);
 }
 
-// ═══ 下载功能（html2canvas 懒加载） ═══
-function loadHtml2canvas() {
+// ═══ 下载功能（dom-to-image-more 懒加载，SVG 渲染，像素级一致） ═══
+function loadDomToImage() {
     return new Promise((resolve, reject) => {
-        if (_h2cLoaded && typeof html2canvas !== 'undefined') { resolve(); return; }
+        if (_d2iLoaded && typeof domtoimage !== 'undefined') { resolve(); return; }
         const script = document.createElement('script');
-        script.src = 'html2canvas.min.js';
-        script.onload = () => { _h2cLoaded = true; resolve(); };
-        script.onerror = () => reject(new Error('html2canvas 加载失败'));
+        script.src = 'dom-to-image-more.min.js';
+        script.onload = () => { _d2iLoaded = true; resolve(); };
+        script.onerror = () => reject(new Error('dom-to-image-more 加载失败'));
         document.head.appendChild(script);
     });
 }
@@ -199,21 +199,30 @@ function setupDownloadFeature() {
     const btn = document.getElementById('download-btn');
     if (!btn) return;
     btn.onclick = async function() {
-        try { await loadHtml2canvas(); } catch (e) {
+        try { await loadDomToImage(); } catch (e) {
             alert('截图组件加载失败，请刷新后重试。');
             return;
         }
-        // 等待所有字体（含 Google Fonts）完全加载后再截图，避免导出后字体变化
         await document.fonts.ready;
         const card = document.getElementById('daily-card');
-        html2canvas(card, { scale: 3, backgroundColor: '#faf8f5', useCORS: true, logging: false })
-            .then(canvas => {
-                const link = document.createElement('a');
-                link.download = `日课一问_${new Date().getTime()}.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-            })
-            .catch(() => { alert('截图生成失败，请重试。'); });
+        const w = card.offsetWidth;
+        const h = card.offsetHeight;
+        const scale = 3;
+        domtoimage.toBlob(card, {
+            width: w * scale,
+            height: h * scale,
+            style: {
+                transform: `scale(${scale})`,
+                'transform-origin': '0 0'
+            }
+        }).then(blob => {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.download = `日课一问_${new Date().getTime()}.png`;
+            link.href = url;
+            link.click();
+            URL.revokeObjectURL(url);
+        }).catch(() => { alert('截图生成失败，请重试。'); });
     };
 }
 

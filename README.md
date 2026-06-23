@@ -184,7 +184,7 @@ Chrome 应用商店地址：[日课一问](https://chromewebstore.google.com/det
 
 ## Changelog
 
-- 2026-06-23 修复 2.2.1：修复 html2canvas 导出字体不一致问题（`document.fonts.ready`）、背景色匹配
+- 2026-06-23 发布 2.3：切换 dom-to-image-more（SVG foreignObject 渲染，导出像素级一致，解决 html2canvas 字色/字重偏差）；字体改用系统原生无衬线（PingFang SC / 微软雅黑，零加载延迟）
 - 2026-06-07 发布 2.1：豆瓣绿主题、错误降级、PDF 导流、懒加载优化、按钮交互改进
 - 2026-05-02 发布 2.0
 - 2026-05-13 更新 readme
