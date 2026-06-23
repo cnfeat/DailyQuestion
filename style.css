@@ -25,9 +25,9 @@
     --progress-empty: #e8e4dc;
     --progress-empty-border: #ddd8cf;
 
-    /* 排版尺度 —— 衬线×无衬线混排 */
-    --font-serif: 'Newsreader', 'Noto Serif SC', 'Songti SC', 'STSong', 'SimSun', serif;
-    --font-sans: 'Inter', 'Noto Sans SC', 'PingFang SC', 'Microsoft YaHei', -apple-system, sans-serif;
+    /* 排版尺度 —— 系统原生字体，零加载延迟，清晰锐利 */
+    --font-display: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', sans-serif;
+    --font-sans: 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', -apple-system, sans-serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -223,9 +223,9 @@ body {
 }
 
 #question-display {
-    font-family: var(--font-serif);
+    font-family: var(--font-display);
     font-size: clamp(24px, 6.5cqi, 38px);
-    font-weight: 400;
+    font-weight: 600;
     line-height: 1.55;
     color: var(--ink-primary);
     letter-spacing: 0.8px;
@@ -235,8 +235,7 @@ body {
 
 /* 首字下沉效果 */
 #question-display::first-letter {
-    font-size: 1.15em;
-    font-weight: 500;
+    font-weight: 700;
 }
 
 /* ── 分割线 ── */
