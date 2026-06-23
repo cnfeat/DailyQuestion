@@ -184,7 +184,7 @@ Chrome 应用商店地址：[日课一问](https://chromewebstore.google.com/det
 
 ## Changelog
 
-- 2026-06-18 发布 2.2：自定义题库导入、ISO 周数显示、PDF 预览图、底部栏优化、Toast 通知
+- 2026-06-23 修复 2.2.1：修复 html2canvas 导出字体不一致问题（`document.fonts.ready`）、背景色匹配
 - 2026-06-07 发布 2.1：豆瓣绿主题、错误降级、PDF 导流、懒加载优化、按钮交互改进
 - 2026-05-02 发布 2.0
 - 2026-05-13 更新 readme

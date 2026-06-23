@@ -203,8 +203,10 @@ function setupDownloadFeature() {
             alert('截图组件加载失败，请刷新后重试。');
             return;
         }
+        // 等待所有字体（含 Google Fonts）完全加载后再截图，避免导出后字体变化
+        await document.fonts.ready;
         const card = document.getElementById('daily-card');
-        html2canvas(card, { scale: 2, backgroundColor: '#f8f6f4', useCORS: true, logging: false })
+        html2canvas(card, { scale: 2, backgroundColor: '#faf8f5', useCORS: true, logging: false })
             .then(canvas => {
                 const link = document.createElement('a');
                 link.download = `日课一问_${new Date().getTime()}.png`;
