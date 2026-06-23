@@ -82,12 +82,6 @@
 - 每卡含编号 · 主问题 · 延伸反思 · 主题标签
 - 覆盖 6 大主题领域，结构化思维训练
 
-### ☕ 打赏支持
-
-如果这套卡片对你有启发，欢迎打赏。
-
-<img src="打赏二维码.png" width="400" alt="打赏二维码">
-
 > 💡 本项目完全开源免费。如果对你有启发，欢迎 Star ⭐ 和分享。
 
 ---
@@ -169,16 +163,6 @@ Chrome 应用商店地址：[日课一问](https://chromewebstore.google.com/det
 欢迎提交：通过 GitHub Issues 提交反馈。
 
 提交地址：https://github.com/cnfeat/DailyQuestion/issues 
-
----
-
-## 8、赞赏支持
-
-如果「日课一问」对你有所启发，欢迎 Star ⭐ 支持。
-
-也欢迎通过 [GitHub Issues](https://github.com/cnfeat/DailyQuestion/issues) 提交反馈或贡献新的问题。
-
-打赏入口见上方 [Section 4](#4-免费下载-a6-卡片-pdf) 的二维码。
 
 ---
 
