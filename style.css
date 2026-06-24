@@ -393,10 +393,16 @@ body {
     color: var(--brand);
 }
 
-.footer-right {
+.footer-credit {
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
+    padding-top: clamp(14px, 2.5cqi, 20px);
+    border-top: 1px solid var(--progress-empty);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
 }
 
 .footer-note {
