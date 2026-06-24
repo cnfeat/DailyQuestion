@@ -271,18 +271,18 @@ function setupImportFeature() {
 
 function validateCards(arr) {
     if (!Array.isArray(arr)) return { valid: false, error: '文件格式错误：应为 JSON 数组。' };
-    if (arr.length === 0) return { valid: false, error: '题库为空，请至少包含 1 道题目。' };
-    if (arr.length > 2000) return { valid: false, error: '题库过大（最多 2000 道）。' };
+    // 过滤掉 _instructions 等说明对象
+    const cards = arr.filter(c => c && typeof c === 'object' && !c._instructions);
+    if (cards.length === 0) return { valid: false, error: '题库为空，请至少包含 1 道题目。' };
+    if (cards.length > 2000) return { valid: false, error: '题库过大（最多 2000 道）。' };
 
     const issues = [];
-    for (let i = 0; i < arr.length; i++) {
-        const c = arr[i];
-        if (!c || typeof c !== 'object') { issues.push(`第 ${i + 1} 项不是对象`); continue; }
+    for (let i = 0; i < cards.length; i++) {
+        const c = cards[i];
         if (!c.question || typeof c.question !== 'string' || c.question.trim() === '') {
             issues.push(`第 ${i + 1} 项缺少 question 字段`);
         }
         if (c.id === undefined && c.id !== 0) {
-            // 自动补 id
             c.id = i + 1;
         }
         if (!c.extension) c.extension = '';
@@ -291,7 +291,7 @@ function validateCards(arr) {
     if (issues.length > 0) {
         return { valid: false, error: `校验失败：${issues.slice(0, 3).join('；')}${issues.length > 3 ? '...' : ''}` };
     }
-    return { valid: true, count: arr.length };
+    return { valid: true, cards: cards };
 }
 
 function importCards(jsonStr) {
@@ -305,12 +305,12 @@ function importCards(jsonStr) {
     const validation = validateCards(arr);
     if (!validation.valid) return { success: false, error: validation.error };
 
-    localStorage.setItem('_dq_custom_cards', JSON.stringify(arr));
+    localStorage.setItem('_dq_custom_cards', JSON.stringify(validation.cards));
     // 清除当日缓存，让新题库生效
     localStorage.removeItem('_dq_cache');
     localStorage.removeItem('_dq_viewed');
 
-    return { success: true, count: validation.count };
+    return { success: true, count: validation.cards.length };
 }
 
 function resetToDefault() {
