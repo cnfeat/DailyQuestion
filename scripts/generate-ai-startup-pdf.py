@@ -42,9 +42,9 @@ body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#f3efe8;d
 .toc-card{background:#fff;border:1.5px solid rgba(60,157,78,.25)}
 .toc-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(60,157,78,.4) 20%,var(--brand) 50%,rgba(60,157,78,.4) 80%,transparent 100%);opacity:.35}
 .toc-card .card-inner{padding:9mm 8mm 8mm 8mm}
-.toc-title{font-size:11pt;font-weight:700;color:var(--brand);letter-spacing:2px;margin-bottom:4mm}
-.toc-intro{font-size:8pt;line-height:1.7;color:var(--ink-soft);margin-bottom:5mm;font-weight:300}
-.toc-logic{font-size:7pt;color:var(--ink-faint);margin-bottom:5mm;line-height:1.6}
+.toc-title{font-size:11pt;font-weight:700;color:var(--brand);letter-spacing:2px;margin-bottom:4mm;text-align:center}
+.toc-intro{font-size:9pt;line-height:1.9;color:var(--ink-soft);margin-bottom:5mm;font-weight:300}
+.toc-logic{font-size:8pt;color:var(--ink-faint);margin-bottom:5mm;line-height:1.8}
 .toc-section{font-size:6.5pt;font-weight:500;color:var(--ink);letter-spacing:1.5px;margin-bottom:2.5mm}
 .toc-table{width:100%;font-size:7pt;line-height:1.8;color:var(--ink-soft);border-collapse:collapse}
 .toc-table td{padding:1mm 1mm;vertical-align:baseline;white-space:nowrap}
