@@ -61,13 +61,13 @@ HTML = r'''<!DOCTYPE html>
   .card-id{font-size:6.5pt;color:var(--ink-faint);letter-spacing:1.5px}
 
   /* 问题 */
-  .question{font-size:15.5pt;line-height:1.55;color:var(--ink);font-weight:700;letter-spacing:.4px;margin-bottom:9mm}
+  .question{font-size:17pt;line-height:1.5;color:var(--ink);font-weight:700;letter-spacing:.3px;margin-bottom:9mm}
 
   /* 分割线 */
   .divider{width:14mm;height:1px;background:var(--brand);opacity:.35;margin-bottom:9mm}
 
   /* 延伸 */
-  .extension{font-size:9pt;line-height:1.8;color:var(--ink-soft);overflow:hidden;margin-bottom:4mm;font-weight:300}
+  .extension{font-size:10pt;line-height:1.8;color:var(--ink-soft);overflow:hidden;margin-bottom:4mm;font-weight:300}
 
   /* 标签 */
   .domain-tag{margin-top:auto;padding-top:5mm}
@@ -107,7 +107,7 @@ COVER = '''
     <div class="cover-subtitle">每 日 三 省 · 破 局 人 生</div>
     <div class="cover-line"></div>
     <div class="cover-count">{count} 道灵魂拷问</div>
-    <div class="cover-domain">{domains}</div>
+    <div class="cover-domain">{domain1}<br>{domain2}</div>
     <div class="cover-footer">卡片创作实验室出品</div>
   </div>
 </div>'''
@@ -118,7 +118,9 @@ def generate():
     real = [q for q in questions if q.get('question') and not q.get('_instructions')]
     domains = sorted(set(q.get('domain', '') for q in real))
 
-    cover = COVER.format(count=len(real), domains=' · '.join(domains))
+    cover = COVER.format(count=len(real),
+                         domain1=' · '.join(domains[:3]),
+                         domain2=' · '.join(domains[3:]))
     cards = cover
     for q in real:
         cards += CARD.format(id=q['id'], question=q['question'],
