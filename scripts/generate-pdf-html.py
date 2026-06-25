@@ -61,13 +61,13 @@ HTML = r'''<!DOCTYPE html>
   .card-id{font-size:6.5pt;color:var(--ink-faint);letter-spacing:1.5px}
 
   /* 问题 */
-  .question{font-size:13.5pt;line-height:1.6;color:var(--ink);font-weight:700;letter-spacing:.4px;margin-bottom:8mm}
+  .question{font-size:15.5pt;line-height:1.55;color:var(--ink);font-weight:700;letter-spacing:.4px;margin-bottom:9mm}
 
   /* 分割线 */
-  .divider{width:14mm;height:1px;background:var(--brand);opacity:.35;margin-bottom:8mm}
+  .divider{width:14mm;height:1px;background:var(--brand);opacity:.35;margin-bottom:9mm}
 
   /* 延伸 */
-  .extension{font-size:9pt;line-height:1.8;color:var(--ink-soft);overflow:hidden;margin-bottom:4mm;font-weight:300;word-break:keep-all}
+  .extension{font-size:9pt;line-height:1.8;color:var(--ink-soft);overflow:hidden;margin-bottom:4mm;font-weight:300}
 
   /* 标签 */
   .domain-tag{margin-top:auto;padding-top:5mm}
@@ -108,7 +108,7 @@ COVER = '''
     <div class="cover-line"></div>
     <div class="cover-count">{count} 道灵魂拷问</div>
     <div class="cover-domain">{domains}</div>
-    <div class="cover-footer">开源项目 · github.com/cnfeat/DailyQuestion</div>
+    <div class="cover-footer">卡片创作实验室出品</div>
   </div>
 </div>'''
 
