@@ -4,144 +4,85 @@
 <meta charset="UTF-8">
 <title>日课一问 · 完整版</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-  /* ═══ Aesop Warm + Kenya Hara 色彩系统 ═══ */
-  :root {
-    --paper: #faf8f5;
-    --ink: #1a1a1a;
-    --ink-soft: #5c5852;
-    --ink-faint: #c4bfb7;
-    --brand: #5a8a6e;
-    --brand-light: rgba(90,138,110,0.12);
-  }
-
-  @page { size: 105mm 148mm; margin: 0; }
-
-  @media print {
-    html, body {
-      margin: 0 !important; padding: 0 !important;
-      width: 105mm !important; background: none !important;
-      -webkit-print-color-adjust: exact; print-color-adjust: exact;
-    }
-    body { display: block !important; padding: 0 !important; }
-    .card {
-      display: flex !important; flex-direction: column;
-      width: 105mm !important; height: 148mm !important;
-      margin: 0 !important; padding: 0 !important;
-      box-shadow: none !important; border-radius: 0 !important;
-      overflow: hidden !important; break-inside: avoid !important;
-      break-after: page !important; page-break-after: always !important;
-      page-break-inside: avoid !important;
-    }
-    .card:last-child { break-after: auto !important; page-break-after: auto !important; }
-    .print-tip { display: none !important; }
+  :root{
+    --paper:#faf8f5;
+    --ink:#1a1a1a;
+    --ink-soft:#5c5852;
+    --ink-faint:#b8b3ac;
+    --brand:#3C9D4E;
+    --brand-dark:#2E7D38;
+    --brand-light:#E8F5E9;
+    --brand-soft:rgba(60,157,78,0.10)
   }
 
-  body {
-    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
-    background: #f3efe8; display: flex; flex-direction: column;
-    align-items: center; padding: 20px 0;
+  @page{size:105mm 148mm;margin:0}
+
+  @media print{
+    html,body{margin:0!important;padding:0!important;width:105mm!important;background:none!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    body{display:block!important;padding:0!important}
+    .card{display:flex!important;flex-direction:column;width:105mm!important;height:148mm!important;margin:0!important;padding:0!important;box-shadow:none!important;border-radius:0!important;overflow:hidden!important;break-inside:avoid!important;break-after:page!important;page-break-after:always!important;page-break-inside:avoid!important}
+    .card:last-child{break-after:auto!important;page-break-after:auto!important}
+    .print-tip{display:none!important}
   }
 
-  .print-tip {
-    background: var(--brand); color: #fff; padding: 10px 28px;
-    font-size: 13px; cursor: pointer; border: none; letter-spacing: 1px;
-    margin-bottom: 24px;
-  }
+  body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#f3efe8;display:flex;flex-direction:column;align-items:center;padding:20px 0}
 
-  /* ═══ 卡片容器 ═══ */
-  .card {
-    width: 105mm; height: 148mm;
-    background: var(--paper);
-    margin-bottom: 16px;
-    box-shadow: 0 1px 4px rgba(60,50,30,0.05), 0 4px 16px rgba(60,50,30,0.04);
-    display: flex; flex-direction: column;
-    overflow: hidden; position: relative;
-  }
+  .print-tip{background:var(--brand);color:#fff;padding:10px 28px;font-size:13px;cursor:pointer;border:none;letter-spacing:1px;margin-bottom:24px}
 
-  /* 纸质纹理 */
-  .card::before {
-    content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.3;
-    background-image:
-      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139,119,91,0.006) 2px, rgba(139,119,91,0.006) 3px),
-      repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(139,119,91,0.004) 4px, rgba(139,119,91,0.004) 5px);
-  }
+  /* 卡片 */
+  .card{width:105mm;height:148mm;background:var(--paper);margin-bottom:16px;box-shadow:0 1px 3px rgba(60,50,30,.04),0 4px 14px rgba(60,50,30,.03);display:flex;flex-direction:column;overflow:hidden;position:relative}
+  .card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(60,157,78,.4) 20%,var(--brand) 50%,rgba(60,157,78,.4) 80%,transparent 100%);opacity:.35}
+  .card-inner{flex:1;display:flex;flex-direction:column;padding:10mm 9mm 8mm 9mm;height:100%;position:relative;z-index:1}
 
-  /* 顶部品牌线 */
-  .card::after {
-    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, transparent 0%, rgba(90,138,110,0.5) 20%, var(--brand) 50%, rgba(90,138,110,0.5) 80%, transparent 100%);
-    opacity: 0.4;
-  }
+  /* 封面 */
+  .cover{background:linear-gradient(155deg,var(--brand-dark) 0%,var(--brand) 45%,#4CAF50 100%);color:#fff}
+  .cover::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 20%,rgba(255,255,255,.06) 0%,transparent 55%);opacity:1}
+  .cover .card-inner{align-items:center;justify-content:center;text-align:center;position:relative;z-index:1}
+  .cover-brand{font-size:7pt;letter-spacing:5px;opacity:.5;margin-bottom:14mm;font-weight:300}
+  .cover-title{font-size:30pt;font-weight:700;letter-spacing:10px;margin-bottom:5mm;line-height:1}
+  .cover-subtitle{font-size:9pt;font-weight:300;letter-spacing:8px;margin-bottom:14mm;opacity:.65}
+  .cover-line{width:20mm;height:1px;background:rgba(255,255,255,.25);margin-bottom:14mm}
+  .cover-count{font-size:13pt;font-weight:400;letter-spacing:4px;margin-bottom:2mm}
+  .cover-domain{font-size:7pt;opacity:.4;letter-spacing:2px;max-width:72mm;line-height:2}
+  .cover-footer{position:absolute;bottom:9mm;left:0;right:0;text-align:center;font-size:6pt;opacity:.3;letter-spacing:1px}
 
-  .card-inner {
-    flex: 1; display: flex; flex-direction: column;
-    padding: 10mm 9mm 10mm 9mm; height: 100%; position: relative; z-index: 1;
-  }
+  /* 头部 */
+  .card-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12mm}
+  .card-brand{font-size:7pt;color:var(--brand);letter-spacing:2px;font-weight:500}
+  .card-id{font-size:6.5pt;color:var(--ink-faint);letter-spacing:1.5px}
 
-  /* ═══ 封面 ═══ */
-  .cover { background: var(--brand); color: #fff; }
-  .cover::before { display: none; }
-  .cover::after { display: none; }
-  .cover .card-inner { align-items: center; justify-content: center; text-align: center; }
-  .cover-title {
-    font-size: 38pt; font-weight: 700; letter-spacing: 6px;
-    margin-bottom: 5mm;
-  }
-  .cover-subtitle {
-    font-size: 13pt; font-weight: 300; letter-spacing: 10px;
-    margin-bottom: 18mm; opacity: 0.75;
-  }
-  .cover-count {
-    font-size: 18pt; font-weight: 400; letter-spacing: 4px;
-    margin-bottom: 3mm;
-  }
-  .cover-domain {
-    font-size: 8pt; opacity: 0.5; letter-spacing: 2px;
-    max-width: 70mm; line-height: 1.8;
-  }
+  /* 问题 */
+  .question{font-size:13.5pt;line-height:1.6;color:var(--ink);font-weight:700;letter-spacing:.4px;margin-bottom:8mm}
 
-  /* ═══ 卡片头部 ═══ */
-  .card-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 13mm; }
-  .card-brand { font-size: 7pt; color: var(--brand); letter-spacing: 2px; font-weight: 500; text-transform: uppercase; }
-  .card-id { font-size: 6.5pt; color: var(--ink-faint); letter-spacing: 1px; }
+  /* 分割线 */
+  .divider{width:14mm;height:1px;background:var(--brand);opacity:.35;margin-bottom:8mm}
 
-  /* ═══ 问题 ═══ */
-  .question {
-    font-size: 15pt; line-height: 1.55; color: var(--ink); font-weight: 700;
-    letter-spacing: 0.5px; margin-bottom: 10mm;
-  }
+  /* 延伸 */
+  .extension{font-size:9pt;line-height:1.8;color:var(--ink-soft);overflow:hidden;margin-bottom:4mm;font-weight:300;word-break:keep-all}
 
-  /* ═══ 分割线 ═══ */
-  .divider {
-    width: 16mm; height: 1px; background: var(--brand);
-    opacity: 0.45; margin-bottom: 10mm;
-  }
+  /* 标签 */
+  .domain-tag{margin-top:auto;padding-top:5mm}
+  .domain-tag span{font-size:6.5pt;color:var(--brand-dark);letter-spacing:1.5px;padding:1mm 3mm;background:var(--brand-soft)}
 
-  /* ═══ 延伸反思 ═══ */
-  .extension {
-    font-size: 10pt; line-height: 1.8; color: var(--ink-soft);
-    overflow: hidden; margin-bottom: 6mm; font-weight: 300;
-  }
-
-  /* ═══ 领域标签 ═══ */
-  .domain-tag { margin-top: auto; padding-top: 6mm; }
-  .domain-tag span {
-    font-size: 7pt; color: var(--brand); letter-spacing: 1.5px;
-    padding: 1mm 3mm; background: var(--brand-light);
-  }
+  /* 出处 */
+  .card-source{font-size:5.5pt;color:var(--ink-faint);letter-spacing:.5px;text-align:center;padding-top:3mm}
+  .card-source a{color:var(--brand);text-decoration:none}
 </style>
 </head>
 <body>
-<button class="print-tip" onclick="window.print()">🖨 打印为 PDF（另存为 PDF）</button>
+<button class="print-tip" onclick="window.print()">🖨 打印为 PDF</button>
 
 <div class="card cover">
   <div class="card-inner">
+    <div class="cover-brand">D A I L Y &nbsp; Q U E S T I O N</div>
     <div class="cover-title">日课一问</div>
     <div class="cover-subtitle">每 日 三 省 · 破 局 人 生</div>
-    <div class="cover-count">420 道</div>
+    <div class="cover-line"></div>
+    <div class="cover-count">420 道灵魂拷问</div>
     <div class="cover-domain">事业与财富 · 关系与连接 · 创作与表达 · 意义与存在 · 技能与成长 · 认知与思维</div>
+    <div class="cover-footer">开源项目 · github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -154,6 +95,7 @@
     <div class="divider"></div>
     <div class="extension">回想上周你最投入的三小时——你是被截止日期逼着做的，还是你主动停下来沉浸地做的？这两种状态下产出的质量有区别吗？如果外部压力突然全部消失，你还会做现在做的事吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -166,6 +108,7 @@
     <div class="divider"></div>
     <div class="extension">像滚雪球一样越滚越大的积累效应，就是常说的复利——你当下的收入是一次性的还是可累积的？你是在卖时间，还是在卖一个脱离你也能运转的产品？如果你从今天开始只做能产生复利的事——技能复利、关系复利、资产复利——你会先做哪一件？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -178,6 +121,7 @@
     <div class="divider"></div>
     <div class="extension">本地用户日常有哪些真实痛点，现有解决方案为何始终无法彻底解决？产品设计是否深度融合本地生活习惯与地域资源，形成天然的信任竞争壁垒？同行想要复刻你的产品需要突破哪些硬性门槛？能否用最低成本验证用户愿意付费，还会主动自发口碑推荐吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -190,6 +134,7 @@
     <div class="divider"></div>
     <div class="extension">你能否在三十秒内向陌生人说清问题本质与必须立刻解决的原因？你是否能精准识别这件事真正的利益相关方？做决策时是否懂得划定不做的边界，而非只能在现有选项里妥协？想要彻底解决问题，需要搭建怎样的核心团队、匹配哪些关键资源作为支撑？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -202,6 +147,7 @@
     <div class="divider"></div>
     <div class="extension">哪项技能做到极致就能突破当下事业瓶颈？这项技能在市场中属于供给过剩还是需求稀缺？如果从现在开始只深耕这一个方向、放弃其他所有诱惑，三年后你会达到什么高度？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -214,6 +160,7 @@
     <div class="divider"></div>
     <div class="extension">你的目标客户最迫切、未被满足的核心痛点是什么？该如何用最简产品形态精准直击这一核心需求？砍掉八成冗余功能后，剩余基础功能还能让客户付费并自发传播吗？这个极简版本能否在两周内完成落地验证？该怎样用一天快速测试，验证用户真实的付费意愿？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -226,6 +173,7 @@
     <div class="divider"></div>
     <div class="extension">像滚雪球一样越滚越大的积累效应，就是常说的复利——你可以通过哪些方式优化现有业务与职业路径，来拉高收入和做事效率？你的收入来源是依赖单一不稳定渠道，还是搭建了多引擎收入体系？提价、扩量、降本三种增长方式里，哪一种更具备长期复利价值？市场环境下行时，现有客户会轻易流失，还是会更加信赖依赖你？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -238,6 +186,7 @@
     <div class="divider"></div>
     <div class="extension">标杆的优秀特质是可迁移复用的底层原则，还是依托特殊资源的偶然优势？你上一次学习标杆后真正落地执行，是在什么时候？把这些特质放到自身场景，哪些水土不服、哪些能放大你的独特优势？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -250,6 +199,7 @@
     <div class="divider"></div>
     <div class="extension">你选股的核心标准是深厚护城河、产品高复购属性，还是锚定人类长期刚需？即便公司失去现有管理团队，你仍会坚持选择它吗？倘若未来十年股价不涨，你还愿意长期坚守持有吗？这家企业凭什么能让百年之后依旧被市场需要？你更看重财报数字，还是它无可替代的社会价值？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -262,6 +212,7 @@
     <div class="divider"></div>
     <div class="extension">这份兴趣是否小众到能构筑竞争壁垒，还是受众过少缺乏付费市场？你能否参考三个同类兴趣的成功商业案例，提炼出可复制的落地路径？当兴趣商业化变成责任义务之后，你还能保持最初的热爱与投入吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -274,6 +225,7 @@
     <div class="divider"></div>
     <div class="extension">这件让你感到困扰的小事，旁人大多选择默默忍受，还是早已习惯视而不见？既然你觉得现状不合理，是否有大量人群正在承受同样的不便？小事背后折射的是群体长期被忽略的隐性需求，还是人性本能想要偷懒的底层欲望？你能否用十分钟快速做出简易可用的初始原型，从第一位用户反馈中验证想法？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -286,6 +238,7 @@
     <div class="divider"></div>
     <div class="extension">别用短期成果衡量自己——看轨迹吗？你上月和去年同月比，做的事情的质量、深度、不可替代性是上升还是下降？把今天自己做的事解释给五年前的自己听——他会觉得你在进步还是在绕圈？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -298,6 +251,7 @@
     <div class="divider"></div>
     <div class="extension">他们做成大事的关键核心动作，有哪一件是你至今还未着手践行的？你看到的只是他们如今的光鲜成果，还是看懂了多年前埋下的布局根基？值得借鉴的部分里，哪些是通用可复制的规律，哪些依托专属资源与时代运气？你当下的布局，是在追赶缩小差距，还是在开辟专属赛道走出独有路径？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -310,6 +264,7 @@
     <div class="divider"></div>
     <div class="extension">若重构商业模式，你会从哪个核心环节入手？新模式的优势是让经营更轻松，还是塑造出他人难以复制的壁垒？你当前的模式是在变轻还是变重？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -322,6 +277,7 @@
     <div class="divider"></div>
     <div class="extension">十倍进步不是在原有基础上小幅优化，而是换维度换赛道重构玩法，你要在哪个领域彻底改变逻辑？如今投入大量时间精力的事务里，有哪些完全可以果断舍弃不再耗费心神？你能否找到关键杠杆点，让一次投入收获过往十倍的产出回报？若一天只允许做一件事撬动十倍成长，你会锁定哪件核心事？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -334,6 +290,7 @@
     <div class="divider"></div>
     <div class="extension">这份独特成就，是依托你专属人生阅历与认知积淀形成的不可替代价值，还是人人稍加努力就能达成的普通成绩？你口中的独特优势，是实实在在筑牢了个人竞争壁垒，还是单纯自我美化的小众亮点？这份独特成就能否转化为长期核心竞争力，又为何注定只有你能完成、旁人难以复刻？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -346,6 +303,7 @@
     <div class="divider"></div>
     <div class="extension">短期爆款需要流量，终身价值需要口碑吗？你今天的投入里有多少是为了短期曝光，有多少是为了长期积累？如果微信上你的个人简介要把你所有的价值缩成一句话，那句话是什么？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -358,6 +316,7 @@
     <div class="divider"></div>
     <div class="extension">你能变现的是市场真正需要的硬核价值，还是自我感动却无人买单的伪技能？愿意为你付费的是长期复购的精准客户，还是只做一次性生意的过客？你的变现方式可复制吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -370,6 +329,7 @@
     <div class="divider"></div>
     <div class="extension">从起点到终点形成完整的自我循环，业界称为闭环——你是靠打造稀缺硬核价值让用户自愿买单，还是用套路营销诱导冲动消费？用户愿意付费是核心刚需被真正解决，还是一时情绪上头的临时选择？你能否搭建长期复购的付费闭环，还是只能靠低价优惠勉强留住用户？让用户心甘情愿付费的底层核心逻辑究竟是什么？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -382,6 +342,7 @@
     <div class="divider"></div>
     <div class="extension">与你相处是被滋养、有成长、心生舒适的优质体验，还是被消耗、有压力、毫无收获的负面感受？你是能持续输出情绪与认知价值的高粘性存在，还是只会索取不懂回馈的低价值关系方？你是否清楚自己相处中的短板痛点，又该如何迭代优化，让别人愿意长期信赖与靠近？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -394,6 +355,7 @@
     <div class="divider"></div>
     <div class="extension">护城河就是别人难以复制、学不走的核心优势——彼此的不同只是表层形式差异，还是旁人难以复刻的深层竞争壁垒？你的优势只是暂时领先，还是能长期稳固守住的行业护城河？你总在被动跟风对比追赶，还是主动打造独属于自己、无法复制的稀缺价值？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -406,6 +368,7 @@
     <div class="divider"></div>
     <div class="extension">这些与众不同的想法，是看透本质的反常识认知，还是单纯为了标新立异？它们是否经过现实验证切实高效，还是脱离实际的主观空想？这份独特思维能否转化为你的职场竞争力，还是只会变成不被世俗理解的个性标签？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -418,6 +381,7 @@
     <div class="divider"></div>
     <div class="extension">你真正需要的是繁杂课程清单，还是能破解自身业务瓶颈的思维框架？定价、增长、团队管理等模块，哪些是必须优先深耕的核心？你靠拆解真实商业案例内化认知，还是只会堆砌空洞理论？若用三个月搭建最简可用知识系统，你会舍弃哪些看似有用却无关目标的内容？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -430,6 +394,7 @@
     <div class="divider"></div>
     <div class="extension">从起点到终点形成完整的自我循环，业界称为闭环——你发现的难题是真实社会痛点，还是主观臆想的伪需求？你的独特优势能否在解决方案里形成不可替代性，而非沦为普通执行者？商业模式跑不通，是价值没被市场验证，还是只埋头做事忽略了商业可持续性？你能否设计最小闭环，用真实交易测试市场愿不愿为你的方案付费？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -442,6 +407,7 @@
     <div class="divider"></div>
     <div class="extension">真实的市场刚需和一个人的执念之间，差的是不是付费意愿？你上一次验证用户是否愿意为你的方案付费，用了什么方法？如果用户不愿意付费，是他们不够痛，还是你的方案不够好？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -454,6 +420,7 @@
     <div class="divider"></div>
     <div class="extension">你最致命的短板隐患是什么，是缺少核心护城河、过度依赖外部资源，还是抗风险能力薄弱？你有哪些切实办法对冲化解这份风险？若平台规则突变、流量清零，你能否依靠私域、自有产品和个人信任资产安稳立足？这份风险披露，是否经得起最严苛投资者的审视？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -466,6 +433,7 @@
     <div class="divider"></div>
     <div class="extension">你当下的付出，是一次结算一次收益的临时劳动，还是能持续积累、长久增值的沉淀资产？今天产出的作品、沉淀的经验、维系的人际关系——三个月后回头看，还剩多少价值？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -478,6 +446,7 @@
     <div class="divider"></div>
     <div class="extension">行业同质化内卷的根源是技能单一，跨界融合是否才是破局核心？你是否固守单一领域深耕，从未尝试把理性与感性、专业与创意、技术与服务思维相互碰撞？哪两种冷门技能搭配，能让你抢占无人竞争的生态位，筑起旁人无法复制的壁垒？你不敢跨界尝试，是害怕失败试错，还是根本没意识到技能组合蕴藏的巨大潜力？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -490,6 +459,7 @@
     <div class="divider"></div>
     <div class="extension">平台算法总会迭代更替，唯有人性底层需求恒久不变吗？你的产品和内容是否触碰到恐惧、渴望、归属等人性深层刚需？倘若所有算法规则重新清零，你沉淀的价值还能被用户主动认可与找寻吗？你当下是盲目追逐短期流量，还是用心打造经得起时间沉淀的价值灯塔？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -502,6 +472,7 @@
     <div class="divider"></div>
     <div class="extension">做减法远比盲目叠加功能更考验格局智慧吗？哪三项功能只是自我感觉丰满，却并非用户真正刚需？删减冗余后若用户留存反而提升，是否说明你一直靠功能堆砌，掩盖自身价值定位模糊？真正极致的产品力，是不是让用户一眼看清你不可替代的核心价值主张？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -514,6 +485,7 @@
     <div class="divider"></div>
     <div class="extension">像滚雪球一样越滚越大的积累效应，就是常说的复利——靠单次出卖时间永远难以突破瓶颈，把技能产品化、可复制是否才是破局根本？你最擅长的能力，能否沉淀为课程、模板、手册或自动化方案，一次打磨、永久复用？你是否一直停留在单次接单服务，不愿花精力搭建可复利的系统，浪费核心技能的长期价值？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -526,6 +498,7 @@
     <div class="divider"></div>
     <div class="extension">产品设计最容易犯的错误是不是居高临下教用户用你的逻辑？但最好的产品是不是都是顺着用户的直觉走的？你上一次因为一个用户说了你的产品不好用而重新思考设计逻辑，后来改了什么？那个改变后来带来了多少新的用户？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -538,6 +511,7 @@
     <div class="divider"></div>
     <div class="extension">最稳固的合作不是合同写得好，而是对方离不开你？你占比最大的那个合作方，如果他们明天突然换了供应商，他们失去的只是一件产品，还是一整套只有你能提供的价值和信任？那个「只有你能提供的东西」是什么？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -550,6 +524,7 @@
     <div class="divider"></div>
     <div class="extension">真实比完美更稀缺——因为在社交媒体上伪装完美太容易了吗？你最近一次发的内容里有多少是真话多少是修饰？如果你把过去三个月发的所有东西看一遍，哪些是你自己都不敢相信的？哪些是你看着会笑的真实瞬间？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -562,6 +537,7 @@
     <div class="divider"></div>
     <div class="extension">专注本就意味着取舍，你是否贪心兼顾多条赛道、不愿放手任何收益？哪一份短期赚钱的副业，正在分流你深耕主业的核心精力？放下眼前即时收益，你是否拥有沉下心长期布局的勇气？什么都不愿割舍、面面俱到，最终是不是只会陷入样样平庸的僵局？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -574,6 +550,7 @@
     <div class="divider"></div>
     <div class="extension">像滚雪球一样越滚越大的积累效应，就是常说的复利——你是否清晰每一款产品的定位、使命与分工？有没有把精力错配在没有复利价值库低效产品上？引流款能否低成本高效抓取精准用户？利润基石产品是否筑牢竞争壁垒、稳住基本盘？前瞻探索款能不能提前布局赛道，踩准未来市场风向？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -586,6 +563,7 @@
     <div class="divider"></div>
     <div class="extension">业务规模越大，是否真的等同于利润和价值越高？你是否容易被行业氛围裹挟，陷入盲目扩张、跟风做规模的陷阱？靠极致差异化定位加高客单价，能否在小众圈层活得更稳定长久？面对同行内卷规模的集体焦虑，你能不能稳住自身节奏不盲从、不浮躁？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -598,6 +576,7 @@
     <div class="divider"></div>
     <div class="extension">护城河就是别人难以复制、学不走的核心优势——靠金钱堆砌起来的规模壁垒，真的稳固不可撼动吗？你沉淀的团队默契、本土文化理解、一线实战经验，是对手靠资金就能轻易买到的？你是否在持续深耕这些金钱无法复制的护城河？抛开资金、规模这些外在优势，你真正不可替代的核心竞争力究竟是什么？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -610,6 +589,7 @@
     <div class="divider"></div>
     <div class="extension">抛开基础功能之外，你真正能售卖的是身份标签、专属体验，还是抚慰情绪的深层价值？用户不愿接受高价，是你没触达内心真实渴望，还是只解决表面问题、缺少不可替代的内核？你能否不增加生产成本，只通过重构价值叙事，让高价变得合理且令人向往？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -622,6 +602,7 @@
     <div class="divider"></div>
     <div class="extension">真正有生命力的创作不是填鸭式输出，而是邀请用户变成共同参与者？你上一次因为一个用户的反馈彻底改变了一个作品的方向——是在什么情况下？如果没有用户的参与，你的下一个作品会缺少什么？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -634,6 +615,7 @@
     <div class="divider"></div>
     <div class="extension">你是缺少能把创意落地、转化为实际收益的运营型伙伴，还是规避风险、把控规则的风控财务守门人？如果事事亲力亲为，不愿分权让利，你是在守住虚假的掌控感，还是亲手限制了事业规模化、体系化成长的可能性？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -646,6 +628,7 @@
     <div class="divider"></div>
     <div class="extension">跟随者吃不到第一口红利，规则制定者吃大盘吗？你做的和行业主流完全不同的一个选择——事后被证明是对的——那个选择是基于什么判断做出的？是偶然运气、信息优势、还是你看见了一个别人忽略的信号？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -658,6 +641,7 @@
     <div class="divider"></div>
     <div class="extension">专业术语堆砌和高冷姿态往往不是专业的标志，而是不安全感的表现——怕别人看穿你没那么深？如果用一个小学生能听懂的语言重新讲一遍你在做的事情，你会发现什么？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -670,6 +654,7 @@
     <div class="divider"></div>
     <div class="extension">巨头看不上、你也刚好做得动的小市场，是不是创业最佳起点？你定义的这个小众群体是谁——他们的共同痛点是什么——这个痛点为什么巨头不屑于解决？你比巨头更懂他们的哪一点？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -682,6 +667,7 @@
     <div class="divider"></div>
     <div class="extension">护城河就是别人难以复制、学不走的核心优势——若你的商业模式和方法论完全公开免费，你还能靠什么赚钱？那个不可复制的东西，你今天正在积累它吗？没有护城河的生意能活多久？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -694,6 +680,7 @@
     <div class="divider"></div>
     <div class="extension">最好的产品往往不教育用户，而是不是让他们在无感的情况下完成正确的事？你上一次因为想教育用户而把设计搞复杂了，是在哪个功能上？如果改成零思考的路径，能改吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -706,6 +693,7 @@
     <div class="divider"></div>
     <div class="extension">极端两难选择最能暴露真实价值观，你内心底层更看重利益还是口碑？你骨子里是纯粹逐利的生意人，还是有底线有理想的创作者？会不会为了眼前收益，突破职业与人格声誉底线？能否坚守本心原则，不被短期利益裹挟妥协？你的最终抉择，能否对得起初心与长久人设？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -718,6 +706,7 @@
     <div class="divider"></div>
     <div class="extension">单品天花板在你精力的上限，生态天花板在你的想象力吗？一件作品的成功能不能帮另一件降低获客成本或提高定价？如果还没有——你缺少哪根连接线？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -730,6 +719,7 @@
     <div class="divider"></div>
     <div class="extension">一次交易是终点，终生绑定是否才是你的护城河？你的商业模式是让用户买了就走，还是越用越离不开？如果他们三个月内不联系你——有主动找你的理由吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -742,6 +732,7 @@
     <div class="divider"></div>
     <div class="extension">世上没有完美的个人与商业系统，你是否跳出光环看透标杆隐秘短板？能否精准发现别人忽略的阿喀琉斯之踵？如果站在竞争对手角度，你会如何利用这个弱点实现弯道突破？你是否只仰望光鲜表象，从未深度拆解其底层核心缺陷？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -754,6 +745,7 @@
     <div class="divider"></div>
     <div class="extension">它是不是已经有一套完整、自洽的世界观，让别人不只看你的作品，还要研究你的思想？如果你未来十年只做这一件事、只写这一个主题、只打磨这一套体系，它会是什么？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -766,6 +758,7 @@
     <div class="divider"></div>
     <div class="extension">ROI就是投入产出比，你花的时间/钱和得到的回报之间的比例——成本定价卖原材料，价值定价卖结果吗？客户付钱是为了你的成本，还是为了你帮他避免的麻烦或赢到的机会？能不能量化——用了你的产品之后客户的ROI大概是多少？如果算不出来这个数——你的定价里有多少是猜的？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -778,6 +771,7 @@
     <div class="divider"></div>
     <div class="extension">护城河就是别人难以复制、学不走的核心优势——行业信息差终究会被时代抹平，当所有底牌公开透明，你还剩下什么核心竞争力？是深耕多年的人脉圈层、牢牢掌控的供应链资源，还是用户日积月累的无条件信任？你当下投入精力布局的，是迟早会消失的短期壁垒，还是能长久立足、别人无法撼动的深层护城河？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -790,6 +784,7 @@
     <div class="divider"></div>
     <div class="extension">用自己的时间换钱是不是最确定的、也是最危险的模式？你赚的钱里，哪一部分是睡后收入？如果明天你不能工作了，哪些收入会立刻消失，哪些会继续进来？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -802,6 +797,7 @@
     <div class="divider"></div>
     <div class="extension">护城河就是别人难以复制、学不走的核心优势——产品功能和技术可以被快速复制吗？社区氛围、品牌共鸣和深度信任可以被轻易拷贝吗？用户选择你是因为价格优势，还是因为认同你的价值观？价格战到来时，你的专属服务、共创机制和情感连接这类软性护城河能否支撑你留住用户？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -814,6 +810,7 @@
     <div class="divider"></div>
     <div class="extension">从众是不是最安全、也是最不值钱的选择？你最近一次在所有人都在做某件事的时候选择了相反的路径，结果怎么样？如果那件事明天被证明毫无价值，你损失了多少时间？你愿意止损吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -826,6 +823,7 @@
     <div class="divider"></div>
     <div class="extension">你原有领域积累的思维模式与专业逻辑，能否在全新行业中形成独特竞争优势？你是否会保持外来者的独立视角，突破固有行业的固化思维？你近期有没有借助过往的经验方法，成功解决全新领域难题的实际经历？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -838,6 +836,7 @@
     <div class="divider"></div>
     <div class="extension">你清楚对手身上哪些隐藏优势，是自己一直羡慕且欠缺的吗？出色的用户洞察、高效执行力或是内容表达能力，会是你向往的方向吗？正视并认可对手的长处，会成为自我突破的关键起点吗？你曾因为羡慕他人的能力，主动开启针对性的学习提升吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -850,6 +849,7 @@
     <div class="divider"></div>
     <div class="extension">产品形态、行事风格与生活状态，是否可以无声传递自身内核与主张？长期沉淀的行为特质，能否像优质品牌一样直观传递专属价值观？舍弃所有语言文字后，你的行动与成果，是否依旧拥有打动和说服他人的力量？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -862,6 +862,7 @@
     <div class="divider"></div>
     <div class="extension">护城河就是别人难以复制、学不走的核心优势——你行业里最普遍的认知误解是什么？新手入行时最容易掉进哪个坑？你当年是否也曾深信不疑？能看穿这个误解本身就是护城河——你是从什么时候开始看穿它的？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -874,6 +875,7 @@
     <div class="divider"></div>
     <div class="extension">如果团队只嘉奖成功、惩罚失败，所有人都会选择保守会怎样？你上一次公开肯定了一个勇敢的失败尝试，说了什么？如果团队成员因为怕犯错而从来不探索边界，竞争力的损失有多大？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -886,6 +888,7 @@
     <div class="divider"></div>
     <div class="extension">免费模式是高效的获客手段，舍弃前端直接利润后，你是否具备挖掘后端价值的商业洞察？隐藏在业务链路里的长效变现路径，你能否清晰梳理落地？被迫切换免费逻辑的当下，你最先布局的盈利渠道会是什么？非对称的价值变现思维，能否支撑业务实现增量增长？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -898,6 +901,7 @@
     <div class="divider"></div>
     <div class="extension">最好的产品不教育用户，让他们在无感中完成正确的事吗？上次因为想教育用户而把设计搞复杂了——是哪个功能？如果改成零思考的路径——能改吗？改动成本大吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -910,6 +914,7 @@
     <div class="divider"></div>
     <div class="extension">从容转身需要提前备好的不是钱，是能力、人脉和系统？你上一次认真思考过如果明天不想干了、我能干嘛是什么时候？如果三年后你必须退场，你从现在开始需要布局哪三件事？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -922,6 +927,7 @@
     <div class="divider"></div>
     <div class="extension">用户会耐心翻看产品说明吗？会愿意多进行额外操作步骤吗？如果使用流程还要耗费用户思考，难道不已经落入劣势了？你是否已把核心操作设置成默认选项、一键直达或是自动触发模式？顶级产品体验能让用户无需费心就能完成需求，你是否达到了这样的标准？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -934,6 +940,7 @@
     <div class="divider"></div>
     <div class="extension">提前深耕冷门领域的基础认知与实战案例，是否能构筑先发优势？你能忍受长期无人关注的沉淀期吗？瞄准未来风口提前布局，当下最关键的起步行动应该是做什么？今天能先做哪一件小事？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -946,6 +953,7 @@
     <div class="divider"></div>
     <div class="extension">被抄袭后的反应比作品本身更定义你是不是谁？你是花时间打官司、花能量抱怨、还是立刻开始做下一个更高维度的东西？你上一次在愤怒中浪费了多少创作时间？如果那次你把能量用来创作而不是愤怒，你能做出什么？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -958,6 +966,7 @@
     <div class="divider"></div>
     <div class="extension">拥挤度是不是利润空间的逆向指标？每天花的时间是在比别人更努力上，还是在找到一个别人没看到的方向上？如果今天必须放弃现有赛道重新选——你选的依据是什么？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -970,6 +979,7 @@
     <div class="divider"></div>
     <div class="extension">影响业务命脉的不可控因素，是行业政策、关键人脉还是核心合作方？你是否提前布局多套备用预案，还是单纯侥幸赌局面不会崩塌？经营里真正致命的风险，是不是把全部筹码押在自己无法掌控的单一环节上？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -982,6 +992,7 @@
     <div class="divider"></div>
     <div class="extension">护城河就是别人难以复制、学不走的核心优势——表层的产品与数据都能被复刻，团队默契、用户信任、独特商业嗅觉是否无法窃取？那些无法写进流程手册的组织灵魂与底层认知，是否才是真正护城河？你自身这份不可复制的底蕴，如今是否还在持续沉淀加固？这份别人拿不走的核心底气，又能为你撑起多大的竞争优势？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -994,6 +1005,7 @@
     <div class="divider"></div>
     <div class="extension">与其坐等对手出局捡红利，不如向内审视自身短板吗？有多少潜在客户是被你的保守平庸挡在门外？为了安稳不出错，你舍弃了多少让人非你不可的核心特色？看清自身平庸的致命缺陷后，你是否下定决心彻底迭代升级？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1006,6 +1018,7 @@
     <div class="divider"></div>
     <div class="extension">做得更好是不是对手可以追上的，做得不一样是你定义的赛道？上次因为和所有人走完全不同的方向而胜出——具体是怎么做的？如果今天你要定义属于你自己的一个全新品类——它叫什么？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1018,6 +1031,7 @@
     <div class="divider"></div>
     <div class="extension">可以依托后续增值服务、衍生周边或是专属社群来维系收益吗？一次性售卖的产品该怎样搭建后端价值体系？能否打造出让用户深度绑定、持续依赖的产品生态？你是否规划好了一次性单品对应的长久变现路径？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1030,6 +1044,7 @@
     <div class="divider"></div>
     <div class="extension">最高级的竞争不是赢，是重新定义战场让对手的武器失效？你回想一次——你做了什么事情之后，竞争对手的整个优势突然不重要了？那个改变是你主动设计的，还是偶然碰到的？你能复制这种思维模式吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1042,6 +1057,7 @@
     <div class="divider"></div>
     <div class="extension">砸资源是不是实力，发现缝隙是眼力？第一次找到那个别人都忽视但真实存在的细分入口——是故意找的还是碰巧撞上的？如果碰巧——你有没有总结出一套发现下一个缝隙的方法？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1054,6 +1070,7 @@
     <div class="divider"></div>
     <div class="extension">经验积累和工龄累积的区别很简单——变化吗？把五年前的工作方式录下来和今天对比——能看出明显提升吗？如果不能——你是在积累经验还是在积累退休倒计时？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1066,6 +1083,7 @@
     <div class="divider"></div>
     <div class="extension">自动化程度决定你的自由程度吗？业务流程里哪些必须你亲自决策、别人做不了的环节——如果目标是三十天后一整周不碰工作——你需要先教会谁、先交出去什么？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1078,6 +1096,7 @@
     <div class="divider"></div>
     <div class="extension">每天都在灭火的人，永远建不了防火墙吗？你每天的日程里有一段雷打不动的只思考不行动的时间吗？如果没有，你打算什么时候开始？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1090,6 +1109,7 @@
     <div class="divider"></div>
     <div class="extension">产品差评后的本能反应暴露你的成长模式吗？上次因为一条差评改了产品——改了什么？改完之后用户有反馈吗？再把那条差评看一遍——里面哪一条到今天还是对的？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1102,6 +1122,7 @@
     <div class="divider"></div>
     <div class="extension">沉没成本不是成本，但承认错误是最难的？你投入了多少时间、多少钱和多少情感在这个项目上？如果明天必须砍掉它，失去的最大的一块是什么——钱？面子？还是承认自己错了？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1114,6 +1135,7 @@
     <div class="divider"></div>
     <div class="extension">焦虑退缩和顺势借力是不是两种截然不同的终局策略？如果这个赛道注定会被巨头占领，你还能从中获得什么——用户、经验、钱、渠道？你上次因为巨头进入而被迫转型，结果变好了还是变差了？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1126,6 +1148,7 @@
     <div class="divider"></div>
     <div class="extension">跨界知识最大的价值不是知识本身，而是它让你看到别人看不到的连接？你最近一次用主业之外的知识解决了一个主业里的问题，用的是什么知识？如果让你再挑一门和主业完全无关的学科深耕，你会挑什么？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1138,6 +1161,7 @@
     <div class="divider"></div>
     <div class="extension">边际成本趋近于零的业务才能规模化吗？你的生意的天花板在哪里——是你能工作的时间，还是你能复制的产品的次数？如果你现在开始只做后者、不做前者，需要经历多长时间的阵痛？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1150,6 +1174,7 @@
     <div class="divider"></div>
     <div class="extension">没有大厂光环、没有名人站台加持，你靠什么让陌生人安心付费、托付合作？是扎实作品实力、长期口碑沉淀，还是敢于实名兜底、承诺结果？你上一次凭个人人品和靠谱行事拿下合作，做对了哪些让人安心的细节？在信任稀缺、乱象丛生的当下，你打算如何一点一滴搭建属于自己的个人信用资产？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1162,6 +1187,7 @@
     <div class="divider"></div>
     <div class="extension">抱怨不改变任何规则吗？你上次在一个规则不公的地方不仅活下来而且活得很好——做了什么不一样的事？那个经验能提炼成一条可以复用的原则吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1174,6 +1200,7 @@
     <div class="divider"></div>
     <div class="extension">你的收入模式是旱涝保收的稳定工资，还是波动巨大但上限更高？没有优劣之分——只看性格和处境适合哪种。现在的收入模型让你睡觉安稳吗？如果这个模式明天突然失效，你有备用方案吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1186,6 +1213,7 @@
     <div class="divider"></div>
     <div class="extension">孤独的问题是否就是最好的创业方向——没人争，是因为没人在乎？？没人在乎，是不是因为太难或太小？你深耕的这个问题，是被忽视的金矿还是真正的荒漠？你怎么区分两者？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1198,6 +1226,7 @@
     <div class="divider"></div>
     <div class="extension">第一桶金的去向暴露你最在意的底层需求吗？你当时的选择——买资产还是买面子、投学习还是投享受——如果回头看，你会改变吗？如果下一笔大钱明天到账，你已经想好怎么安排了吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1210,6 +1239,7 @@
     <div class="divider"></div>
     <div class="extension">若把自己当作一件产品对外售卖，你凭什么让他人心甘情愿买单？这个核心卖点你每天都在打磨和强化吗？用户为什么选你而不选替代品——是因为你更便宜、更专业，还是因为跟你合作更舒服？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1222,6 +1252,7 @@
     <div class="divider"></div>
     <div class="extension">强行扭转人性的产品历史上全部失败过一万次了吗？你产品里有没有一个用户很抗拒的功能——你一直在想怎么让他们喜欢、但从来没想过也许这个功能根本就不该有？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1234,6 +1265,7 @@
     <div class="divider"></div>
     <div class="extension">买单决定的深层原因往往不是你说的那个理由？你最好的一位客户对你说过的最真实的一句为什么要选你——那句话和你平时在宣传的卖点一样吗？如果不一样，你一直在卖的东西是不是你自己猜的？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1246,6 +1278,7 @@
     <div class="divider"></div>
     <div class="extension">预判能力不是预测是对底层不变需求的洞察？你最近看到的一个「现在看起来像玩具」的技术趋势是什么？它能不能套到你在五年前看错或看对的另一个技术上——从那次经验里你能总结出你的预判框架吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1258,6 +1291,7 @@
     <div class="divider"></div>
     <div class="extension">自学是不是成本最低的、也是最浪费时间的？你上次学一个完全不懂的东西，是怎么学的——看书、报课、还是找一个做过的人全程跟着？结果学了多少时间、花了多少钱、值吗？如果下次换个新领域，你会换方法吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1270,6 +1304,7 @@
     <div class="divider"></div>
     <div class="extension">免费工具靠增值服务、免费内容靠社群付费、免费流量靠后端变现——你有没有提前设计好前端免费、后端变现的路径？如果明天全部免费开放，你的后端变现链条哪一环最薄弱？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1282,6 +1317,7 @@
     <div class="divider"></div>
     <div class="extension">让用户学习新行为是不是产品设计里最贵的成本？你产品里有没有一个功能需要用户理解很久、看说明书才能用？如果删掉它换成用户已经会做的行为来达到同样的效果，能不能？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1294,6 +1330,7 @@
     <div class="divider"></div>
     <div class="extension">提前想好退路不是悲观，是对自己负责？你的备用计划够不够让你体面转身？如果从现在开始布局三年后优雅退场，你需要先解决的核心问题是什么？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1306,6 +1343,7 @@
     <div class="divider"></div>
     <div class="extension">面子消费和投资自己的界限就是不是你五年后回头看会不会后悔？你上一次买了一个东西或做了一个决定是为了给别人看的——如果今天这件事世界上没任何人知道，你还做吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1318,6 +1356,7 @@
     <div class="divider"></div>
     <div class="extension">是不是该打造一套离开你也能自主运转的业务系统、一套被行业沿用的方法论，或是一件足以留名的标杆代表作？你上一次做不追求曝光流量、只看重长期深远影响的事，是笃定了长期价值终将兑现吗？最高级的人生存在方式，是不是世人看不见你的身影，却处处都在受用你的成果与思想？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1330,6 +1369,7 @@
     <div class="divider"></div>
     <div class="extension">是不是做到无需教学、不用看说明书，上手就懂、直觉就能操作？你上一次靠极致极简的产品体验收获好口碑，狠心砍掉了哪些冗余繁琐的步骤？顶级产品体验的最高境界，是不是让用户觉得本该如此、毫无违和门槛？你有没有魄力隐藏九成多余功能，只保留直击需求的核心一个动作？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1342,6 +1382,7 @@
     <div class="divider"></div>
     <div class="extension">是不是从现在就开始学习相关知识、上手实操试错、积累案例与人脉，哪怕当下无人关注？你上一次提前三年布局冷门赛道，如今坐享行业红利，是笃定了怎样的长期趋势逻辑？所有行业的突然爆火，背后都是长期默默蛰伏积累，你敢在无人问津的角落深耕坚持五年吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1354,6 +1395,7 @@
     <div class="divider"></div>
     <div class="extension">信息差和技术壁垒都会过期——信任差只会随着时间越长越深吗？你上一次不靠合同只靠一张脸就拿下了一笔生意——那是攒了多少年的信誉？如果明天所有合同都失效——你还能做多少生意？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1366,6 +1408,7 @@
     <div class="divider"></div>
     <div class="extension">看行为不看言论吗？你用今天的自由换了一份薪水还是用一份薪水换了一点自由？如果你把这周所有的时间分配按「为了自由」和「为了金钱」分开——哪一堆更大？这个比值你满意吗？</div>
     <div class="domain-tag"><span>事业与财富</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1378,6 +1421,7 @@
     <div class="divider"></div>
     <div class="extension">你回想一下今天，走神的次数比专注的次数多还是少？走神的时候你在想什么——是具体的工作难题、是没回的消息、还是在刷短视频带来的空洞刺激？如果明天你只能在「深度专注一小时」和「碎片浏览一整天」里二选一，你选哪个？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1390,6 +1434,7 @@
     <div class="divider"></div>
     <div class="extension">信息茧房是指你只看得到跟自己观点一致的信息，其他都被过滤掉了——你能否列出日常主要的三个信息渠道，并客观判断它们是固化偏见还是拓宽认知？若某个信息源总让你一味认同舒适，你是否会警惕陷入算法打造的信息茧房？你上一次主动浏览与自身立场相悖的优质内容是在什么时候？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1402,6 +1447,7 @@
     <div class="divider"></div>
     <div class="extension">失败最大的价值往往事后才浮现吗？那之后你的什么决定、什么习惯、什么判断标准被这件事彻底改变了？如果没有那次失败，你会错过现在的哪一样东西或哪一个能力？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1414,6 +1460,7 @@
     <div class="divider"></div>
     <div class="extension">你可以马上分辨出哪一篇、哪一个作品是你完全为自己写的吗？那个作品和其他的相比，有什么不一样的能量？如果从今天开始只创作发自本心的内容，你会失去什么，又得到什么？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1426,6 +1473,7 @@
     <div class="divider"></div>
     <div class="extension">那些跨越百年的经典工具，共通的底层特质是极致简约，还是深度延伸人类固有能力？它们从根本上重塑了人类工作模式的哪一底层环节？你当下正在使用的工具中，哪一款最有机会留存到百年之后？判断依据是当下热度流量，还是它解决了恒久不变的人性刚需？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1438,6 +1486,7 @@
     <div class="divider"></div>
     <div class="extension">这个标题能否代表你近一年最深刻的认知觉醒？这份觉醒关乎勇敢行动的底气，还是看清事物本质的定义智慧？如果即刻动笔撰写前言，结尾段落你会怎样致谢一路坚持至今的自己？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1450,6 +1499,7 @@
     <div class="divider"></div>
     <div class="extension">你向往成名是渴求被关注的存在感，还是想用作品价值留下长久影响力？你追求的是经得起时间沉淀的认可，还是转瞬即逝的流量虚名？你选择的道路能否沉淀自我、造福他人，还是只会陷入浮躁跟风？你会坚守本心不被名利裹挟，还是借名气去创造更多正向价值？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1462,6 +1512,7 @@
     <div class="divider"></div>
     <div class="extension">你是否困在教科书标准答案里循规蹈矩，还是敢于突破固有知识框架做原创探索？你只会照搬现成知识，还是具备提炼规律、定义新知的底层认知？所在行业还有哪些认知空白，是只有你能填补并沉淀成体系内容的？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1474,6 +1525,7 @@
     <div class="divider"></div>
     <div class="extension">如果把所有可标准化的工作写成检查清单交给别人，剩下的那部分是否才是你真正的价值？清单写出来之后，你被替代的风险是降低了还是暴露了？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1486,6 +1538,7 @@
     <div class="divider"></div>
     <div class="extension">从起点到终点形成完整的自我循环，业界称为闭环——你的创作依赖飘忽不定的灵感驱动，还是依靠稳定的作息系统与固定节奏？你只把创作当作一时兴趣，还是搭建出可以自我循环、持续变现的完整闭环？创作的长久坚持，靠硬扛自律，还是靠设计机制让它自然运转？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1498,6 +1551,7 @@
     <div class="divider"></div>
     <div class="extension">护城河就是别人难以复制、学不走的核心优势——你筛选信息的标准是追逐热点、盲从权威，还是深耕垂直领域打造不可替代性？你只是简单搬运整合信息，还是二次提炼、验证重构创造全新价值？若停止对外发布内容，受众还会主动向你请教哪些核心问题？这些问题的答案，是否就是你安身立命的信息护城河？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1510,6 +1564,7 @@
     <div class="divider"></div>
     <div class="extension">你向往结识伟人，是贪恋圈层光环，还是渴望被其思想格局重塑自我？你当下的价值与认知储备，是否足以让优秀的人愿意为你停留交流？无法亲身接触时，能否深耕其作品、践行其理念，达成精神层面同频同行？真正有意义的人生，是否始于不依赖他人认可的独立成长与创造？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1522,6 +1577,7 @@
     <div class="divider"></div>
     <div class="extension">你追求的有趣，只是表面堆砌谈资段子，还是源于内在好奇心与通透洞察力？真正的有趣，源于独特阅历沉淀、深度独立思考，还是坦然接纳不完美的真实自我？你是刻意模仿别人的有趣人设，还是忠于本心持续探索新鲜事物？若戒掉无意义刷短视频，省下的时间能否沉淀出属于自己的人生故事与独特气质？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1534,6 +1590,7 @@
     <div class="divider"></div>
     <div class="extension">剥离平台光环、行业标签和现有职位，你不依附任何领域的独有底层能力是什么？是快速学习、独立判断、高效沟通，还是拆解难题解决问题的核心逻辑？这种能力能否跨行业复用，成为你终身安身立命的底气？你是否一直沉迷行业专属技能，却忽略打磨任何行业都不会失效的通用硬实力？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1546,6 +1603,7 @@
     <div class="divider"></div>
     <div class="extension">为何唯独这个项目在你心中无可替代、分量最重？既然它意义非凡，为何当下不肯倾尽时间全心投入？你拖延观望的借口是资源不足、时机未到还是能力欠缺，这些是真实阻碍，还是害怕全力以赴仍会失败的内心逃避？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1558,6 +1616,7 @@
     <div class="divider"></div>
     <div class="extension">体力和精力终会逐年衰退，单纯靠身体硬扛的产出终究无法长久？你是否提前搭建运转系统、组建协作团队，把耗费体力的琐事逐步外包分流？你是否深耕认知沉淀方法论，用思维深度弥补精力与反应速度的下降，还是一味透支身心，从不为日后精力衰退提前布局？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1570,6 +1629,7 @@
     <div class="divider"></div>
     <div class="extension">是来自你深耕的领域里？还是来自某个毫不相干的行业？或者来自你洗澡的时候？你上一次灵光一闪是在什么场景下——你是在主动输入、在发呆、还是在做一件和创作完全无关的事？如果把那个场景刻意复现一次，你能吗？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1582,6 +1642,7 @@
     <div class="divider"></div>
     <div class="extension">心流是指完全沉浸、忘记时间流逝的投入状态——专业创作者从不坐等灵感降临吗？你专属的创作启动仪式是什么？如何依靠固定动作与专属场景锚定状态，强行带入创作心流？即便明日必须交付作品却毫无思绪，你会用烂初稿限时完成、切换创作形式等方式突破卡点吗？这套流程是否已经熟练到无需消耗意志力就能自动执行？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1594,6 +1655,7 @@
     <div class="divider"></div>
     <div class="extension">越是不是扎根本土的，越具备走向大众的生命力？你如何把地域隐秘人文记忆，转化为当代年轻人能共情共鸣的通用表达？你只是简单复刻传统符号表象，还是解构精神内核后重新编排适配现代审美？剥离怀旧情怀滤镜后，你的作品是否依旧拥有独立的当代价值与长久生命力？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1606,6 +1668,7 @@
     <div class="divider"></div>
     <div class="extension">你能否把模糊零散的创作经验，转化为普通人也能套用的标准化步骤？外行拿到这套简单公式，是否能立刻上手开启创作实践？总结不出固定公式，是否说明你的创作仍靠感觉天赋，无法稳定复制复用？你是否拥有一套可长期沿用、迭代升级的专属创作思维模型？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1618,6 +1681,7 @@
     <div class="divider"></div>
     <div class="extension">回消息、调排版、做预算，这些事情真的比沉下心完成核心作品更有价值吗？如果一周只做那些没有曝光、没有反馈、但决定成败的关键事，你的能力是在增长还是在暴露空白？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1630,6 +1694,7 @@
     <div class="divider"></div>
     <div class="extension">讨好大众的作品千篇一律，写给一个人的作品万里挑一吗？那个人是谁——一个真实的朋友、一个你尊重的同行、还是年轻时的自己？如果只为那个人创作一次，不管其他人的评价，出来的东西和现在的有什么不同？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1642,6 +1707,7 @@
     <div class="divider"></div>
     <div class="extension">大多数人成功的标准不是自己生成的，是被周围人的平均值悄悄植入的？如果明天搬到人均收入是你十倍的社区——你的「够了」的标准会变吗？如果搬到十分之一的地方呢？你的标准跟环境走——那它真的属于你吗？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1654,6 +1720,7 @@
     <div class="divider"></div>
     <div class="extension">你是否总纠结软件选型、排版样式、流程细节，却迟迟不敢启动核心创作？工具本是不是减少干扰的助力，不该变成反复把玩的消遣？你是否陷入文具越多越不敢动笔的陷阱，用优化工具逃避创作的艰难？若只剩纸笔最简条件，你还能稳定产出内容吗？还是早已依赖工具，丢掉了最朴素的创作本能？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1666,6 +1733,7 @@
     <div class="divider"></div>
     <div class="extension">黄金时间的致命敌人是不是「先回复几个消息」——然后一整天没了？你最清醒的两个小时是用来处理琐事维稳，还是用来做一件让你的长期曲线陡峭上升的事情？如果明天你用番茄钟严格保护那两个小时，你会攻击什么任务？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1678,6 +1746,7 @@
     <div class="divider"></div>
     <div class="extension">真正的创作者是不是内生价值源泉，而非单纯的信息搬运工？若关掉热搜、推荐、信息流所有被动输入，你还能持续输出有深度的思考与作品吗？你的阅历、认知与积累，是否足以支撑长期创作供给？还是早已依赖外界碎片喂养，失去独立思考与内生创作的能力？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1690,6 +1759,7 @@
     <div class="divider"></div>
     <div class="extension">世间从不缺灵感，真正稀缺的是什么？是稳定落地的执行力吗？你的想法是卡在素材储备、框架搭建，还是后期打磨缺乏耐心？总能萌生好创意，却始终变不成完整作品，本质是不是没打通从灵感、构思到成品的完整链路？你是否从未定位淤堵节点、专项优化，任由好想法搁置浪费、重复留下遗憾？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1702,6 +1772,7 @@
     <div class="divider"></div>
     <div class="extension">心流是指完全沉浸、忘记时间流逝的投入状态——花哨的数字化工具只会带来虚假掌控感，真正能稳住心态、守住节奏的，是否往往是手写记录、清单规划、卡片梳理这类朴素方式？迷茫时总想换新工具、换新流程，却忽略最笨也最稳妥的底层基本功吗？你敢卸下所有花哨工具包装，回归最简单的方式，重新找回专注与创作心流吗？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1714,6 +1785,7 @@
     <div class="divider"></div>
     <div class="extension">被算法推荐的内容看得越多，你的信息饮食就越像垃圾食品——高糖高热量低营养吗？你有没有一套自己的信息筛选机制——哪几个来源你一定看、哪类内容你主动避开？如果关掉所有算法推荐一星期，你输入的信息质量和原来比会有多少变化？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1726,6 +1798,7 @@
     <div class="divider"></div>
     <div class="extension">你能否把沉淀的隐性知识，高度浓缩成一枚极简视觉符号？如何用简约设计承载核心思维逻辑，规避文字传播的信息损耗？这个符号能否直击他人潜意识，一眼读懂你的价值内核？又该怎样赋予它强记忆点与传播属性，成为个人认知体系的专属精神图腾？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1738,6 +1811,7 @@
     <div class="divider"></div>
     <div class="extension">本土文化最深的基因不在古老的符号里，在当代人心里挥之不去的集体记忆里吗？你所在的地方有什么东西是外地人无法复制、本地人无法割舍的？你能把那个东西变成产品吗？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1750,6 +1824,7 @@
     <div class="divider"></div>
     <div class="extension">你的产品脱离讲解引导，能否三秒抓住路人目光？包装视觉与文案能否形成独特气场，自主传递核心价值？你是否过度依赖人工推销，忽视产品自带的视觉吸引力与自传播能力？该怎样优化设计，让产品在喧闹环境中独立完成引流与种草沟通？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1762,6 +1837,7 @@
     <div class="divider"></div>
     <div class="extension">宏大世界观是空的，一个人的真实困扰是否才是活的？你最了解的那个边缘人——可能是一个客户、一个朋友、甚至是你自己——他每天最困扰的那件小事是什么？从那里开始吗？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1774,6 +1850,7 @@
     <div class="divider"></div>
     <div class="extension">底层逻辑就是一个事情最根本的运转原理——你是否习惯随手丢弃失败方案，从未给这些未成型想法沉淀发酵的机会？被搁置的废料里，是否藏着未曾发掘的爆款雏形？能不能从废弃作品中总结出跳出常规认知的底层逻辑？你是否因为害怕直面失误，白白错失从失败经验里提炼价值的机会？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1786,6 +1863,7 @@
     <div class="divider"></div>
     <div class="extension">是靠看了足够多的好东西自然养成的审美直觉，还是靠记住别人总结的设计公式？上次被一件作品美到说不出话——你看得出它是怎么做到的吗？如果能还原它的创作过程，你能说出几个具体步骤？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1798,6 +1876,7 @@
     <div class="divider"></div>
     <div class="extension">你敢不敢用鲜明立场主动筛选受众，坦然舍弃不属于自己的人群？如果每一次创作都刻意讨好所有人，是否正在慢慢稀释自身独有的风格与特质？倘若必须用一句话劝退半数人、留住同频者，你有没有勇气直白说出？你的作品是否拥有清晰态度，让无缘者自动远离，让契合的人一眼心生认同？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1810,6 +1889,7 @@
     <div class="divider"></div>
     <div class="extension">心流是指完全沉浸、忘记时间流逝的投入状态——这套创作启动仪式，是否完全不依赖心情、状态和灵感，只是一套可机械执行的标准流程？若连续三天严格执行仍无法进入创作心流，是流程本身失效，还是潜意识在逃避高难度的核心任务？你如何真实验证这套启动开关的价值，而不是陷入自我安慰的形式主义？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1822,6 +1902,7 @@
     <div class="divider"></div>
     <div class="extension">如果过去整整一个月，你没有完整读完一本经时间沉淀的经典著作，自身认知框架是否正被算法碎片化内容带得漂浮无根？你是否划定了专属不可打扰的深度阅读时段，用系统深耕对抗碎片信息对专注力和思考深度的持续消耗？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1834,6 +1915,7 @@
     <div class="divider"></div>
     <div class="extension">你是否把冗长任务拆成带即时反馈的小关卡，搭配可视化进度条和阶段性小奖励？这套方法短期有效，能否支撑你熬过数周甚至数月没有正向反馈的低谷期？当外部奖励失效，你靠什么内在初心继续坚持前行？你有没有定期复盘，避免这套自我激励机制，反而变成拖延高价值任务的精致借口？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1846,6 +1928,7 @@
     <div class="divider"></div>
     <div class="extension">炫耀成功吸引的是不是观众，分享失败吸引的是同伴？你更愿意在朋友圈展示完美的自己还是真实的自己？这两种形象下，哪种更有长期的吸引力？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1858,6 +1941,7 @@
     <div class="divider"></div>
     <div class="extension">当视觉完全被剥夺，你会依靠听觉节奏、触觉质感、逻辑框架还是空间记忆去洞察事物本质？这种极端约束，会不会倒逼你剥离外在表象干扰，进入更抽象、更结构化的深度思考？反观当下，你的创作是否过度依赖视觉表面形式，缺少不靠颜值也能打动人心的深层骨架与情感内核？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1870,6 +1954,7 @@
     <div class="divider"></div>
     <div class="extension">仓库只会堆砌从不迭代，花园需要新旧交替、交叉授粉吗？上次因为别人的一句话改变了自己一个根深蒂固的认知——是什么时候？如果三年里没有一条核心认知被推翻过——你的体系是健康的还是僵硬的？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1882,6 +1967,7 @@
     <div class="divider"></div>
     <div class="extension">极强个人风格的东西，看一眼就知道出自谁手吗？你身上有没有那种一看就是你的表达方式、选材偏好或视觉语言？如果还差一点，差在哪里？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1894,6 +1980,7 @@
     <div class="divider"></div>
     <div class="extension">你靠什么具体方法，对抗急于求点赞、求流量、求快速变现的本能冲动？是立下不可动摇的长期目标里程碑，还是建立不依赖外界评价的内在价值评评标准？延迟满足对你来说，只是自律技巧，还是源于对作品长远意义的坚定信仰？倘若三年默默无闻不被认可，你还能坚守初心踏实打磨下去吗？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1906,6 +1993,7 @@
     <div class="divider"></div>
     <div class="extension">回想你最近一次豁然开朗的灵感——它来自你深耕的领域内，还是来自某个毫不相干的行业？跨界不是分心，是在陌生土壤里找到熟悉的原型？你今天能从哪个陌生领域借一个思路来试试？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1918,6 +2006,7 @@
     <div class="divider"></div>
     <div class="extension">你是否只会罗列冰冷参数、生硬逻辑，无法触达人心柔软处？好故事能轻易击穿心理防线，你有没有打磨专属自己的价值叙事？理性事实只能说服大脑，你是否懂得情感故事的共情力量？是否太过执着理性专业表达，忽略了人性情感共鸣的重要性？你有没有一套百试百灵的叙事方式，快速拉近与他人的心理距离？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1930,6 +2019,7 @@
     <div class="divider"></div>
     <div class="extension">时代话语权随代际快速更迭，你是否还在固守老一套表达习惯？有没有持续更新潮流文化与年轻群体认知储备？能否精准捕捉新生代的审美、语境与情绪偏好？是否还在依赖过往经验吃老本？你有没有勇气彻底迭代话语体系，适配新一代受众？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1942,6 +2032,7 @@
     <div class="divider"></div>
     <div class="extension">被投喂的信息是不是饲料，主动筛选的信息是食材？你上一次主动去搜一个你真正关心的问题并深入了解，搜了什么？如果今天只能接收你主动搜索的内容，你的信息摄入量和质量会有什么变化？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1954,6 +2045,7 @@
     <div class="divider"></div>
     <div class="extension">从起点到终点形成完整的自我循环，业界称为闭环——你是否提前布局机制，懂得借力打力，让抄袭者为自己所用？能不能预埋隐秘价值诱饵，让跟风模仿者不自觉落入你的生态版图？柔道商业战略的核心是顺势借力，你是否已经用到自己的商业模式里？有没有设计好底层布局，让别人的抄袭，最终变成你的免费推广流量？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1966,6 +2058,7 @@
     <div class="divider"></div>
     <div class="extension">痛苦的坚持长久不了——需要设计正向反馈的闭环吗？那次充能的创作和平时有什么不同——是内容不同、节奏不同、心态不同，还是你在为自己创作而不是为流量创作？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1978,6 +2071,7 @@
     <div class="divider"></div>
     <div class="extension">你心底最牵挂、最想致歉或感恩的人究竟是谁？平日里你是否总忙于琐事，忽略了陪伴与珍惜对方？那些藏在心底的真心话、歉意与感恩，非要等到人生最后一刻才开口吗？你最想对对方倾诉、表达的核心内容是什么？现在坦诚诉说，和拖到最后一刻再说，心境与遗憾会有怎样的不同？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -1990,6 +2084,7 @@
     <div class="divider"></div>
     <div class="extension">你的阅读状态是否还能专注于深度文本，还是已被碎片化内容影响？那段触动你的文字，你如今是否还能清晰回忆？你认为文字为何能带来强烈的精神共鸣？若让你重读一本经典作品，你会选择哪一本，又最想翻开哪一段内容？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2002,6 +2097,7 @@
     <div class="divider"></div>
     <div class="extension">害怕被看作功利、不够体面，还是怕说出来之后自己做不到？你咽回去的那句话，如果大胆说出来，谁会因此更懂你、谁又会因此疏远你？这两种结果里，你更想要哪种？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2014,6 +2110,7 @@
     <div class="divider"></div>
     <div class="extension">这件作品可能不完美、不专业、不讨好，但你自己看着会笑吗？你上一次做这样的东西是什么时候？如果今天为自己做一件，不在乎效果、不在乎流量、不在乎任何人评价——你会做什么？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2026,6 +2123,7 @@
     <div class="divider"></div>
     <div class="extension">只沉溺于夸赞与认同，是否会慢慢困住创作认知、陷入自我局限？那些刺耳却真实的负面评价，背后藏着哪些你刻意回避的短板与问题？面对刺痛人心的建议，你能否放下抵触情绪理性接纳？你是否愿意主动寻找敢于直言的人，持续接收真实反馈来打磨作品？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2038,6 +2136,7 @@
     <div class="divider"></div>
     <div class="extension">账号、设备、资源全都没了之后剩下来的，是否才是真正属于你的能力？那项核心能力是什么——沟通、写作、销售、用人和识人？你上一次只靠着脑子和嘴就搞定了一件事，是什么？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2050,6 +2149,7 @@
     <div class="divider"></div>
     <div class="extension">真正长久的价值，是否能脱离个人持续独立运转？搭建标准化流程与成熟体系，能否让业务在无人主导时依旧稳定运行？沉淀可长期复用的作品、口碑与方法论，是否会形成长久的个人印记？有限的时间里，该如何布局，才能留下经得起时间考验、持续产生价值的长久沉淀？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2062,6 +2162,7 @@
     <div class="divider"></div>
     <div class="extension">独角戏的上限是不是个人精力，协作式创作的上限是网络效应？上次因为读者的一条反馈修改了你的创作方向——是什么时候？现在你的文章、视频或产品里——有没有给用户留一个可以贡献的地方？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2074,6 +2175,7 @@
     <div class="divider"></div>
     <div class="extension">你介绍自己时最常强调的是什么——你的能力有多强、还是你帮谁解决了什么问题？如果你下次介绍自己时，主句换成「我帮____解决了____」，你会怎么填空？这个答案让你感觉有力量吗？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2086,6 +2188,7 @@
     <div class="divider"></div>
     <div class="extension">光鲜的头衔只是平台赋予的外在光环，卸下身份标签后还剩下哪些硬核实力？是落地解决问题的硬本领、靠谱的言行口碑，还是独特的个人气场？抛开所有外在加持，你是否拥有能让陌生人主动信赖、愿意合作的核心底气？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2098,6 +2201,7 @@
     <div class="divider"></div>
     <div class="extension">深度思考和深度工作需要的不是碎片时间，是完整不受打扰的时间块？你每天有多少次被通知、消息、电话打断？如果明天你把手机开飞行模式四个小时，会有什么不可挽回的损失——真的会有吗？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2110,6 +2214,7 @@
     <div class="divider"></div>
     <div class="extension">环境对行为的影响超过多数人的意识吗？上次因为换个地方工作效率大增——是在什么地方？如果明天把工作环境里三个最大的干扰源拿掉——你第一个拿什么？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2122,6 +2227,7 @@
     <div class="divider"></div>
     <div class="extension">你如何衡量自己沉淀的知识、作品与方法论能否被反复复用？当下产出的内容、方案、思维模型——一年甚至多年后，还能不能继续为你创造价值？你是否有意识在积累这类可复用的资产？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2134,6 +2240,7 @@
     <div class="divider"></div>
     <div class="extension">用逻辑的说服让人理解，用故事的说服让人行动吗？你最好的那次让人听了就愿意跟你走的表达——是用了什么技巧？如果能总结出那次表达的框架——它由几步组成？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2146,6 +2253,7 @@
     <div class="divider"></div>
     <div class="extension">你有没有勇气主动屏蔽只提供即时快感的碎片信息流，为长期自我资产沉淀留出空间？愿不愿意用看似笨拙的坚持，深耕长内容、硬核思考，筛选同频同行者？当所有人都追逐快流量、短刺激时，你是否还能沉下心，守住独立深度思考的战略定力？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2158,6 +2266,7 @@
     <div class="divider"></div>
     <div class="extension">方向对努力加倍，方向错努力白费吗？你在做决策和做执行上的时间分配是怎样的？如果这个比例反过来——更多时间做判断、更少时间盲干——你的结果会有什么变化？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2170,6 +2279,7 @@
     <div class="divider"></div>
     <div class="extension">消费信息是不是最容易的上瘾，创造价值是最难的投入？如果把你每天的屏幕时间画一条线——线上是你在产出、线下是你在消费，上下的比例是多少？你满意吗？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2182,6 +2292,7 @@
     <div class="divider"></div>
     <div class="extension">算法在帮我们决定看什么、买什么、喜欢什么——甚至思考什么吗？你上一次完全凭好奇心走进一条算法没有推荐的领域，发现了什么？如果今天给你一小时完全不碰算法推荐的内容，你会去哪里？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2194,6 +2305,7 @@
     <div class="divider"></div>
     <div class="extension">古老哲学经典是不是深度内容的最佳对冲——因为它们是经过几百年淘汰留下的？你最近最受触动的一句来自古代的智慧是什么？如果把它应用到你今天最大的烦恼上，会有什么不同的解法？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2206,6 +2318,7 @@
     <div class="divider"></div>
     <div class="extension">总想构思惊艳大创意，却常常忽略发错信息、漏审合同、失信承诺这类低级失误吗？你有没有建立固定清单和流程，守住基础底线不出错？上一次靠严谨避险躲过重大损失，是做了哪件简单却关键的风控动作？长期能赢的人，往往不靠天赋高光，而是不是靠稳定少犯错、不犯蠢？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2218,6 +2331,7 @@
     <div class="divider"></div>
     <div class="extension">如果身边全是赞美之词、没人敢指出问题，是不是你刻意屏蔽了反对声音、活在舒适泡沫里？你上一次接纳刺耳真实反馈，做出关键优化迭代，整体实力提升了多少？那个敢说真话、不迎合你的人，你有没有发自内心珍惜和感谢？身边缺少敢于直言的批判者，是不是很容易陷入自我满足、停滞不前？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2230,6 +2344,7 @@
     <div class="divider"></div>
     <div class="extension">是文字创作、专业技能、销售谈判、授课输出，还是识人用人的底层直觉？你上一次不靠任何外在资源，只凭脑子和口才就敲定合作、做成事，靠的是哪项不可夺走的硬本领？成年人真正的底气安全感，是不是走到哪里都能从零重建事业的能力？这份任何人都拿不走的核心本事，你有一直在刻意打磨精进吗？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2242,6 +2357,7 @@
     <div class="divider"></div>
     <div class="extension">共创模式不是把活外包是设计激励机制让别人自愿参与？你上一次有一个用户或读者因为用了你的内容而主动回来给你反馈或贡献——是你设计了什么机制让他们愿意做这件事？你还能复制这份机制吗？</div>
     <div class="domain-tag"><span>创作与表达</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2254,6 +2370,7 @@
     <div class="divider"></div>
     <div class="extension">做这件事是不是有十年经验积累的人和不做这件事的人之间存在不可逾越的差距？你现在花的练习时间最多的一项技能，是夕阳赛道的熟练工，还是朝阳赛道的新手？如果换一个方向，你会亏什么？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2266,6 +2383,7 @@
     <div class="divider"></div>
     <div class="extension">面对眼下核心任务，你可以立刻落地的最小有效行动是什么？推进遇阻时该怎样调整方向，保证每一步都贴合最终目标？你要如何依靠持续的微小积累，稳步完成整件核心任务？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2278,6 +2396,7 @@
     <div class="divider"></div>
     <div class="extension">有哪些经历能让你沉浸成长、收获成果、被他人所需要？有哪些习惯会消耗自身精力、偏离人生目标、违背内心本心？人生智慧在于取舍，你是否有勇气坚持正确选择、果断舍弃无用消耗？你能否立刻梳理出一件值得坚持、一件从此不再触碰的事？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2290,6 +2409,7 @@
     <div class="divider"></div>
     <div class="extension">你能否敏锐察觉到交流里欲言又止的停顿和刻意回避的神态？内心沉默不敢表达，是源于缺少安全感，还是早已养成不愿倾诉的习惯？你上一次主动营造包容氛围、引导沉默的人敞开心扉是在什么时候？最终达成的沟通效果是否达到了预期？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2302,6 +2422,7 @@
     <div class="divider"></div>
     <div class="extension">职场初期最值得尽早深耕的三项核心能力，你会选什么？当下遇到的事业困境，有多少是早年认知不足或犹豫胆怯造成的？如果今天就要给三年前的自己写一封信，你会写哪一句话？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2314,6 +2435,7 @@
     <div class="divider"></div>
     <div class="extension">颁奖辞中最令你引以为傲的会是哪方面成就，是财富积累、领域突破还是人格成长？从当下到十年后，你需要坚持做好哪件小事、舍弃哪件内耗琐事？这份颁奖辞是迎合他人期待定义的成功，还是遵从本心向往的人生模样？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2326,6 +2448,7 @@
     <div class="divider"></div>
     <div class="extension">在哪些维度上，时间会成为天然助力，助力资产复利、技能沉淀与错误自然显露？口中说着暂且等待，是给事物留足成长空间，还是借拖延逃避当下抉择？等待本不该是原地静止，你能否做到持续观察蓄力，静待专属机遇信号降临？你能否清晰分辨哪些事值得耐心沉淀，哪些事稍有迟疑便会永久错失？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2338,6 +2461,7 @@
     <div class="divider"></div>
     <div class="extension">是什么瞬间让你下了这个决心——是心生厌倦、看透了不值得、还是持续内耗远大于快乐？擅而不做，是清醒的判断还是悲哀的放弃？如果给你一个机会重来一次，你还会学这件事吗？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2350,6 +2474,7 @@
     <div class="divider"></div>
     <div class="extension">底层逻辑就是一个事情最根本的运转原理——两者差距只在技能熟练程度，还是认知维度与事物理解深度不同？顶尖高手能看到哪些普通优秀者看不到的底层逻辑？顶尖人士愿意承担哪些常人不愿付出的代价与沉淀？现阶段的你，欠缺的是刻意练习，还是重新定义工作价值的勇气？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2362,6 +2487,7 @@
     <div class="divider"></div>
     <div class="extension">你此刻的付出是在铺垫一年后可见的成长复利，还是仅沉溺当下短暂舒适？哪些日常选择会悄然决定五年后你与家庭的生活层次？你是否在用虚假忙碌掩盖长期规划的缺位？又是否会时常审视当下行为的长远价值？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2374,6 +2500,7 @@
     <div class="divider"></div>
     <div class="extension">如果明天你不能亲自交付，你的技能还能以产品、教程、系统的方式为别人创造价值吗？你上一次把自己的一部分能力打包成可脱离你本人的形式，做到了什么程度？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2386,6 +2513,7 @@
     <div class="divider"></div>
     <div class="extension">你创造的价值稀缺性，源于做事的方式，还是源于独一无二的自身特质？哪些时刻你提供的价值旁人无法替代，那一刻你动用了怎样独特的阅历与视角？若有人一夜复刻你全部技能，你还能凭借什么立足？你当下深耕打磨的，是易被复制的普通技能，还是仅你能驾驭的专属解题体系？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2398,6 +2526,7 @@
     <div class="divider"></div>
     <div class="extension">这个主题是你一直好奇却无暇深入的领域，还是预判对未来至关重要却尚未验证的方向？你会用哪些方式系统研究，精读经典、访谈行家还是亲自落地做小型实践？半个月深耕后，你最想收获的成果是一份调研报告、一项实用技能，还是足以改变决策的全新认知？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2410,6 +2539,7 @@
     <div class="divider"></div>
     <div class="extension">十倍层级的提升，靠的是耗时耗力的线性叠加，还是换思路、换维度的跨越式突破？你能否找到关键杠杆点撬动十倍效果，还是只在原有基础上做微小无关痛痒的优化？想要达成十倍成长，你是否敢于舍弃旧有路径、大胆尝试全新方法？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2422,6 +2552,7 @@
     <div class="divider"></div>
     <div class="extension">你所说的自我颠覆，是跳出舒适区彻底重构思维与行为，还是小幅调整自我安慰式的改变？你是主动向内革新突破局限，还是只在外界倒逼下才勉强做出改变？你为重塑自我付出的是落地行动与长期坚持，还是仅仅停留在空想层面？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2434,6 +2565,7 @@
     <div class="divider"></div>
     <div class="extension">你是刻意回避核心难题、沉溺边角琐事，还是能力不足缺乏直面的勇气？当下所有努力，是在一步步靠近行业核心，还是始终在无关紧要的地方内耗徘徊？你究竟欠缺什么，才迟迟不敢触碰并解决领域最关键的命题？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2446,6 +2578,7 @@
     <div class="divider"></div>
     <div class="extension">你亲近聪明人只为索取现成答案，还是学习他们独特的提问逻辑与思考方式？你只是被动接收信息灌输，还是主动输出观点倒逼深度交流？难得的交流机会里，你的问题是彰显表面勤奋，还是坦诚暴露真实困惑？你能否修炼自身价值，成为聪明人也愿意主动深聊的对象？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2458,6 +2591,7 @@
     <div class="divider"></div>
     <div class="extension">你重点深耕的技能，是容易被AI替代的流程化重复工作，还是依赖人类判断、共情与整合的复合能力？除专业能力之外，你是否刻意修炼元学习、跨域迁移、价值构建这类通用底层技能？倘若未来行业变局重构，哪些技能依旧能让你快速跨行立足、从容转型？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2470,6 +2604,7 @@
     <div class="divider"></div>
     <div class="extension">像滚雪球一样越滚越大的积累效应，就是常说的复利——高回报对你而言，是财富收益、行业影响力、时间自由，还是内在认知成长？你是否混淆了无效忙碌和价值杠杆，把低价值重复当成高效产出？以时间复利来衡量，你大半精力是否都耗在了低价值事务上？明天你可以果断砍掉哪三件琐事，全心聚焦真正高回报的核心事？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2482,6 +2617,7 @@
     <div class="divider"></div>
     <div class="extension">像滚雪球一样越滚越大的积累效应，就是常说的复利——你判断高杠杆行动，是凭直觉经验、数据佐证，还是对系统规律的敏锐洞察？这件事是否具备复利属性，今日微小投入，日后能自动持续放大收益？每天只投入十五分钟，你会选择优化现有流程提效，还是启动一个能改写格局的微小实验？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2494,6 +2630,7 @@
     <div class="divider"></div>
     <div class="extension">你低估它的发展潜力，是市场尚未验证，还是内心不敢承接更大的成功？若真转型为主业，你回避的是能力短板，还是身份转变带来的责任与曝光压力？倘若即刻对外官宣这是新事业方向，你需要立刻停下什么琐事、启动哪些关键布局？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2506,6 +2643,7 @@
     <div class="divider"></div>
     <div class="extension">至今还在手动重复机械事务，是不愿学习新工具，还是贪恋忙碌带来的虚假充实感？被自动化节省出的时间，你会用来深耕核心价值，还是继续耗在低价值琐事上？如果实现自动化后反而心生焦虑，是否说明你从未清晰定义过自己真正的高价值工作？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2518,6 +2656,7 @@
     <div class="divider"></div>
     <div class="extension">物质财富终会消耗，优质思维却能受用一生吗？你最想传承的是直面逆境的勇气、长期主义的格局，还是独立思辨的能力？你今天的言行正在默默传承它吗？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2530,6 +2669,7 @@
     <div class="divider"></div>
     <div class="extension">这句话必须精炼凝练、具备跨时代普适性，能承载你职业生涯最痛彻的成长感悟？是慢即是快、少即是多的取舍智慧，还是看清情绪表象直击核心真问题的思维？倘若无法帮后人避开你曾踩过的最大弯路，这句话是否配得上跨越百年的传承意义？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2542,6 +2682,7 @@
     <div class="divider"></div>
     <div class="extension">健康、人脉、学识、能力的复利成长，是否都源于日常点滴坚持默默沉淀？你每天都在播种长期增值的成长习惯，还是只顾眼前即时满足消耗自己？复利成长贵在长期耐心，你能否在看不到回报的日子里持续深耕，还是稍有停滞便轻易放弃，不给自己生根发芽的机会？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2554,6 +2695,7 @@
     <div class="divider"></div>
     <div class="extension">所有系统崩塌的根源，往往在于单点短板带来的致命脆弱吗？你的生活和事业里，最薄弱致命的环节是什么？是单一收入来源、过度依赖他人扶持，还是毫无风险储备与兜底能力？你是否主动搭建冗余防护机制，让自身从脆弱变得反脆弱，还是心存侥幸不愿加固短板，静待危机来临时束手无策？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2566,6 +2708,7 @@
     <div class="divider"></div>
     <div class="extension">局部最优经常是不是全局的陷阱——优化一个环节可能让整个系统变差？你上一次为一个子目标拼尽全力、回过头发现对大局没什么帮助，是在什么情况下？如果今天换一个视角重新审视你的日程，全局最优的那个第一优先级应该是什么？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2578,6 +2721,7 @@
     <div class="divider"></div>
     <div class="extension">你的决策习惯里，是否藏着不愿公开的短板：被沉没成本束缚、只采信契合自己想法的信息、凭一时冲动草率判断？这些思维偏误长期拖累你的选择，你却始终不愿正视修正吗？若全程决策细节被曝光，你最想遮掩的逻辑缺陷，恰恰是不是当下最该刻意打磨补齐的软肋？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2590,6 +2734,7 @@
     <div class="divider"></div>
     <div class="extension">极简物质生活，往往能滋养丰盈精神世界吗？这场财务压力测试，能否帮你分清发自本心的真实欲望，和消费主义刻意制造的虚假需求？省下的开支若不能兑换成时间自由、学习成长资源，就只是不是单纯省钱，而非为人生长远价值投资？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2602,6 +2747,7 @@
     <div class="divider"></div>
     <div class="extension">注意力是不是人生唯一完全由自己掌控的核心资源？你每天在哪些劣质碎片化信息上白白消耗精力？该怎样建立注意力投入回报率的评判标准？把刷娱乐资讯的时间换成深度阅读沉淀，三个月后你的决策认知会提升多少？不愿改变习惯，是戒不掉即时多巴胺刺激，还是害怕独自深度思考的孤独？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2614,6 +2760,7 @@
     <div class="divider"></div>
     <div class="extension">适度约束反而倒逼流程精简优化，你工作流里近三成步骤，都只是不是营造安全感的无效冗余？那些反复核对、过度装饰、多余过渡的环节，看似必不可少，实则对最终产出毫无增益吗？做一次极端流程瘦身，你能否看清多数忙碌只是自我安慰，并非真正必要的付出？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2626,6 +2773,7 @@
     <div class="divider"></div>
     <div class="extension">思考性疲惫让你觉得在成长，机械性疲惫让你觉得在耗尽吗？昨晚的累是哪一种？，今天做的事里多少是不需要脑子的重复——把这些划掉，剩下的是否才是你今天的真正产出？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2638,6 +2786,7 @@
     <div class="divider"></div>
     <div class="extension">像滚雪球一样越滚越大的积累效应，就是常说的复利——当初那份不被看好的偏执，是你洞察到别人忽略的长期趋势，还是单纯巧合下的幸运？你最近一次不顾质疑咬牙坚持，是在什么时候？如今这份坚持仍处在不被理解的阶段，还是已经开始收获复利价值？如果重回当初无人看好的时刻，你是否还有孤注一掷坚守本心的勇气？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2650,6 +2799,7 @@
     <div class="divider"></div>
     <div class="extension">生态位、熵增这类跨界思维工具，是否帮你跳出行业固有惯性，发现别人看不到的价值杠杆与系统漏洞？你最近一次依靠跨学科认知，彻底重构商业策略是在何时？是否意识到曾经执着的难题只是表象，真正解法藏在其他学科基础原理里？你如何持续搭建跨领域连接能力，而非只靠偶尔灵光一闪？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2662,6 +2812,7 @@
     <div class="divider"></div>
     <div class="extension">失败不是教训——失败里提炼出可复用的规则才是？你上一次从失败中提取了一条你现在还在用的具体操作原则，是哪次失败、提取了什么？如果不经历那次失败，你永远不会发现的盲区是什么？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2674,6 +2825,7 @@
     <div class="divider"></div>
     <div class="extension">制度能管住身体，愿景才能点燃灵魂吗？队里最拼的那个人——做的动力是怕受罚、还是真心想做成这件事？如果明天给大家放一天假不给指令——有几个人会主动推进项目？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2686,6 +2838,7 @@
     <div class="divider"></div>
     <div class="extension">第一反应暴露思维习惯——本能逃避的人永远突破不了圈层吗？最近一次硬着头皮啃完一个原来完全不懂的领域——是找老师、看书、还是直接动手？结果怎么样？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2698,6 +2851,7 @@
     <div class="divider"></div>
     <div class="extension">不是因为能力——是因为你确信这个人不会辜负你？这个人身上有什么特质让你如此信任？你身上有没有同样的特质让别人愿意对你托付？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2710,6 +2864,7 @@
     <div class="divider"></div>
     <div class="extension">行业颠覆往往始于捅破心照不宣的窗户纸，你是否看清了那些习以为常却暗藏荒谬的潜规则？倘若今天当众点破这个行业痛点，你是否有勇气承受同行非议与孤立？众人刻意视而不见的盲区，恰恰是不是最容易突围、建立优势的突破口？你还在被动观望，等着别人先出手吗？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2722,6 +2877,7 @@
     <div class="divider"></div>
     <div class="extension">你是否早已习惯被信息填满，很难面对纯粹的空白与独处？当你被迫安静独处时，脑海中最先浮现的会是哪些念头与情绪？你是否愿意尝试每天留出十分钟，什么都不做、不刷不看，只是单纯和自己相处，你能坚持并适应这样的状态吗？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2734,6 +2890,7 @@
     <div class="divider"></div>
     <div class="extension">那个让你倍感煎熬的问题，究竟指向了你内心最不敢面对的哪部分真相？如果你必须直视这个问题，最先感受到的会是什么情绪？你一直刻意避开的方向，是否正是你成长必须经历的道路？此刻的你，是否已经拥有直面它的勇气？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2746,6 +2903,7 @@
     <div class="divider"></div>
     <div class="extension">从起点到终点形成完整的自我循环，业界称为闭环——流程的精简程度会影响整体的规模化发展能力吗？无法梳理出核心工作闭环，是否意味着工作过度依靠个人经验与临时补救？你近期是什么时候将复杂的操作整理为标准化流程与规范文档？搭建完善的工作体系，可以让零基础的人顺利运行整套工作模式吗？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2758,6 +2916,7 @@
     <div class="divider"></div>
     <div class="extension">日常经营中看似必不可少的各类环节，是否只是长期形成的固有习惯而非经营刚需？重新从零规划业务，你会留存哪些真正创造收益与价值的核心动作？你是否有魄力精简大部分冗余流程，只保留支撑运转的核心关键环节？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2770,6 +2929,7 @@
     <div class="divider"></div>
     <div class="extension">长期不变的底层规律比追逐热点更值得投入吗？大众对于信任、效率与美好体验的核心需求从未变过吗？你今天花时间最多的那件事，是在追逐变化还是在建构不变？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2782,6 +2942,7 @@
     <div class="divider"></div>
     <div class="extension">知道什么不该做比知道什么该做更难——旧习惯根深蒂固吗？最近主动割舍的一个旧观念或旧习惯——那次卸载之后腾出的空间用来填了什么新东西？那个新东西和旧东西是互补还是替代？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2794,6 +2955,7 @@
     <div class="divider"></div>
     <div class="extension">知识体系的危险在于它让我们太舒服——一切都有解释，一切都可预测吗？你上一次发现自己的认知框架解释不了现实，被迫推翻核心假设，是在什么时候？打碎之后，新的框架比旧的更好在哪里？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2806,6 +2968,7 @@
     <div class="divider"></div>
     <div class="extension">像滚雪球一样越滚越大的积累效应，就是常说的复利——追逐身份面子的博弈多是互相消耗，沉淀资产价值的选择才能持续增益吗？你的选择是迎合外界眼光追求表面光鲜，还是踏实积累可复利的核心价值？一时撑场面的决定，在长远时间里是否毫无意义？着眼资产沉淀的决策，未来会为自己带来哪些持续回报？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2818,6 +2981,7 @@
     <div class="divider"></div>
     <div class="extension">大多数人身边不缺赞美，缺的是不是敢于直言的人？你上一次因为别人说了一句不中听的实话而事后庆幸，是听了什么？如果你从来不主动邀请别人指出你的问题，你为什么会觉得有人敢？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2830,6 +2994,7 @@
     <div class="divider"></div>
     <div class="extension">宝贵的黄金时段，你会用来处理琐碎杂务，还是深耕高杠杆的关键事项？你最近一次刻意预留整块精力，投入长期增值要事而非临时琐事是何时？人的精力十分有限，刻意规避低价值消耗，是否才是提升长期结果的关键？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2842,6 +3007,7 @@
     <div class="divider"></div>
     <div class="extension">没有预设假设的人生往往只是不是随波逐流、被动度日？你是否敢给自己定下清晰周期，用数年时间专注深耕一件事去验证预期结果？如果实验最终没能达成预想，你能否坦然接受并及时调整方向？一旦验证成立拿到正向结果，你又会规划开启下一场怎样的人生实验？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2854,6 +3020,7 @@
     <div class="divider"></div>
     <div class="extension">是编程逻辑、深度心理学、实操技术还是专业艺术门类？你长期刻意回避的陌生领域，是否恰恰藏着打破现有认知、升级能力体系的关键钥匙？跨界学习最大价值不在于多一项技能，而是不是用全新视角击碎固有思维定式？你有没有勇气当下下定决心，从零起步直面这份畏难与挑战？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2866,6 +3033,7 @@
     <div class="divider"></div>
     <div class="extension">敢于说不知道需要比装作知道更大的自信吗？你上次因为不好意思说不知道而乱说了一通——后来穿帮了吗？如果那天你直说不知道，结果会不会更好？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2878,6 +3046,7 @@
     <div class="divider"></div>
     <div class="extension">去掉职位、收入、学历、作品——还愿意和你交往的人，为什么？他们喜欢你的哪一点——性格、幽默感、还是某个关键时刻你对他们做过的那件事？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2890,6 +3059,7 @@
     <div class="divider"></div>
     <div class="extension">时间极度压缩时，最先舍弃的一定是低价值重复琐事，这类事是不是你平日用来制造忙碌假象的来源？你是否习惯事事亲力亲为，沉迷琐碎杂事的虚假充实，不愿交给工具、流程或他人？明明可以外包解放精力做高杠杆大事，却一直被无意义琐事捆绑，白白浪费黄金时间吗？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2902,6 +3072,7 @@
     <div class="divider"></div>
     <div class="extension">学习是不是最体面的逃避——看起来在上进，其实在拖延？你书架上最后一本读过的书，你落地了其中的哪一条？如果学而不用等于没学，你过去三个月真正用了的知识占总学的多少？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2914,6 +3085,7 @@
     <div class="divider"></div>
     <div class="extension">你当初一路前行，是执着于登顶那个结果虚名，还是享受一路突破自我、沉淀成长的过程？如果眼里只盯着终点高度，是不是忽略了沿途本该珍惜的风景与收获？当人生走到尾声回望，究竟什么经历、什么陪伴，才算真正有价值、值得铭记？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2926,6 +3098,7 @@
     <div class="divider"></div>
     <div class="extension">囤积工具是不是最常见的伪装努力？你一直延迟练习的那个基本能力——写不够好、说不清楚、算不精准——是哪个？把现在所有工具去掉——你的最脆弱的核心能力是什么？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2938,6 +3111,7 @@
     <div class="divider"></div>
     <div class="extension">可标准化教学的能力就可被批量复制淘汰吗？那项你比别人做得轻松、别人学不来的能力——是靠天赋、是靠长期刻意练习、还是因为你踩了别人没踩过的坑？你上一次刻意打磨它是多久前？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2950,6 +3124,7 @@
     <div class="divider"></div>
     <div class="extension">遇见强者时你的第一反应暴露了你的成长模式——是嫉妒消耗还是拆解学习？他身上最让你眼红的那个能力，其实是不是你潜意识里知道自己缺乏的？你今天能把他做的最好的那件事拆成三个步骤吗？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2962,6 +3137,7 @@
     <div class="divider"></div>
     <div class="extension">各类合作邀约、讲座站台、兼职副业，听起来都不错，却和你的主线目标毫无关联，你能清醒甄别吗？你有没有给自己设定清晰时薪底线，低于价值标准的事再体面也果断婉拒？你上一次勇敢说不之后，是不是反而更聚焦主业、整体产出和效率更高了？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2974,6 +3150,7 @@
     <div class="divider"></div>
     <div class="extension">教育投入的衡量标准不是知识增量是决策质量的提升？你最近学的一样东西——让你做了哪个和之前不同的决定？如果这个决定没有带来结果上可感知的变化，你学到的是不是知道还是能做到——这两者之间的差距是你的学费在交的？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2986,6 +3163,7 @@
     <div class="divider"></div>
     <div class="extension">时间被极度压缩时，所有无关紧要的冗余动作都会被果断舍弃吗？你上一次临近截止日期爆发出超高效率，是聚焦了哪一件唯一核心大事？如果必须在六个月内拿到结果，你会放弃哪些看似重要实则可有可无的冗余环节？人生真正的层级突破，往往都来自极致压力下的孤注一掷与全力聚焦，你认同吗？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -2998,6 +3176,7 @@
     <div class="divider"></div>
     <div class="extension">世界观的底色由你接收信息的渠道和频度决定吗？你最近一次因为一条信息而改变了你对世界未来走向的判断——是什么信息？如果那条信息是平台算法推给你而非你主动去找的——你的情绪是被精准操控的吗？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3010,6 +3189,7 @@
     <div class="divider"></div>
     <div class="extension">有些日常任务只是不是刻意制造忙碌假象，对真正目标毫无增益价值？你上一次大胆删掉一项习惯性无用工作，发现没人在意、整体进度也丝毫不受影响，是这样吗？如果一件事搁置再久也毫无损失，凭什么还要占用你宝贵的时间精力？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3022,6 +3202,7 @@
     <div class="divider"></div>
     <div class="extension">假努力的特征是不是做完了但没有产出任何判断、没有关闭任何不确定性？你今天完成的所有事——如果让你回顾一遍，哪些是关闭了一个不确定性问题、哪些只是划掉一个机械动作？比例是多少？</div>
     <div class="domain-tag"><span>技能与成长</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3034,6 +3215,7 @@
     <div class="divider"></div>
     <div class="extension">你靠的是什么——是硬逼自己先做一件最小的、还是等外部压力逼到极限、还是主动找人求助？哪种方法对你最有效？如果下次再陷入瘫痪，你能提前设好一个三分钟的启动开关吗？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3046,6 +3228,7 @@
     <div class="divider"></div>
     <div class="extension">你引以为傲的成就，是遵从本心而为，还是为了向他人证明自己？奔赴目标的过程里，你付出的最大代价是时间、人际关系，还是原本的自我？倘若所有成就一夜归零，你是否还愿意重新再来一遍？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3058,6 +3241,7 @@
     <div class="divider"></div>
     <div class="extension">支撑你前行的是内心热爱与长期价值追求，还是外界攀比压力与短期利益诱惑？你是享受做事本身，还是靠自我打气勉强坚持？这份动力能否经受挫折长期稳定，还是只在顺境时短暂起效？你找到的是深层内核驱动力，还是转瞬即逝的情绪刺激？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3070,6 +3254,7 @@
     <div class="divider"></div>
     <div class="extension">未来的你会惋惜当下的虚度妥协，还是认可此刻的坚守与踏实行动？你当下每一次关键选择，是在一步步靠近理想未来，还是在辜负往后的自己？未来的你最想提醒现在的你，立刻停下什么内耗、即刻着手去做什么重要的事？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3082,6 +3267,7 @@
     <div class="divider"></div>
     <div class="extension">你找到的同行者是能力互补、彼此赋能的长期盟友，还是只停留在表面人情的普通关系？彼此相处是双向价值互换共赢，还是单方面索取消耗他人？你是否懂得经营分寸，维系长久对等、互相成就的人脉关系？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3094,6 +3280,7 @@
     <div class="divider"></div>
     <div class="extension">你是否只用金钱收益单一评判项目价值？眼下哪个项目即便不赚钱，也能积累圈层人脉、行业口碑这类生态资产？它能否帮你打通稀缺渠道、扎根核心圈层，拉高长期不可替代性？你是否常常忽略非财务的长远价值，不去布局能稳固自身行业位置的事？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3106,6 +3293,7 @@
     <div class="divider"></div>
     <div class="extension">很多行业看着热闹但赚不到钱——钱在大多数人看不到的地方流动吗？你是一个看热闹的消费者，还是一个看懂利益分配链条的内部人？你是从什么时候开始看出这个行业真正的钱在哪里流动的？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3118,6 +3306,7 @@
     <div class="divider"></div>
     <div class="extension">光鲜履历在顺境时好看，底层韧性在逆境时保命吗？想想上次和一个共过难关的合作伙伴——是因为他的能力让你有安全感，还是信任他不会背叛？如果这人明天出差回来告诉你他亏了一大笔钱——你第一反应是生气还是担心？那个第一反应告诉了你什么吗？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3130,6 +3319,7 @@
     <div class="divider"></div>
     <div class="extension">推翻自己的方法论比推翻别人需要更大的勇气，因为那意味着承认过去的自己是不是错的？你上一次主动否定自己过往的方法论是什么时候？那份旧经验曾经给你带来过什么，让你一直舍不得放下？拆掉它之后，你有了什么新的、更好的东西？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3142,6 +3332,7 @@
     <div class="divider"></div>
     <div class="extension">情绪失控时你依靠什么方法快速平复、重建内心秩序？这个方法下次能用得更早一点吗？提前识别情绪触发信号，比事后补救更有效吗？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3154,6 +3345,7 @@
     <div class="divider"></div>
     <div class="extension">最强品牌不是「好用」，是「我是这种人」？你的用户有没有自发地在朋友圈晒你的产品、不是因为返利而是因为想让人知道「我是用这个的人」？如果没有，你的品牌还差一个什么标签？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3166,6 +3358,7 @@
     <div class="divider"></div>
     <div class="extension">讨好让你看起来很好相处，但每一次妥协都在离自己更远吗？那次咽回去的话，后来有没有通过别的方式说出来了？如果今天同样的事情再发生一次，你敢说真话吗？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3178,6 +3371,7 @@
     <div class="divider"></div>
     <div class="extension">当利益褪去、环境陷入低谷时，哪些人脉还会选择主动相伴扶持？建立在人品与信任之上的相处关系，能否抵御行业低谷与环境波动？在没有利益回报的前提下，你主动帮助他人的出发点是什么？长期沉淀的真诚人脉，能否成为跨越周期的优质隐形资产？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3190,6 +3384,7 @@
     <div class="divider"></div>
     <div class="extension">倘若你的经历注定成为他人避坑的反面案例，你愿不愿让这份教训足够深刻，给后来者长久警醒？极致自嘲能放下所有虚荣执念，既然已经身处低谷没什么可失去，为何不破局重构、走出一条反常识的新路？你是否一直被面子和虚荣束缚，连坦然面对失败、从头再来的勇气都没有？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3202,6 +3397,7 @@
     <div class="divider"></div>
     <div class="extension">身边最常说「这有什么难的」的人，是不是你在成长的信号？你上次因为一个身边的人而觉得自己原来什么都不是——是谁、在什么方面碾压了你？你后来有没有因为这种感觉而提升了什么？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3214,6 +3410,7 @@
     <div class="divider"></div>
     <div class="extension">孤独是不是创新者的共同体验？你那次完全靠自己摸索出一条没人走过的路——最后走通了吗？如果没走通，你从中学到的最大一条教训是什么？如果走通了，是靠在哪个关键节点上的一次判断？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3226,6 +3423,7 @@
     <div class="divider"></div>
     <div class="extension">每个人的深度开关不一样但第一步是不是都是隔绝外界噪音？上次真正沉浸到忘记时间——你在什么地方、什么样的环境里？坐下来到真正开始进状态的中间花了几分钟——能再缩短吗？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3238,6 +3436,7 @@
     <div class="divider"></div>
     <div class="extension">大多数人身边不缺赞美，缺的是不是敢于直言的人？你上一次因为别人说了一句不中听的实话而事后庆幸，是哪个人说了什么？如果你从来不主动邀请别人指出你的问题，你为什么会觉得有人敢？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3250,6 +3449,7 @@
     <div class="divider"></div>
     <div class="extension">你的水平是不是你周围最靠近你的五个人平均值？你不必回答提升还是不是下降——你只要把这五个人的ID名字写下来，然后问自己——他们最近的状况和一年前相比有没有肉眼可见的提升？如果没有——你有没有被平均拉低的风险？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3262,6 +3462,7 @@
     <div class="divider"></div>
     <div class="extension">大多数人身边不缺赞美，缺的是不是敢当面戳破你的人？你是在主动寻找这种关系，还是在舒适区里接受附和？那个敢对你直言的人，你最近一次认真听进去他说的话是什么？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3274,6 +3475,7 @@
     <div class="divider"></div>
     <div class="extension">家人是否往往是你最不在意沟通质量的对象，因为关系太稳定、对方太安全？你上一次放下手机、不打断、不评判、只安静听完对方说完，是什么时候？如果今天是你们最后一次对话，你说的话会有哪些不同？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3286,6 +3488,7 @@
     <div class="divider"></div>
     <div class="extension">功利性关系换得快，价值认同性关系留得久吗？你上次不带着任何目的去见一个朋友、纯粹因为想见——是什么时候？你现在最不需要理由就能打个电话过去的人，是谁？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3298,6 +3501,7 @@
     <div class="divider"></div>
     <div class="extension">沉没成本不是成本——但习惯和孤独是最难割舍的代价？如果明天这段关系自然消失——你的第一个感受是什么、不会是轻松吧？如果是轻松——那你为什么是自己先放手的那个人？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3310,6 +3514,7 @@
     <div class="divider"></div>
     <div class="extension">心理学的投影效应：你讨厌别人的地方是否往往是你压抑自己的地方？那次让你爆发的那个人——他身上你最不能接受的那个特质，你能在自己身上找到类似的影子吗？如果你接受了自己那个部分——你对他的情绪会变吗？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3322,6 +3527,7 @@
     <div class="divider"></div>
     <div class="extension">法律条只能约束行为却约束不了全力以赴吗？你上次和一个合作方做了超过合同范围的事——是你主动的还是对方向你要求的？这些超额付出最终有没有以某种形式回到你身上？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3334,6 +3540,7 @@
     <div class="divider"></div>
     <div class="extension">我们对自己的认知和他人对你的感受，往往存在巨大偏差吗？你私下说过多少敷衍、不耐烦、尖酸的话，又说过多少真诚的感谢和鼓励？如果明天这个录音被公开，你最想删掉哪一段？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3346,6 +3553,7 @@
     <div class="divider"></div>
     <div class="extension">讨好型人格让你看起来和所有人处得好——但你最里面的那个自己快窒息了吗？你上次明确地说了不——不是犹豫的否定，是清晰的拒绝——对方的反应是什么？真的失去关系了吗，还是对方反而更尊重你了？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3358,6 +3566,7 @@
     <div class="divider"></div>
     <div class="extension">这不是一个人脉的问题，而是一个「你曾经不计代价帮过谁」的问题？深厚的关系是不是长期双向投入的结果，不是微信好友列表的数字？你上一次为一个朋友放下自己的事去帮忙，是帮了谁？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3370,6 +3579,7 @@
     <div class="divider"></div>
     <div class="extension">竞争对手是不是最好的老师——他们免费帮你验证了哪些路径有效、哪些无效？你从竞争对手身上学到的、然后落地在自己产品里的最有效的一招——是什么？如果你们不是对手而是伙伴——你们联手能创造什么？</div>
     <div class="domain-tag"><span>关系与连接</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3382,6 +3592,7 @@
     <div class="divider"></div>
     <div class="extension">为何精准定义问题往往比搜寻现成答案更有难度？深挖问题的根本成因，难道不比拼凑新解法更具挑战？你是否曾因急于找答案，跳过定义问题与溯源环节而治标不治本？你当下处理难题的精力，是耗费在快速找解法上，还是放在定问题、挖根源、做验证这些关键环节上？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3394,6 +3605,7 @@
     <div class="divider"></div>
     <div class="extension">你的提问是否足够具体，能让人立刻回应，还是过于宽泛无从作答？你是否会先自主思考推演，还是直接把思考全部托付给他人？提出的问题是开拓新认知，还是只为印证自己固有的看法？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3406,6 +3618,7 @@
     <div class="divider"></div>
     <div class="extension">你该如何分清核心要事与无关琐事，把精力集中在这件关键事上？若一天只能完成一件事，哪件能让其余事务迎刃而解？你是不敢直面这件首要大事，还是用忙碌逃避它的难度？完成这件事需要的是勇气，还是放下自我欺骗的决断？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3418,6 +3631,7 @@
     <div class="divider"></div>
     <div class="extension">在利益冲突、无人监督之时，你内心坚守和抵触的底线是什么？你做哪些事轻松自如，却能远超旁人，这会是你的专属优势吗？你能否明确说出自己的价值观会对哪些选择坚决拒绝？你能否凭借自身优势，解决旁人难以攻克的特定问题吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3430,6 +3644,7 @@
     <div class="divider"></div>
     <div class="extension">你能否用一句话凝练概括自身工作不可替代的核心价值？示意图里有哪些关键环节是绝对不能删减的核心节点？面对完全外行的人，对方能否在三十秒内看懂你的核心贡献？这张图示能否暴露工作里模糊不清或多余冗余的环节？今天能否花十分钟亲手绘制并检验它的易懂程度？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3442,6 +3657,7 @@
     <div class="divider"></div>
     <div class="extension">剥离外界赞誉与物质回报后，这件事还值得你全力以赴吗？你该怎样分辨这是毕生本心追求，还是一时热度或是世俗期待的裹挟？若明天就是生命终点，你是否愿意从当下即刻着手去做？一件事不做便会心生虚度之感，这份执念源于内心本真，还是太过在意他人评价？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3454,6 +3670,7 @@
     <div class="divider"></div>
     <div class="extension">你的立身之道是执着预判未来走势，还是搭建抗风险的反脆弱体系？该怎样识别风险有限、收益无限的非对称机遇？你是否有过从突发意外中顺势获利的真实经历，而非只是平稳渡过？超额收益源自敢于承接旁人回避的风险，还是自身独有的信息与认知优势？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3466,6 +3683,7 @@
     <div class="divider"></div>
     <div class="extension">打破规则不是反抗，是看到了旧规则已经不适用于新环境？你是因为什么契机发现原来可以不这样做的？如果现在回头看，那条规则其实保护的是什么？你还愿意再打破吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3478,6 +3696,7 @@
     <div class="divider"></div>
     <div class="extension">那份旧认知曾经给你带来过什么好处，让你一直舍不得放下？推翻之后，你没有失去什么你原来以为会失去的东西？下次如果再有什么信念开始让你不舒服，你会更快地审视它吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3490,6 +3709,7 @@
     <div class="divider"></div>
     <div class="extension">这条标准是怎么形成的——是因为吃过亏、见过反面教材、还是从某个你敬佩的人那里学来的？你上一次因为这条标准拒绝了一次合作，事后证明你做得对吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3502,6 +3722,7 @@
     <div class="divider"></div>
     <div class="extension">偶像身上哪种特质最令你敬佩，是成就结果、行事过程还是关键抉择时的格局？看到这份特质时，你收获的是前行动力还是陷入自我否定？若偶像坐在你面前，会对当下的你说出怎样一句忠告？这句忠告里是否藏着你即刻就能着手践行的小事？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3514,6 +3735,7 @@
     <div class="divider"></div>
     <div class="extension">这套核心信仰的底层逻辑是什么，又能帮人化解哪些精神迷茫？它是否具备排他属性，又该如何理性看待质疑与反对声音？有哪些简单易践行的日常准则，而非流于形式的空洞仪式？这份信仰源于你怎样的人生顿悟，和现有主流信仰的核心区别又在哪里？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3526,6 +3748,7 @@
     <div class="divider"></div>
     <div class="extension">很多时候我们解决不了当前的难题，是不是因为我们跳过了前面一个更基础的问题——就像一个学生直接做高考题却跳过了初高中课程？你卡住的问题上面，是不是还有一个你一直回避的更底层的问题？它是什么？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3538,6 +3761,7 @@
     <div class="divider"></div>
     <div class="extension">有时候最有效的东西往往最简单，简单到我们不屑于尝试吗？你上一次因为「这也太简单了吧」而忽视了一个后来被证明非常有效的方法，错过了什么？如果现在有一件你觉得「太简单没意义」的事，你敢试一下吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3550,6 +3774,7 @@
     <div class="divider"></div>
     <div class="extension">你学到的是可以内化复用的底层思维认知，还是只流于表面的行为模仿？这些经验能帮你打破固有认知局限拓宽格局，还是反而卷入同龄人内卷的困局？你能否把他人的成长经历转化为自身进阶杠杆，还是只会生硬照搬无法真正消化落地？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3562,6 +3787,7 @@
     <div class="divider"></div>
     <div class="extension">外界诸多期待里，哪些和你的本心同频值得认真回应？哪些只是他人焦虑催生的噪音、不必盲从迎合？你是主动筛选取舍，还是被动消耗自己去迁就所有人？若必须拒绝一项外界期待守住内心节奏，你会优先舍弃哪一个？这个选择又暴露了你怎样的处事边界与优先级？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3574,6 +3800,7 @@
     <div class="divider"></div>
     <div class="extension">从起点到终点形成完整的自我循环，业界称为闭环——你选择的方式是从根源优化系统、减少无效忙碌，还是只顾眼前偷懒换取短暂安逸？今天有哪些繁琐事务可以提前收尾闭环，不必拖延到次日内耗？你是在搭建越往后越省力的长期节奏，还是只贪图当下一时的轻松省事？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3586,6 +3813,7 @@
     <div class="divider"></div>
     <div class="extension">你是否被过往经验和固有思维束缚，不敢彻底清空思路重新破局？从零出发时，你能否抛开所有外界干扰，直击问题最本源的核心症结？真正的最优解法，是复杂繁琐的技巧套路，还是回归常识、落地极简的关键动作？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3598,6 +3826,7 @@
     <div class="divider"></div>
     <div class="extension">你的善良是守住原则底线的包容，还是毫无边界一味迁就的软弱？自身锋芒是捍卫底线的坚定底气，还是肆意伤人的偏激戾气？面对冒犯与不公，能否做到心存善意却不委屈自己、果断表明立场？善良自带锋芒的底气，源自通透智慧，还是无底线的妥协退让？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3610,6 +3839,7 @@
     <div class="divider"></div>
     <div class="extension">回应浅显问题的方式暴露了你的思维层级——是被动作答，还是用更高维度的问题引导对方？你上一次给别人提了一个让对方沉默了很久的好问题，问了什么？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3622,6 +3852,7 @@
     <div class="divider"></div>
     <div class="extension">底层逻辑就是一个事情最根本的运转原理——这些少数派理念，是你亲身验证过的真知灼见，还是只为彰显个性的空洞论调？它们是否已经成为你做事决策的底层逻辑，还是只是挂在嘴边的人设标签？面对主流观念的质疑，你能否坚守本心不动摇，还是容易随波逐流？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3634,6 +3865,7 @@
     <div class="divider"></div>
     <div class="extension">你感受到的繁琐困扰，只是个人习惯问题，还是大众普遍共有的隐形负担？你的产品解法是盲目叠加多余功能，还是做减法直击真实痛点？产品无人问津，是需求本身虚假，还是只解决了自己想象中的问题？你能否立刻找到三位陌生人，真实验证这个痛点是否普遍存在？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3646,6 +3878,7 @@
     <div class="divider"></div>
     <div class="extension">你能否抛开所有伪重要琐事，只锁定高杠杆、高价值的核心动作？你是否早已跳出忙碌假象，真正懂得时间优先级与价值取舍？在极致精简的限制下，哪些事必须亲自上手，其余又该如何外包或自动化运转？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3658,6 +3891,7 @@
     <div class="divider"></div>
     <div class="extension">你想要解决的，是真实广泛存在且常被忽视的社会难题，还是自我主观设想的需求？你的能力长板，是否刚好匹配这类问题的核心瓶颈环节？若拥有充足资源支持，你能否在三十天内拿出可落地验证的最简方案，而非只停留在空想愿景？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3670,6 +3904,7 @@
     <div class="divider"></div>
     <div class="extension">你曾经深信不疑的行业经验，是否早已固化为思维枷锁？过去一年你主动推翻过自己的成功方法论吗？彻底否定旧认知之后，你敢尝试哪种相反的新策略？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3682,6 +3917,7 @@
     <div class="divider"></div>
     <div class="extension">你对这套系统的坚定信念，源自对底层规律的通透洞察，还是内心对长远意义的执着追求？当同行靠短期套利快速获利，而你长久没有回报，靠什么稳住内心节奏不盲从？连自己都开始怀疑价值时，支撑你继续走下去的那份深层信念究竟是什么？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3694,6 +3930,7 @@
     <div class="divider"></div>
     <div class="extension">你平时的信息摄入结构是否健康均衡？该怎样建立严格筛选机制，屏蔽只会制造焦虑的碎片化快餐内容？若从此只读经典、深耕深度交流、追踪一手权威信源，三个月后你的认知层次会迎来怎样质变？不愿精简信息源头，是害怕错过热点，还是已经沉迷浅层感官刺激难以自控？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3706,6 +3943,7 @@
     <div class="divider"></div>
     <div class="extension">失败最大的价值，是不是沉淀出可复用的行动逻辑，而非沉溺负面情绪内耗？你从过往失利中收获了哪些通透认知、落地可行的做事方法？这次成长代价，是否帮你总结出避坑准则，直接复用在下一次尝试中，还是只记住挫败感受，白白浪费宝贵的成长契机？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3718,6 +3956,7 @@
     <div class="divider"></div>
     <div class="extension">底层逻辑就是一个事情最根本的运转原理——面对不同意见，你是本能抵触急于反驳，还是放下情绪认真吃透对方底层逻辑？你能否条理清晰复述反对者的完整观点，再理性审视自身立场是否稳固？多数人只会陷入情绪对立，却白白错失从不同声音里完善认知、补齐短板的成长机会吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3730,6 +3969,7 @@
     <div class="divider"></div>
     <div class="extension">当数据、经验、参考案例全部失效，信息少到无法理性推演时，你依靠什么做关键决策？是盲目跟风随波逐流，还是有笃定的价值观与底层准则作为指引？真正让人无悔的选择，从不依赖完备信息，而是不是根植内心的行事底线，这也是你身处迷茫黑暗中唯一的前行导航？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3742,6 +3982,7 @@
     <div class="divider"></div>
     <div class="extension">坦然认错、果断止损，是不是成熟做事思维的核心标志？狠心斩断这份执念，你会失去哪些既有投入？若继续硬撑不放手，又会错失多少新机遇？即便再坚持一年仍毫无转机，你会归咎于外部环境，还是终于认清：你执着的不是目标本身，而是不愿承认决策失误、放不下自我颜面？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3754,6 +3995,7 @@
     <div class="divider"></div>
     <div class="extension">你是否有专属灵感收纳载体，随时记录奇思妙想并定期梳理碰撞出新思路？零散碎片若不系统重组，终究只是不是无效信息噪音？你上一次串联两件无关日常观察、催生出全新解决方案是什么时候？没有新灵感迸发，是疏于记录积累，还是没给自己留出联想思考的留白时间？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3766,6 +4008,7 @@
     <div class="divider"></div>
     <div class="extension">人永远是不是环境的产物？你该怎样温和远离消耗自己的负能量人脉，主动结识能带来认知碾压的优秀前辈？若身边始终没人让你感到思维跟不上、认知被超越，是自己太过优秀，还是被困在舒适圈层的信息回音壁里固步自封？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3778,6 +4021,7 @@
     <div class="divider"></div>
     <div class="extension">你的时间与精力无比珍贵吗？每一次无底线妥协答应琐事，是不是都是在挤占核心要事的成长空间？今天你第一个果断拒绝的对象会是谁？若总口头承诺往后专注，却从不设立边界底线，不是真的忙碌，而是默许外界随意消耗自己？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3790,6 +4034,7 @@
     <div class="divider"></div>
     <div class="extension">成熟的做事系统，本该省去无谓消耗、自动运转吗？穿衣、饮食、排版、工作流程这类低价值选择，完全可以做成SOP不再纠结吗？你却每天在小事上反复内耗，耗光意志力，导致关键大事反而无力深思吗？你何时愿意搭建这套规则，把脑力留给真正重要的抉择？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3802,6 +4047,7 @@
     <div class="divider"></div>
     <div class="extension">真正严苛的系统不会让你舒服——它会用客观数据告诉你偏离了目标吗？你上一次因为数据打脸而被迫调整方向，是在什么时候？如果你现在就设计一个每周自动提醒你偏离了的信号，它会盯着哪个指标？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3814,6 +4060,7 @@
     <div class="divider"></div>
     <div class="extension">你会留下怎样的底层处世智慧，帮孩子从容应对未来未知变数？哪一句人生忠告，能成为他跨越困境的精神锚点？财富、技能终会迭代过时，何种思维格局能陪伴他安稳走完一生？你真正想根植在孩子骨子里，支撑他走过人生低谷的精神底气究竟是什么？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3826,6 +4073,7 @@
     <div class="divider"></div>
     <div class="extension">你会从整套流程里锁定哪三个不可替代的关键动作？它们是否是撬动生产力的核心支点，偏向洞察捕捉、逻辑架构还是视觉定调？其余标准化、机械化环节能否全部精简外包？你是否真正看清自己独一无二、旁人无法替代的核心价值所在？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3838,6 +4086,7 @@
     <div class="divider"></div>
     <div class="extension">你是否因为目标太过宏大遥远，心生畏惧而迟迟不敢迈出第一步？能不能把庞大构想，拆解成一天内就能落地完成的微小任务？总想一步做成大事业，却不屑于做好最简单的起步小事？这个极简入门动作，能否成为你撬动整个宏大计划的突破口？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3850,6 +4099,7 @@
     <div class="divider"></div>
     <div class="extension">如果所有的创新都依赖KPI考核，那真正的从零到一永远不会发生会怎样？你上一次允许自己做一个不为赚钱、不为增长、纯粹想试的东西，是什么？如果今天给你一周灰度时间，你会启动什么实验？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3862,6 +4112,7 @@
     <div class="divider"></div>
     <div class="extension">如果没法用大白话三秒抛开专业术语讲清核心价值，是否说明自身商业模式的内在逻辑本就不够稳固？这个生活化比喻，能否直指你所解决的人性底层需求，比如安全感、归属感与掌控感？简单的比喻背后，是否恰好道出了你事业最本质的核心逻辑？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3874,6 +4125,7 @@
     <div class="divider"></div>
     <div class="extension">面对复杂的利益博弈，绝对的逻辑推演往往在现实面前溃败吗？你最近一次在原则和现实之间做艰难平衡——最后的裁决标准是什么？如果重来，你会做同样的选择吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3886,6 +4138,7 @@
     <div class="divider"></div>
     <div class="extension">你的工作流程里有哪些环节纯粹是满足表面规整的强迫症？如果明天就砍掉它们，真的会出问题吗？你上一次区分高效与假忙碌是什么时候？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3898,6 +4151,7 @@
     <div class="divider"></div>
     <div class="extension">若用今天的能力重启曾经失败的项目，你有几分把握？当时缺少的那个关键条件现在补上了吗？如果再次失败，你能承受的代价上限是多少？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3910,6 +4164,7 @@
     <div class="divider"></div>
     <div class="extension">你是否常被过度自信、沉没成本这类思维偏误带偏？有没有建立刻意自我质疑的复盘机制？做重要决定前，会不会强迫自己站在对立角度推演？你能否及时察觉偏见正在蒙蔽判断？是否缺少主动反思环节，任由固有认知左右人生关键选择？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3922,6 +4177,7 @@
     <div class="divider"></div>
     <div class="extension">行业知识半衰期越来越短，你是否保持常态化输入学习？过去依赖的老经验，是不是正在快速失效过时？当下你主动补充的前沿知识是什么？是否早已停止精进，慢慢被行业发展甩在身后？有没有搭建可长期运转、自动更新的个人学习体系？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3934,6 +4190,7 @@
     <div class="divider"></div>
     <div class="extension">你的核心资产究竟是物理场地，还是信任你的私域用户群体？平日是否用心沉淀、维护高粘性私域流量？你和用户之间的情感与信任联结，是否足够牢固抗风险？事业布局是否过度依赖线下固定空间？能否彻底脱离实体场地，靠用户信任独立重启事业？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3946,6 +4203,7 @@
     <div class="divider"></div>
     <div class="extension">人设需要持续能量维护，真实不需要吗？你在线上展示的那个形象和你朋友面前的样子之间——有多大的缝隙？把最近三个月的发布给一个不认识你的人看——他们会怎么描述你？和真实的你差多远？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3958,6 +4216,7 @@
     <div class="divider"></div>
     <div class="extension">你的影响力究竟来自外在头衔平台，还是自身沉淀的硬实力？职位头衔只是外界赋予的虚幻加持，你是否早已看透这一点？到底是平台位置成就了你，还是你的能力撑起了位置？剥离所有身份标签后，你还能凭专业和口碑在行业立足吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3970,6 +4229,7 @@
     <div class="divider"></div>
     <div class="extension">偏见是不是人最贵的认知税，当年那些看似粗糙低端的生意模式，往往精准命中大众最底层、最庞大的刚需欲望？你当初心生鄙视，是审美优越感作祟，还是根本看不懂背后的盈利逻辑与人情门道？如果现在让你入局重做，你能否看透本质，做得比当年的从业者更专业、更长久？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3982,6 +4242,7 @@
     <div class="divider"></div>
     <div class="extension">真正的幸福往往藏在细碎的生活颗粒里，是清晨一缕清风、一杯热茶香气，还是路边光影错落的风景？你是否一路匆忙赶路，忽略了身边无数治愈人心的微小美好？倘若此刻强迫自己停下三分钟放空思绪，你能静下心感知到什么？这份简单真切的美好，是否远比刷短视频的短暂快感更值得珍惜？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -3994,6 +4255,7 @@
     <div class="divider"></div>
     <div class="extension">真正的倾听，是不是放下自我防御与固执偏见？你与人交流，是真心接纳不同意见，还是借对话只想证明自己永远正确？即便对方观点只有一丝道理，你能否坦然承认、虚心接纳？那个你一直抵触反对的人，会不会恰恰看到了你认知之外的盲区？今天你愿意放下成见，只静心倾听、不急着辩解吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4006,6 +4268,7 @@
     <div class="divider"></div>
     <div class="extension">你平时习惯用冷漠对待他人，还是愿意向世界释放微小的善意？你回忆一下，被你真诚赞美的陌生人，当时露出了怎样的神情？你是否愿意在今天主动向一位陌生人说一句真心的赞美，并且不求任何回报？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4018,6 +4281,7 @@
     <div class="divider"></div>
     <div class="extension">我们总是不是本能地以为别人的行为逻辑和自己一样——但这往往是最低效的沟通？你最近一次事后发现原来他想的和我以为的完全不同，是在和谁相处时？如果能重来一次，你会先问什么？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4030,6 +4294,7 @@
     <div class="divider"></div>
     <div class="extension">它可能代表你曾经想成为的样子、一次没穿成的场合、或者一个已经过去的身份吗？你保留的不是衣服，是那个未曾实现的自我？如果今天穿上它——哪怕只是在家里——你会感受到什么？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4042,6 +4307,7 @@
     <div class="divider"></div>
     <div class="extension">成长的本质很多时候不是加法而是减法——不是学了多少，而是放下了多少？今年主动放弃的一件事、一段关系、一个习惯、一个身份——是什么？放弃之后空间被什么填满了？那个新东西比旧的更让你满意吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4054,6 +4320,7 @@
     <div class="divider"></div>
     <div class="extension">若立刻站上讲台，你最想传递的核心内容是什么？这个内容你今天在为之积累吗？只能讲三分钟的话，你会删掉哪些废话？台下的人如果明天只记得你一句话，你希望那句话是什么？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4066,6 +4333,7 @@
     <div class="divider"></div>
     <div class="extension">所有人都在追求速度和效率的时候，慢本身变成了稀缺的竞争力吗？那个你沉下心打磨、不留捷径做的决定或作品，过程和结果跟平时有什么不同？如果有人让你加速，你敢拒绝吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4078,6 +4346,7 @@
     <div class="divider"></div>
     <div class="extension">用来警醒自己的这句话，能否足够简洁有力，瞬间唤醒内心的核心信念？你会以价值利他或是坚守底线这类理念，作为自己的人生准则吗？这句专属格言，可以成为日常所有选择与决策的根本依据吗？时刻牢记这句话，能够切实改变自身当下的行事方式与思考模式吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4090,6 +4359,7 @@
     <div class="divider"></div>
     <div class="extension">每一样东西都有维护成本——金钱、精力、自由吗？你上一次费尽全力得到了什么之后，发现维护它比得到它更累，是什么？如果重来一次，你还会想要吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4102,6 +4372,7 @@
     <div class="divider"></div>
     <div class="extension">面对新技术的第一反应暴露了你和未来的关系——兴奋代表你在找接口，恐惧代表你在找借口吗？上次出现这种场景——结果是你利用它跑在了前面，还是拒绝它后来被用了它的人甩开？如果再来一次——反应会有什么不同？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4114,6 +4385,7 @@
     <div class="divider"></div>
     <div class="extension">如果你正在做的事情在归零之后毫无意义，那这件事的意义到底是什么？，在清零之后你依然会做的那一部分，是否才是你真正该投入的方向？你今天的时间里，有多少是在做归零后仍然成立的事？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4126,6 +4398,7 @@
     <div class="divider"></div>
     <div class="extension">忙碌不产生产出吗？把昨天的日程翻出来——划掉所有对长期目标没有任何贡献的事情吗？，剩下的，是否才是你昨天的真正价值？比例是多少？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4138,6 +4411,7 @@
     <div class="divider"></div>
     <div class="extension">非黑即白的思维最省脑力但也最偏离真相吗？你上一次发现自己以为别人全错、后来发现他也有一部分道理，是什么场景？那次认知转变之后，你对这件事的看法有什么改变？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4150,6 +4424,7 @@
     <div class="divider"></div>
     <div class="extension">万一亏了怎么办 VS 万一成了怎么办——两种思维模式导向完全不同的人生决策质量吗？上次因为害怕亏损没投的一个机会——现在回头看，如果投了会怎样？那次放弃教会你的是什么？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4162,6 +4437,7 @@
     <div class="divider"></div>
     <div class="extension">护城河就是别人难以复制、学不走的核心优势——信息差、技术壁垒、资金优势都会被抹平——关系、信任、品牌认知越久越厚吗？你列出你用过的所有竞争优势——把会过期的划掉吗？，剩下的，是否才是你的真正的护城河？你每天都在加深它吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4174,6 +4450,7 @@
     <div class="divider"></div>
     <div class="extension">带着偏见看人，往往会白白给自己缴纳高昂的认知税吗？如果始终不愿承认对手的过人之处，是不是永远学不会别人安身立命的真本事？对方身上那些让你本能反感的行事特质，会不会恰好就是你自身最欠缺的短板？你能否放下成见，理性借鉴对方的生存与赚钱逻辑？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4186,6 +4463,7 @@
     <div class="divider"></div>
     <div class="extension">每个人的认知都有思想代码贡献者——那些改变了你底层逻辑的人、书、经历吗？你最近一年合入了哪一条颠覆性认知补丁，它修复了你原有的哪个bug？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4198,6 +4476,7 @@
     <div class="divider"></div>
     <div class="extension">这题不是在开玩笑——是在检验你的独特性和自我意识？如果把你一天里所有想法做成一个词云，什么词最大？如果外星人根据你的脑电波写一份地球人样本报告，他们笔下你是什么样的人？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4210,6 +4489,7 @@
     <div class="divider"></div>
     <div class="extension">把经验变成可复制的流程文档，远比依赖个人默契更靠谱吗？若是无法清晰梳理出成事的完整路径，过往成果究竟是真实实力还是偶然运气？你的做事方法能否经得起旁人拆解追问？你是否愿意整理成标准化流程，让其他人可以直接照着落地复用？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4222,6 +4502,7 @@
     <div class="divider"></div>
     <div class="extension">护城河就是别人难以复制、学不走的核心优势——每个行业都有「外行永远不懂」的认知盲区——这些盲区既是不是陷阱，也是你的护城河？你当年也深信过的那个错误认知，后来是被什么打醒的？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4234,6 +4515,7 @@
     <div class="divider"></div>
     <div class="extension">把弱点从不及格补到及格需要的精力和让你从优秀到卓越需要的精力差不多——但回报不同吗？现在时间分配的比例——你算过吗？如果把这个比例反过来——会发生什么？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4246,6 +4528,7 @@
     <div class="divider"></div>
     <div class="extension">日常繁杂的琐碎事务在极致目标面前是否都可以直接放下？既然对核心结果毫无帮助，为何还要任由它们占据大量时间？你曾因何种醒悟砍掉过习惯性忙碌却无产出的事？真正能撬动收益的往往只是少数高价值行动，你当下做到专注聚焦了吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4258,6 +4541,7 @@
     <div class="divider"></div>
     <div class="extension">底层逻辑就是一个事情最根本的运转原理——你眼下是在追逐短暂潮流，还是直击人性恒久不变的底层需求？依赖热门技术与流行审美的设计，多年后是否会落伍陈旧？你的布局里最质朴、抗风险最强的核心根基是什么？这份底层逻辑真的能跨越周期、长期立足吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4270,6 +4554,7 @@
     <div class="divider"></div>
     <div class="extension">坦然当场认错，需要极大格局与底气，在晚辈、下属、对手面前，你放得下面子直面自己的失误吗？认错是不是放下自负、开启成长的开始，固执死撑只会被过往认知困住原地踏步？你是否总为了维护自尊和人设，明知有错却硬扛到底，白白错失纠错与进阶的机会？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4282,6 +4567,7 @@
     <div class="divider"></div>
     <div class="extension">抽离日常角色跳出局内思维，站在更高视角回看当下处境，你会给眼前的迷茫低谷安排什么逆袭反转？此刻的挫折、困顿与煎熬，会不会都是为后续翻盘蓄力铺垫？既然人生本就是一场剧情历练，何必深陷焦虑内耗？你是否从未主动跳出当下困境，亲手规划自己人生的转折与蜕变？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4294,6 +4580,7 @@
     <div class="divider"></div>
     <div class="extension">资源本身不值钱，驾驭资源的认知与杠杆能力才决定结局，你是否真正读懂？你会不会因为自身思维短板，握着一手好资源，最后却做成平庸普通的格局？对手能用你的资源看到你看不到的机会、用你不敢尝试的打法，这恰恰暴露了你最大的认知短板，你愿意正视吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4306,6 +4593,7 @@
     <div class="divider"></div>
     <div class="extension">这个问题在帮你区分职业和使命吗？如果今天你必须用这件事来养活自己但只能赚到刚好够活的钱，你还愿意吗？如果愿意——那你已经找到了会怎样？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4318,6 +4606,7 @@
     <div class="divider"></div>
     <div class="extension">从众安全但不会让人脱颖而出吗？回头看最近三个大决定——哪个是完全独立推演出来的，哪个是怕不合群才选的？那个不合群的决定后来证明是对的吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4330,6 +4619,7 @@
     <div class="divider"></div>
     <div class="extension">你每天留出多少时间用于安静思考？值不值得提高到至少30分钟？上一次不受干扰地深度思考是什么时候？思考本身就是不是稀缺品？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4342,6 +4632,7 @@
     <div class="divider"></div>
     <div class="extension">忙碌是不是最体面的推辞——你看，我真的很忙？但忙不是答案，是回避？你一直在回避的那个决定，你在怕自己做错什么？如果今天必须做决定，你最坏的结果是失去什么？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4354,6 +4645,7 @@
     <div class="divider"></div>
     <div class="extension">热搜八卦、短期热点、碎片化资讯，大多看过即忘，毫无长期价值，你是否早已察觉？你上一次主动关掉信息流噪音，沉下心打磨自身产品、夯实核心能力，是什么时候？即便外界环境天翻地覆，你搭建的个人能力小系统能否平稳独立运转？宝贵时间该留给无意义舆论噪音，还是决定人生底层走向的核心变量？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4366,6 +4658,7 @@
     <div class="divider"></div>
     <div class="extension">读而不行只是不是消费？你上一次因为一本书改变了一个具体行为，是哪本书、哪条改变？如果让你推荐一本书给别人，你推荐的依据是不是这本书让你知道了什么，还是这本书让你做了什什么——两者完全不同？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4378,6 +4671,7 @@
     <div class="divider"></div>
     <div class="extension">区分能改变的和不能改变的，是不是所有哲学和心理学的基础？你焦虑的事里，有多少是你能影响但没行动的？有多少是你无论如何也改不了的？如果是后者，你愿意放下吗——哪怕只是今天放过自己也好。</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4390,6 +4684,7 @@
     <div class="divider"></div>
     <div class="extension">死机不可怕可怕的是不是没有重启机制？你上次情绪崩溃之后做了什么来加速恢复——是找人说话、是跑步、还是硬扛？如果下次崩溃，你能设计一个更快的流程——第一步做什么、第二步做什么？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4402,6 +4697,7 @@
     <div class="divider"></div>
     <div class="extension">闲聊和深度交流的区别在于后者会让你之后继续思考吗？你上次和别人聊完之后脑子里还在不停运转——那次你们在聊什么？那个话题为什么会让你停不下来？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4414,6 +4710,7 @@
     <div class="divider"></div>
     <div class="extension">二选一是不是最懒惰的思考方式？你觉得自己被锁在两个选项之间的那个问题——有没有一个你还没考虑的第三个选项？是被动选择还是主动构造出来的？如果是后者，叫什么？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4426,6 +4723,7 @@
     <div class="divider"></div>
     <div class="extension">颠覆认知的观点第一反应是否往往是抵制——因为它威胁到了你现有的理解框架？那个你最初本能抵制、后来被证明是对的观点——花了多久才让你认下来？如果你能更快地识别这类观点，你的认知迭代速度会快多少？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4438,6 +4736,7 @@
     <div class="divider"></div>
     <div class="extension">极简判断力不是忽略细节是通过细节看到供需本质？你上次看见别人的报告里藏着的关键信息但其他人没看出来——你看到了什么？你是在看什么指标时发现的？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4450,6 +4749,7 @@
     <div class="divider"></div>
     <div class="extension">成功后的第一反应暴露你是不是在追求认可还是追求成长？你上一次庆祝一个成果用了多长时间——庆祝完你立刻开始做下一件了吗？有没有一个成功让你停在原地太久，后来被后面的人超过去了？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4462,6 +4762,7 @@
     <div class="divider"></div>
     <div class="extension">预测是不是赌，反脆弱是保？你现在的业务、收入、资源配置——如果明天出现你完全没预料到的一个黑天鹅，最脆弱的一个点在哪里？如果必须让它不成为致命弱点，你现在该做什么加固？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4474,6 +4775,7 @@
     <div class="divider"></div>
     <div class="extension">复杂的方案让你看起来更专业，简单的方案让你更容易落地吗？你最近一次在一个复杂方案和一个简单方案之间选了简单的——结果证明是对的吗？如果让你总结一条「什么时候该选简单」的判断原则，你会怎么表述？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4486,6 +4788,7 @@
     <div class="divider"></div>
     <div class="extension">非黑即白的思维最省脑力但也最偏离真相吗？你上一次承认「两边都有道理」是在什么争论里？承认之后你的行动有什么改变？如果那次你没承认——事情后来是什么结局？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4498,6 +4801,7 @@
     <div class="divider"></div>
     <div class="extension">小成本试错是不是低风险探索的方法——关键不是不亏，是在亏得起的前提下行动？你设定好过最大亏损上限吗？上次试错的结果和你预期的一样吗？如果不，给你带来最大价值的意外是什么？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4510,6 +4814,7 @@
     <div class="divider"></div>
     <div class="extension">黄金时间的致命敌人是不是先回复几个消息——然后最好的时段就没了？你昨天精力最好的时候在做什么？如果明天你用一个番茄钟严格保护那两个小时，你会用它们来攻克什么？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4522,6 +4827,7 @@
     <div class="divider"></div>
     <div class="extension">从众认知是不是最危险的知识来源因为你连错在哪都不知道？你上次因为一个观点很多人说对、你也信了、最后发现完全不符合你的体验——是什么观点？你是怎么发现自己被骗的？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4534,6 +4840,7 @@
     <div class="divider"></div>
     <div class="extension">每个人心里都有不敢说出口的真话吗？你选择沉默是因为什么——怕冲突、怕被误解、还是觉得说了也没用？如果明天你把压在心底的那句大实话对那个人说了，最坏的结果你最怕的是什么？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4546,6 +4853,7 @@
     <div class="divider"></div>
     <div class="extension">我们活得越来越满，满到连空白是不是都是一种奢侈？上一次你独处超过一小时、不碰手机、不追进度、没有外部日程，是什么时候？在那个空白里，你听到了什么平时听不到的声音？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4558,6 +4866,7 @@
     <div class="divider"></div>
     <div class="extension">不做什么，往往比做什么更能定义一个��吗？你是全盘接受、来者不拒，还是在主动选择哪些不进入你的生命？最近一次拒绝之后，你是觉得可惜还是觉得轻松？那个选择让你更接近自己，还是更远离？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4570,6 +4879,7 @@
     <div class="divider"></div>
     <div class="extension">社会性压力是不是无形的推手，推着你做很多你以为是自己想做的事？你有没有真正停下来分辨过，哪个决定是发自内心，哪个只是害怕掉队？如果你不在乎任何人的眼光，你今天做的第一件事会是什么不同？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4582,6 +4892,7 @@
     <div class="divider"></div>
     <div class="extension">成长不是线性的，复盘才能看见关键节点？那次转折是因为你主动做了什么选择，还是被外部事件推着走？如果未来三年你要主动创造一个比那更大的转折，你现在该在什么方向上积累动能？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4594,6 +4905,7 @@
     <div class="divider"></div>
     <div class="extension">人天生是不是自我辩护的动物？你上次强烈地相信一件事但被事实打脸——是什么事、花了多久才承认？如果明天有人用铁证推翻了你最坚持的一个信念——你的第一反应是防御还是好奇？哪种反应是你的长期模型？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4606,6 +4918,7 @@
     <div class="divider"></div>
     <div class="extension">人对自己的认识往往滞后于真实的自己吗？上一次你更新对自己的看法，是因为什么事件？那个你心里默认的「我是这样的人」标签，最近一次被挑战是什么时候？你有没有勇气撕掉旧标签？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4618,6 +4931,7 @@
     <div class="divider"></div>
     <div class="extension">光想不试永远不知道自己的边界吗？你上次做了一个从未做过的尝试后发现了自己新的一面——是什么尝试、发现了什么？如果认识自己是一场实验，你下一个要测试的假设是什么——你害怕这个实验结果吗？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4630,6 +4944,7 @@
     <div class="divider"></div>
     <div class="extension">愤怒是不是最容易辨认、却最难承认来源的情绪？你最近一次发怒之后冷静下来想——你真正生气的对象是谁？如果换成完全平静的状态重新表达，你想说的其实是什么？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4642,6 +4957,7 @@
     <div class="divider"></div>
     <div class="extension">比较级自信脆弱得不行因为永远有更强的对手——增长级自信稳固因为增量永远在你自己手里吗？你今天最自豪的一点进步——是因为你领先了别人还是因为你超越了昨天的自己？这两个来源给你带来的感觉有什么不同——哪个更让你睡得安稳？</div>
     <div class="domain-tag"><span>认知与思维</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4654,6 +4970,7 @@
     <div class="divider"></div>
     <div class="extension">这件事你现在就可以开始做一个小版本——对不对？你之所以没做，是缺时间、缺条件，还是因为「烦恼」本身就是你用来逃避这件事的借口？如果烦恼消失了你还是不是不去做，那问题就不是那些烦恼？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4666,6 +4983,7 @@
     <div class="divider"></div>
     <div class="extension">过去一年，你因恐惧错失过哪些关键机遇？勇敢踏出那一步，最坏的结果真的难以承受吗？今天能否用十五分钟验证这份恐惧是真实的还是想象的？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4678,6 +4996,7 @@
     <div class="divider"></div>
     <div class="extension">你定下业务规模目标的核心初衷是什么？这份目标和你的长远人生规划有哪些关联？冲刺目标的路上会面临哪些难以规避的关键挑战？你是否已经备好对应的可行应对策略与落地方法？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4690,6 +5009,7 @@
     <div class="divider"></div>
     <div class="extension">怎么区分真正的热爱和自我说服？一个简单测试：如果没有任何人知道你做了这件事——没有点赞、没有认可、没有社交货币——你还愿意做吗？你最近一次做一件事纯粹因为自己喜欢、不告诉任何人，是什么？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4702,6 +5022,7 @@
     <div class="divider"></div>
     <div class="extension">那个错误是人生方向偏差、起步时机太晚，还是错把时光耗费在不值得的人与事上？若当年拥有如今的认知，你会改写哪些关键抉择？当年觉得难以跨越的困境，如今再看又是什么模样？当下的自己，是否正重蹈三年后仍会后悔的覆辙？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4714,6 +5035,7 @@
     <div class="divider"></div>
     <div class="extension">你的爱好属于即时满足的消费型，还是具备长期价值的创造型？你为之付出的是刻意精进的沉淀，还是只停留在舒适区的简单重复？若只能保留一项爱好，你的选择能否暴露内心真实的人生优先级？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4726,6 +5048,7 @@
     <div class="divider"></div>
     <div class="extension">模糊的恐惧只会蔓延，具象化的恐惧可以面对吗？你愿意花两分钟写下来吗——你最怕发生的那个场景，具体是什么人对你做了什么或者没做什么。写出来之后，这件事如果真的发生了，你最坏的损失有多大？你能承受吗？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4738,6 +5061,7 @@
     <div class="divider"></div>
     <div class="extension">你想留下的，是随时可替代的工作产出，还是独一无二的人生印记？在你真正在乎的人里，谁的命运会因为你的离开而真正改变？如果只能给他们留下一句话，你会说什么？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4750,6 +5074,7 @@
     <div class="divider"></div>
     <div class="extension">你想留存的是转瞬即逝的虚名财富，还是跨越时光仍能滋养人心的思想与品格？这份遗产只关乎个人印记，还是能持续惠及更多后来者？当下的日常选择，是否正在为这份长远价值默默积累沉淀？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4762,6 +5087,7 @@
     <div class="divider"></div>
     <div class="extension">你向往的这些关键词，已是真实活成的模样，还是仅停留在内心期待的理想人设？塑造这些特质，你是只做表面伪装，还是从内心底层重塑言行格局？他人对你的真实印象，和你期待的理想模样存在多大差距？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4774,6 +5100,7 @@
     <div class="divider"></div>
     <div class="extension">你向往的理想生活，是遵从本心的真实追求，还是照搬世俗定义的成功模板？你是否在以持续行动慢慢靠近这份生活，还是只停留在空想憧憬？你愿意放下哪些无谓消耗，去换取内心真正想要的生活节奏？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4786,6 +5113,7 @@
     <div class="divider"></div>
     <div class="extension">当下的抉择是被短期利益和世俗眼光裹挟的短视之举，还是经得起时间检验的长远布局？未来的你，会不会遗憾如今的妥协逃避、随波逐流？你能否用长远视角审视当下，减少未来回想时的满心懊悔？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4798,6 +5126,7 @@
     <div class="divider"></div>
     <div class="extension">阻碍你半年达成目标的，真的是资源不足，还是不敢承诺、害怕失败、不愿舍弃次要琐事？若即刻官宣六个月交付，你会立刻砍掉什么无关事项、绑定哪些人脉、押注哪个关键杠杆？目标本身并不遥远，是不是你从未逼自己用极限效率全力推进？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4810,6 +5139,7 @@
     <div class="divider"></div>
     <div class="extension">你挑选每日要事，只凭事情紧急程度，还是看对长期目标的贡献价值？若三件事全部做完，是否能让你安心放下心事、踏实结束一天？如果只能保留一件推动人生进阶的核心事，你会舍弃另外哪两件？这个取舍选择，恰好暴露了你内心真实的人生优先级吗？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4822,6 +5152,7 @@
     <div class="divider"></div>
     <div class="extension">若百年后无人铭记，你还愿意初心不改全心投入吗？你当下忙碌的事，哪些只是短期功利，哪些能沉淀为穿越时光的长期价值？这个问题本身就是不是筛选器？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4834,6 +5165,7 @@
     <div class="divider"></div>
     <div class="extension">人的一生终极价值，是否就藏在被世人铭记的那件核心事里？你想解决什么社会或行业难题被后人铭记，又想在人生履历上留下怎样的价值注解？你是否拥有清晰的人生终极使命，还是漫无目标随波逐流虚度光阴？对照这份终极目标，你当下的日常行动是在稳步靠近，还是早已偏离初心方向？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4846,6 +5178,7 @@
     <div class="divider"></div>
     <div class="extension">人生翻盘是否就藏在输了损失极小、赢了收益巨大的低风险尝试里，即便在外人眼里并不明智？你是否因害怕被非议，连这类低成本小实验都不敢开启？本周你主动安排了几次这样的探索试水，还是固守舒适区，始终不敢给自己捕捉非对称机会的可能？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4858,6 +5191,7 @@
     <div class="divider"></div>
     <div class="extension">站在长远视角回望当下，很多看似忙碌的琐事都毫无意义吗？听从未是否真的来自己的指引，今天立刻停下无价值内耗？他一定会指出你日程表里看似重要、实则可直接舍弃的事务，告诉你唯有停下这些，才能腾出时间做好真正影响人生的关键事？你是否清楚这件事究竟是什么？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4870,6 +5204,7 @@
     <div class="divider"></div>
     <div class="extension">短期痛点会随着技术变化消失，长期焦虑和人性的底层结构共振——它们才不变吗？你现在的产品、内容、技能方向，是在解决一个「今年流行的麻烦」，还是一个「人性里永恒存在的不安」？如果是前者，它的保质期还剩多久？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4882,6 +5217,7 @@
     <div class="divider"></div>
     <div class="extension">你是否拥有清晰笃定的十年长远愿景，以此作为拒绝所有短期诱惑的核心准则？如果总因担心错过机遇、抱有侥幸心理而动摇，是否说明你还没锚定愿意长期奔赴的人生终点，才容易被短期机会裹挟迷失方向？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4894,6 +5230,7 @@
     <div class="divider"></div>
     <div class="extension">财务自由、岁月静好、被人尊重这些词太模糊了吗？能不能具体描述——早上醒来你看到什么、你做的第一件事是什么、身边是谁。画出来，和今天的距离有多远？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4906,6 +5243,7 @@
     <div class="divider"></div>
     <div class="extension">你是否总习惯性妥协退让，任由自己的专业价值被无限透支消耗？能不能坦然拒绝无底线白嫖，不碍于情面？你设立的付费门槛是否清晰坚决，自然过滤伸手党？是否因为害怕得罪人，一再放弃捍卫自己多年沉淀的核心价值？一味无边界付出，是不是反而会让你的专业变得廉价不值钱？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4918,6 +5256,7 @@
     <div class="divider"></div>
     <div class="extension">你是否仗着当下身体尚可，把人生重要之事不断往后拖延？当生命时限变得紧迫，那些职场纷争、人情面子还值得纠结吗？死亡与衰老的紧迫感，会让你最先优先完成什么事？你是不是一直把最该珍惜、最该行动的事，遥遥搁置在未来？日常是不是一直在虚度不可重来的有限时光？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4930,6 +5269,7 @@
     <div class="divider"></div>
     <div class="extension">无用之用，方为精神寄托之用，这件物品承载了你怎样的青春记忆、情感羁绊或精神念想？如果突发意外家中失火，只能带走一件物件，你会不会首选它？这件无法用效率、价值衡量的东西，悄悄暴露了你内心最柔软的执念与渴望？人生真正珍贵的人和事，是不是大多都世俗定义里“没用”却不可或缺的？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4942,6 +5282,7 @@
     <div class="divider"></div>
     <div class="extension">那些看似无用、充满趣味、不知道能不能成的想法，往往藏着最大的可能性吗？你上一次因为不实用、太冒险而掐掉的一个念头，现在回头看，真的不值得试吗？如果今天允许自己重启它，最小的试验是什么？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4954,6 +5295,7 @@
     <div class="divider"></div>
     <div class="extension">你进行这些提问，是为了得到某个明确答案，还是在思考中重新掌控自己的思想？如果十年后你依旧平凡普通，却无比清晰地了解自己，你是否觉得值得？那个变得更清醒、更通透的自己，在你心中算不算一种真正的成功？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4966,6 +5308,7 @@
     <div class="divider"></div>
     <div class="extension">多数无意义的忙碌，是否只是用来缓解内心的焦虑与空虚？果断剔除这类琐事之后，你实际会产生哪些真实损失？部分低效事务是否只是用来消磨时间，逃避深度思考与关键难题？清空无效琐事腾出的时间，你是否有勇气投入到真正具备长期价值的重要事情上？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4978,6 +5321,7 @@
     <div class="divider"></div>
     <div class="extension">不用回答理想偏好——看行为吗？上次因为钱委屈自己做了不想做的事是什么？上次因为自由拒绝了更多的钱是什么？这两个选择的频率，已经在替你回答了你在乎什么吗？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -4990,6 +5334,7 @@
     <div class="divider"></div>
     <div class="extension">拉长到百年时间维度回望，当下许多执着与执念都会显得微不足道吗？你所做的事里，是否存有超越时代功利、具备长久价值的内核？能否切实解决他人痛点、沉淀正向价值？这份能跨越时间留存的意义，你此刻是否在用心打磨与坚守？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -5002,6 +5347,7 @@
     <div class="divider"></div>
     <div class="extension">规模扩张往往容易磨掉初心与独特棱角，面向大量受众时还能否坚守初衷与真诚？陪你起步的老用户，如今还能感受到你最初的特质与温度吗？当初支撑你起步的那份执着、底线与偏执，在做大之后是否还完整保留？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -5014,6 +5360,7 @@
     <div class="divider"></div>
     <div class="extension">止痛是不是刚需但天花板低，给希望是奢侈品但溢价无限？你的收入里大部分来自解决眼下痛楚还是让人看到更大可能——两种客户的复购率、客单价和推荐率有差异吗？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -5026,6 +5373,7 @@
     <div class="divider"></div>
     <div class="extension">你是人人随时可得的普通选择，还是稀缺绝版、错过难再遇的独特价值？你是否营造了时机专属、不可复刻的稀缺感与紧迫感？若没有这种心理落差与稀缺背书，你的价值凭什么让人害怕错过、不愿轻易放手？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -5038,6 +5386,7 @@
     <div class="divider"></div>
     <div class="extension">这个问题在测试你的优先级和执行力的诚实度吗？你心里一定有一个最想做的事——为什么一直没做？是真的被客观条件挡住，还是你自己在找理由？如果只剩最后的机会，那些理由还成立吗？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -5050,6 +5399,7 @@
     <div class="divider"></div>
     <div class="extension">不需要回答理想，看过去三个月的行为——你做事情是为了内在满足感，还是为了外在的认可？你上次做一个不让任何人知道、做了也白做的事，是什么？那个过程让你满足吗？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -5062,6 +5412,7 @@
     <div class="divider"></div>
     <div class="extension">回望过往，哪一个人生节点的片刻迟疑、胆怯退缩，让你错失了另一种全新的人生可能？不必沉溺遗憾，深挖迟疑背后的恐惧、自卑与怯懦根源，看清自己的性格短板吗？下次相似机遇再来，你还会被同样的弱点牵绊、放任机会溜走吗？你能否打破旧有犹豫模式，果断抓住属于自己的机缘？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -5074,6 +5425,7 @@
     <div class="divider"></div>
     <div class="extension">通讯录好友数量毫无价值，看似人脉满格，大多只是无效社交，少有真心知己，你敢坦然承认吗？梳理常联系的十人圈层，他们是滋养你成长、拓宽格局，还是持续消耗你的精力、情绪与耐心？哪些看似体面的人情关系，实则是人生累赘，早就该果断断舍离、腾出身心空间？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -5086,6 +5438,7 @@
     <div class="divider"></div>
     <div class="extension">正和游戏创造增量，零和游戏争夺存量吗？现在主要收入来源里有多少是因为你创造了本来不存在的东西，有多少是因为你从某人手里拿到了东西——这两个数让自己看了舒服吗？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -5098,6 +5451,7 @@
     <div class="divider"></div>
     <div class="extension">回头看过去五年，你更后悔的是做过的事还是没做的事？是哪个具体的没做的事让你到今天还在想？如果现在给你第二次机会，你会做吗？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -5110,6 +5464,7 @@
     <div class="divider"></div>
     <div class="extension">很多人的快乐被绑架了——等赚到钱、等项目完成、等别人认可才允许自己开心吗？但每个目标达成后又立刻立下新目标，永远没资格快乐吗？上一次你对自己说现在这样就很好是什么时候？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -5122,6 +5477,7 @@
     <div class="divider"></div>
     <div class="extension">倒推法更有力量因为它强迫你面对你现在最逃避的那个核心任务吗？如果你想要的那个未来需要你三年后完成X，那你两年后需要完成Y，明年需要完成Z——那么你这个月必须完成什么？你今天能为此做的第一件事是什么？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -5134,6 +5490,7 @@
     <div class="divider"></div>
     <div class="extension">你还在习惯性等待别人铺路、为自己的人生兜底？你是否时常抱怨出身、环境、运气，把不顺都归咎于外界？如果明白人生只能自己扛，你准备以怎样的心态和行动直面前路？把所有责任揽在自己身上，看似残酷，实则是不是最大的人生自由？从今天开始，你愿意做自己人生唯一的责任人，不再依赖任何人吗？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -5146,6 +5503,7 @@
     <div class="divider"></div>
     <div class="extension">社会压力的隐形存在测试：你上一个在深夜做的决定，如果天亮后不给任何人解释你还愿意执行吗？如果不愿意——你是怕别人失望还是怕自己失望？，这两个不一样——前者是别人的标准，后者是否才是你自己的？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -5158,6 +5516,7 @@
     <div class="divider"></div>
     <div class="extension">抛开世俗面子、他人期待、内心恐惧束缚，卸下所有伪装后，你灵魂深处最真实的心声是什么？这句心里话里，是不是藏着你一直想做却不敢行动的决定，或是被压抑多年的人生渴望？直面最真实的自己，从今天开始，你敢为这份本心，做出哪怕微小的一次改变吗？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -5170,6 +5529,7 @@
     <div class="divider"></div>
     <div class="extension">如果所有眼睛都移开——全世界没人知道你失败、也没人知道你会尝试、也没人知道你在做什么——你还会做吗？如果你的行动完全依赖于有没有观众——你是在为自己活还是在为观众活？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 <div class="card">
@@ -5182,6 +5542,7 @@
     <div class="divider"></div>
     <div class="extension">你会删掉那些刻意炫耀、装体面、迎合他人的浮华片段吗？哪些时刻是不带伪装、最贴近本心的真实瞬间？这三个瞬间为什么值得被永久留存？删掉虚荣戏份后，人生原本的底色会不会更清晰？你敢直面自己不完美却最真实的人生片段吗？</div>
     <div class="domain-tag"><span>意义与存在</span></div>
+    <div class="card-source">github.com/cnfeat/DailyQuestion</div>
   </div>
 </div>
 </body>
