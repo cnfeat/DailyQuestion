@@ -10,7 +10,7 @@
     --paper:#faf8f5;
     --ink:#1a1a1a;
     --ink-soft:#5c5852;
-    --ink-faint:#b8b3ac;
+    --ink-faint:#b0aba5;
     --brand:#3C9D4E;
     --brand-dark:#2E7D38;
     --brand-light:#E8F5E9;
@@ -31,22 +31,21 @@
 
   .print-tip{background:var(--brand);color:#fff;padding:10px 28px;font-size:13px;cursor:pointer;border:none;letter-spacing:1px;margin-bottom:24px}
 
-  /* 卡片 */
-  .card{width:105mm;height:148mm;background:var(--paper);margin-bottom:16px;box-shadow:0 1px 3px rgba(60,50,30,.04),0 4px 14px rgba(60,50,30,.03);display:flex;flex-direction:column;overflow:hidden;position:relative}
+  /* 卡片 — 纯白底 + 绿细框 + 顶部渐变装饰线 */
+  .card{width:105mm;height:148mm;background:#fff;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.04);display:flex;flex-direction:column;overflow:hidden;position:relative;border:1.5px solid rgba(60,157,78,.25)}
   .card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(60,157,78,.4) 20%,var(--brand) 50%,rgba(60,157,78,.4) 80%,transparent 100%);opacity:.35}
   .card-inner{flex:1;display:flex;flex-direction:column;padding:10mm 9mm 8mm 9mm;height:100%;position:relative;z-index:1}
 
-  /* 封面 */
-  .cover{background:linear-gradient(155deg,var(--brand-dark) 0%,var(--brand) 45%,#4CAF50 100%);color:#fff}
-  .cover::after{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 25% 20%,rgba(255,255,255,.06) 0%,transparent 55%);opacity:1}
+  /* 封面 — 白底A排版 */
+  .cover{background:#fff;color:var(--ink);border:1.5px solid rgba(60,157,78,.25)}
   .cover .card-inner{align-items:center;justify-content:center;text-align:center;position:relative;z-index:1}
-  .cover-brand{font-size:7pt;letter-spacing:5px;opacity:.5;margin-bottom:14mm;font-weight:300}
-  .cover-title{font-size:30pt;font-weight:700;letter-spacing:10px;margin-bottom:5mm;line-height:1}
-  .cover-subtitle{font-size:9pt;font-weight:300;letter-spacing:8px;margin-bottom:14mm;opacity:.65}
-  .cover-line{width:20mm;height:1px;background:rgba(255,255,255,.25);margin-bottom:14mm}
-  .cover-count{font-size:13pt;font-weight:400;letter-spacing:4px;margin-bottom:2mm}
-  .cover-domain{font-size:7pt;opacity:.4;letter-spacing:2px;max-width:72mm;line-height:2}
-  .cover-footer{position:absolute;bottom:9mm;left:0;right:0;text-align:center;font-size:6pt;opacity:.3;letter-spacing:1px}
+  .cover-brand{font-size:7pt;letter-spacing:5px;color:var(--ink-faint);margin-bottom:14mm;font-weight:300}
+  .cover-title{font-size:30pt;font-weight:700;letter-spacing:10px;margin-bottom:5mm;line-height:1;color:var(--brand)}
+  .cover-subtitle{font-size:9pt;font-weight:300;letter-spacing:8px;margin-bottom:14mm;color:var(--ink-soft)}
+  .cover-line{width:20mm;height:1px;background:var(--brand);opacity:.4;margin-bottom:14mm}
+  .cover-count{font-size:13pt;font-weight:400;letter-spacing:4px;margin-bottom:2mm;color:var(--ink)}
+  .cover-domain{font-size:7pt;letter-spacing:2px;max-width:72mm;line-height:2;color:var(--ink-faint)}
+  .cover-footer{position:absolute;bottom:9mm;left:0;right:0;text-align:center;font-size:6pt;letter-spacing:1px;color:var(--ink-faint);opacity:.7}
 
   /* 头部 */
   .card-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:12mm}
