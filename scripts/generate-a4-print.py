@@ -12,7 +12,7 @@ HTML = r'''<!DOCTYPE html>
 <style>
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 
-  @page{size:210mm 297mm;margin:6mm 4mm}
+  @page{size:210mm 297mm;margin:0}
 
   @media print{
     html,body{margin:0!important;padding:0!important;background:none!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -23,11 +23,11 @@ HTML = r'''<!DOCTYPE html>
 
   .print-tip{background:#3C9D4E;color:#fff;padding:9px 24px;font-size:13px;cursor:pointer;border:none;letter-spacing:1px;margin-bottom:20px}
 
-  /* A4 页面 */
-  .page{width:210mm;background:#fff;margin-bottom:12px;box-shadow:0 1px 6px rgba(0,0,0,.06);display:grid;grid-template-columns:1fr 1fr;grid-template-rows:repeat(4,1fr);gap:2mm;padding:6mm 4mm}
+  /* A4 页面 — 2×4=A7标准比例（105mm×74mm） */
+  .page{width:210mm;height:297mm;background:#fff;margin-bottom:12px;box-shadow:0 1px 6px rgba(0,0,0,.06);display:grid;grid-template-columns:105mm 105mm;grid-template-rows:74mm 74mm 74mm 74mm;gap:0;padding:0;overflow:hidden}
 
-  /* 单张卡片 */
-  .card{background:#faf8f5;display:flex;flex-direction:column;overflow:hidden;position:relative;padding:2.5mm 2mm 2mm 2mm}
+  /* A7 卡片（105mm×74mm） */
+  .card{background:#faf8f5;display:flex;flex-direction:column;overflow:hidden;position:relative;padding:3mm 3mm 2mm 3mm;border:0.5px solid #e8e4dc}
 
   /* 顶部品牌线 */
   .card::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,#3C9D4E 40%,#3C9D4E 60%,transparent);opacity:.25}
@@ -39,22 +39,18 @@ HTML = r'''<!DOCTYPE html>
   .cover-sub{font-size:5pt;font-weight:300;letter-spacing:2px;opacity:.65}
   .cover-count{font-size:6pt;letter-spacing:1.5px;opacity:.5;margin-top:2mm}
 
-  /* 标题行 */
-  .card-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2mm;flex-shrink:0}
-  .card-brand{font-size:5pt;color:#3C9D4E;letter-spacing:1px;font-weight:500}
-  .card-id{font-size:4.5pt;color:#b8b3ac;letter-spacing:1px}
+  /* 卡片内部 */
+  .card-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2.5mm;flex-shrink:0}
+  .card-brand{font-size:5.5pt;color:#3C9D4E;letter-spacing:1px;font-weight:500}
+  .card-id{font-size:5pt;color:#b8b3ac;letter-spacing:1px}
 
-  /* 问题 */
-  .question{font-size:7pt;line-height:1.4;color:#1a1a1a;font-weight:700;margin-bottom:1.5mm;flex-shrink:0;letter-spacing:.2px}
+  .question{font-size:8pt;line-height:1.4;color:#1a1a1a;font-weight:700;margin-bottom:2mm;flex-shrink:0;letter-spacing:.2px}
 
-  /* 分割线 */
-  .divider{width:8mm;height:.5px;background:#3C9D4E;opacity:.3;margin-bottom:1.5mm;flex-shrink:0}
+  .divider{width:8mm;height:.5px;background:#3C9D4E;opacity:.35;margin-bottom:2mm;flex-shrink:0}
 
-  /* 延伸 */
-  .extension{font-size:5pt;line-height:1.55;color:#5c5852;overflow:hidden;flex:1;font-weight:300;margin-bottom:1mm}
+  .extension{font-size:5.5pt;line-height:1.5;color:#5c5852;overflow:hidden;flex:1;font-weight:300;margin-bottom:1mm}
 
-  /* 标签 */
-  .domain{font-size:4pt;color:#2E7D38;letter-spacing:1px;flex-shrink:0;margin-top:auto;padding-top:1mm}
+  .domain{font-size:4.5pt;color:#2E7D38;letter-spacing:1px;flex-shrink:0;margin-top:auto;padding-top:1mm}
 
   /* 封面页 */
   .cover-page{background:linear-gradient(155deg,#2E7D38,#3C9D4E 45%,#4CAF50);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4mm}
