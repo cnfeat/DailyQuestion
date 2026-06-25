@@ -4,6 +4,7 @@
 输出: downloads/日课一问_完整版.html
 """
 import json
+from collections import Counter
 
 HTML = r'''<!DOCTYPE html>
 <html lang="zh-CN">
@@ -75,6 +76,22 @@ HTML = r'''<!DOCTYPE html>
   /* 出处 */
   .card-source{font-size:5.5pt;color:var(--ink-faint);letter-spacing:.5px;text-align:center;padding-top:3mm}
   .card-source a{color:var(--brand);text-decoration:none}
+
+  /* ═══ 目录页 ═══ */
+  .toc-card{background:#fff;border:1.5px solid rgba(60,157,78,.25)}
+  .toc-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(60,157,78,.4) 20%,var(--brand) 50%,rgba(60,157,78,.4) 80%,transparent 100%);opacity:.35}
+  .toc-card .card-inner{padding:8mm 9mm 7mm 9mm}
+  .toc-title{font-size:10pt;font-weight:700;color:var(--brand);letter-spacing:2px;margin-bottom:4mm}
+  .toc-intro{font-size:8pt;line-height:1.7;color:var(--ink-soft);margin-bottom:5mm;font-weight:300}
+  .toc-logic{font-size:7pt;color:var(--ink-faint);margin-bottom:6mm;line-height:1.6}
+  .toc-section{font-size:6.5pt;font-weight:500;color:var(--ink);letter-spacing:1px;margin-bottom:2mm}
+  .toc-table{width:100%;font-size:7pt;line-height:2.2;color:var(--ink-soft);border-collapse:collapse}
+  .toc-table td{padding:0 1mm}
+  .toc-table .toc-num{text-align:right;color:var(--brand);font-weight:500;width:12mm}
+  .toc-table .toc-bar{width:auto;padding:0 2mm}
+  .toc-bar-inner{height:3px;background:var(--brand);opacity:.25;display:inline-block;vertical-align:middle}
+  .toc-total{font-size:7pt;color:var(--ink);margin-top:4mm;letter-spacing:1px}
+  .toc-total span{color:var(--brand);font-weight:700}
 </style>
 </head>
 <body>
@@ -111,16 +128,46 @@ COVER = '''
   </div>
 </div>'''
 
+INDEX = '''
+<div class="card toc-card">
+  <div class="card-inner">
+    <div class="toc-title">目录与简介</div>
+    <div class="toc-intro">{intro}</div>
+    <div class="toc-logic">{logic}</div>
+    <div class="toc-section">分类统计</div>
+    <table class="toc-table">{table_rows}</table>
+    <div class="toc-total">共 <span>{total}</span> 张卡片</div>
+  </div>
+</div>'''
+
 def generate():
     with open('questions.json', 'r', encoding='utf-8') as f:
         questions = json.load(f)
     real = [q for q in questions if q.get('question') and not q.get('_instructions')]
     domains = sorted(set(q.get('domain', '') for q in real))
 
+    # 封面
     cover = COVER.format(count=len(real),
                          domain1=' · '.join(domains[:3]),
                          domain2=' · '.join(domains[3:]))
-    cards = cover
+
+    # 目录页
+    from collections import Counter
+    dc = Counter(q.get('domain', '') for q in real)
+    max_cnt = max(dc.values()) if dc else 1
+    table_rows = ''
+    for d in domains:
+        cnt = dc[d]
+        bar_w = max(4, int(cnt / max_cnt * 40))
+        table_rows += f'<tr><td>{d}</td><td class="toc-num">{cnt} 张</td><td class="toc-bar"><span class="toc-bar-inner" style="width:{bar_w}mm"></span></td></tr>'
+    index = INDEX.format(
+        intro='「日课一问」是一套深度反思卡片，效法「吾日三省吾身」的精神，每天抽取一张，直面一个灵魂拷问。适合个人反思、团队破冰、写作灵感、教练工具等场景。',
+        logic='卡片按六个领域组织——事业与财富、创作与表达、技能与成长、关系与连接、认知与思维、意义与存在。每张卡片包含一个核心问题和三个延伸追问，难度由浅入深。',
+        table_rows=table_rows,
+        total=len(real))
+
+    # 卡片
+    cards = cover + index
     for q in real:
         cards += CARD.format(id=q['id'], question=q['question'],
                              extension=q.get('extension', ''), domain=q.get('domain', ''))

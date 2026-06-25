@@ -38,6 +38,21 @@ body{font-family:"PingFang SC","Microsoft YaHei",sans-serif;background:#f3efe8;d
 .domain-tag{margin-top:auto;padding-top:4mm}
 .domain-tag span{font-size:6.5pt;color:var(--brand-dark);letter-spacing:1.5px;padding:1mm 3mm;background:var(--brand-soft)}
 .card-source{font-size:5.5pt;color:var(--ink-faint);letter-spacing:.5px;text-align:center;padding-top:2mm}
+
+.toc-card{background:#fff;border:1.5px solid rgba(60,157,78,.25)}
+.toc-card::after{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(60,157,78,.4) 20%,var(--brand) 50%,rgba(60,157,78,.4) 80%,transparent 100%);opacity:.35}
+.toc-card .card-inner{padding:8mm 9mm 7mm 9mm}
+.toc-title{font-size:10pt;font-weight:700;color:var(--brand);letter-spacing:2px;margin-bottom:4mm}
+.toc-intro{font-size:8pt;line-height:1.7;color:var(--ink-soft);margin-bottom:5mm;font-weight:300}
+.toc-logic{font-size:7pt;color:var(--ink-faint);margin-bottom:6mm;line-height:1.6}
+.toc-section{font-size:6.5pt;font-weight:500;color:var(--ink);letter-spacing:1px;margin-bottom:2mm}
+.toc-table{width:100%;font-size:7pt;line-height:2.2;color:var(--ink-soft);border-collapse:collapse}
+.toc-table td{padding:0 1mm}
+.toc-table .toc-num{text-align:right;color:var(--brand);font-weight:500;width:12mm}
+.toc-table .toc-bar{width:auto;padding:0 2mm}
+.toc-bar-inner{height:3px;background:var(--brand);opacity:.25;display:inline-block;vertical-align:middle}
+.toc-total{font-size:7pt;color:var(--ink);margin-top:4mm;letter-spacing:1px}
+.toc-total span{color:var(--brand);font-weight:700}
 </style></head>
 <body>
 <button class="print-tip" onclick="window.print()">🖨 打印为 PDF</button>
@@ -54,9 +69,12 @@ CARD = '''
 </div></div>'''
 
 def gen():
+    from collections import Counter
     qs = json.load(open('downloads/questions-AI-Native-Startup.json', 'r', encoding='utf-8'))
     real = [q for q in qs if q.get('question') and not q.get('_instructions')]
     domains = sorted(set(q.get('domain', '') for q in real))
+    dc = Counter(q.get('domain', '') for q in real)
+    max_cnt = max(dc.values()) if dc else 1
 
     cover = f'''<div class="card cover"><div class="card-inner">
 <div class="cover-brand">A I &nbsp; N A T I V E &nbsp; S T A R T U P</div>
@@ -68,7 +86,22 @@ def gen():
 <div class="cover-footer">卡片创作实验室出品 · github.com/cnfeat/DailyQuestion</div>
 </div></div>'''
 
-    cards = cover
+    # 目录页
+    table_rows = ''
+    for d in domains:
+        cnt = dc[d]
+        bar_w = max(4, int(cnt / max_cnt * 40))
+        table_rows += f'<tr><td>{d}</td><td class="toc-num">{cnt} 张</td><td class="toc-bar"><span class="toc-bar-inner" style="width:{bar_w}mm"></span></td></tr>'
+    index = f'''<div class="card toc-card"><div class="card-inner">
+<div class="toc-title">目录与简介</div>
+<div class="toc-intro">「AI-Native Startup」是一套面向 AI 时代创业者的深度反思卡片。当技术门槛归零、一个人能做过去一个团队的事，创业拼的不再是速度，而是判断力。这 100 个问题帮你每天校准方向。</div>
+<div class="toc-logic">卡片按三个领域组织——认知与思维、事业与财富、技能与成长。每张卡片包含一个核心问题和三个延伸追问，难度由浅入深，适合每日反思、团队讨论或写作灵感。</div>
+<div class="toc-section">分类统计</div>
+<table class="toc-table">{table_rows}</table>
+<div class="toc-total">共 <span>{len(real)}</span> 张卡片</div>
+</div></div>'''
+
+    cards = cover + index
     for q in real:
         cards += CARD.format(id=q['id'], question=q['question'], extension=q.get('extension', ''), domain=q.get('domain', ''))
     html = HTML.replace('{cards}', cards)
