@@ -12,6 +12,16 @@ HTML_TEMPLATE = '''<!DOCTYPE html>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  /* ═══ Aesop Warm + Kenya Hara 色彩系统 ═══ */
+  :root {
+    --paper: #faf8f5;
+    --ink: #1a1a1a;
+    --ink-soft: #5c5852;
+    --ink-faint: #c4bfb7;
+    --brand: #5a8a6e;
+    --brand-light: rgba(90,138,110,0.12);
+  }
+
   @page { size: 105mm 148mm; margin: 0; }
 
   @media print {
@@ -28,64 +38,110 @@ HTML_TEMPLATE = '''<!DOCTYPE html>
       box-shadow: none !important; border-radius: 0 !important;
       overflow: hidden !important; break-inside: avoid !important;
       break-after: page !important; page-break-after: always !important;
+      page-break-inside: avoid !important;
     }
     .card:last-child { break-after: auto !important; page-break-after: auto !important; }
     .print-tip { display: none !important; }
   }
 
   body {
-    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-    background: #f0ede8; display: flex; flex-direction: column;
+    font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f3efe8; display: flex; flex-direction: column;
     align-items: center; padding: 20px 0;
   }
 
   .print-tip {
-    background: #3C9D4E; color: #fff; padding: 10px 28px;
-    font-size: 13px; border-radius: 4px; margin-bottom: 24px;
-    cursor: pointer; border: none; letter-spacing: 1px;
+    background: var(--brand); color: #fff; padding: 10px 28px;
+    font-size: 13px; cursor: pointer; border: none; letter-spacing: 1px;
+    margin-bottom: 24px;
   }
-  .print-tip:hover { opacity: 0.85; }
 
-  /* ═══ 卡片 ═══ */
+  /* ═══ 卡片容器 ═══ */
   .card {
-    width: 105mm; height: 148mm; background: #ffffff;
-    margin-bottom: 16px; box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-    display: flex; flex-direction: column; overflow: hidden; position: relative;
+    width: 105mm; height: 148mm;
+    background: var(--paper);
+    margin-bottom: 16px;
+    box-shadow: 0 1px 4px rgba(60,50,30,0.05), 0 4px 16px rgba(60,50,30,0.04);
+    display: flex; flex-direction: column;
+    overflow: hidden; position: relative;
   }
+
+  /* 纸质纹理 */
+  .card::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.3;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(139,119,91,0.006) 2px, rgba(139,119,91,0.006) 3px),
+      repeating-linear-gradient(90deg, transparent, transparent 4px, rgba(139,119,91,0.004) 4px, rgba(139,119,91,0.004) 5px);
+  }
+
+  /* 顶部品牌线 */
+  .card::after {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, transparent 0%, rgba(90,138,110,0.5) 20%, var(--brand) 50%, rgba(90,138,110,0.5) 80%, transparent 100%);
+    opacity: 0.4;
+  }
+
   .card-inner {
     flex: 1; display: flex; flex-direction: column;
-    padding: 10mm 9mm 10mm 9mm; height: 100%;
+    padding: 10mm 9mm 10mm 9mm; height: 100%; position: relative; z-index: 1;
   }
 
   /* ═══ 封面 ═══ */
-  .cover { background: #2E7D38; color: #fff; justify-content: center; }
+  .cover { background: var(--brand); color: #fff; }
+  .cover::before { display: none; }
+  .cover::after { display: none; }
   .cover .card-inner { align-items: center; justify-content: center; text-align: center; }
-  .cover-title { font-size: 36pt; font-weight: 700; letter-spacing: 4px; margin-bottom: 6mm; }
-  .cover-subtitle { font-size: 14pt; font-weight: 300; letter-spacing: 8px; margin-bottom: 16mm; opacity: 0.8; }
-  .cover-meta { font-size: 9pt; opacity: 0.6; letter-spacing: 2px; }
-  .cover-count { font-size: 20pt; font-weight: 500; margin-bottom: 4mm; letter-spacing: 3px; }
-  .cover-domain { font-size: 9pt; opacity: 0.5; letter-spacing: 1px; }
+  .cover-title {
+    font-size: 38pt; font-weight: 700; letter-spacing: 6px;
+    margin-bottom: 5mm;
+  }
+  .cover-subtitle {
+    font-size: 13pt; font-weight: 300; letter-spacing: 10px;
+    margin-bottom: 18mm; opacity: 0.75;
+  }
+  .cover-count {
+    font-size: 18pt; font-weight: 400; letter-spacing: 4px;
+    margin-bottom: 3mm;
+  }
+  .cover-domain {
+    font-size: 8pt; opacity: 0.5; letter-spacing: 2px;
+    max-width: 70mm; line-height: 1.8;
+  }
 
   /* ═══ 卡片头部 ═══ */
-  .card-header { display: flex; justify-content: space-between; margin-bottom: 14mm; }
-  .card-brand { font-size: 8pt; color: #3C9D4E; letter-spacing: 1px; font-weight: 500; }
-  .card-id { font-size: 7pt; color: #ccc; letter-spacing: 0.5px; }
+  .card-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 13mm; }
+  .card-brand { font-size: 7pt; color: var(--brand); letter-spacing: 2px; font-weight: 500; text-transform: uppercase; }
+  .card-id { font-size: 6.5pt; color: var(--ink-faint); letter-spacing: 1px; }
 
-  /* ═══ 内容 ═══ */
-  .question { font-size: 14pt; line-height: 1.5; color: #111; font-weight: 700; letter-spacing: 0.6px; margin-bottom: 10mm; }
-  .divider { width: 18mm; height: 1px; background: #3C9D4E; margin-bottom: 10mm; }
-  .extension { font-size: 10pt; line-height: 1.7; color: #555; overflow: hidden; margin-bottom: 7mm; }
-  .domain-tag { margin-top: auto; padding-top: 8mm; }
-  .domain-tag span { font-size: 8pt; color: #2E7D38; background: #E8F5E9; padding: 1mm 3mm; letter-spacing: 0.3px; }
-  .card-footnote { font-size: 5.5pt; color: #ddd; text-align: right; margin-top: 7mm; letter-spacing: 0.5px; }
+  /* ═══ 问题 ═══ */
+  .question {
+    font-size: 15pt; line-height: 1.55; color: var(--ink); font-weight: 700;
+    letter-spacing: 0.5px; margin-bottom: 10mm;
+  }
+
+  /* ═══ 分割线 ═══ */
+  .divider {
+    width: 16mm; height: 1px; background: var(--brand);
+    opacity: 0.45; margin-bottom: 10mm;
+  }
+
+  /* ═══ 延伸反思 ═══ */
+  .extension {
+    font-size: 10pt; line-height: 1.8; color: var(--ink-soft);
+    overflow: hidden; margin-bottom: 6mm; font-weight: 300;
+  }
+
+  /* ═══ 领域标签 ═══ */
+  .domain-tag { margin-top: auto; padding-top: 6mm; }
+  .domain-tag span {
+    font-size: 7pt; color: var(--brand); letter-spacing: 1.5px;
+    padding: 1mm 3mm; background: var(--brand-light);
+  }
 </style>
 </head>
 <body>
-
 <button class="print-tip" onclick="window.print()">🖨 打印为 PDF（另存为 PDF）</button>
-
 {cards}
-
 </body>
 </html>'''
 
@@ -107,8 +163,8 @@ COVER_TEMPLATE = '''
 <div class="card cover">
   <div class="card-inner">
     <div class="cover-title">日课一问</div>
-    <div class="cover-subtitle">每日三省，破局人生</div>
-    <div class="cover-count">{count} 道灵魂拷问</div>
+    <div class="cover-subtitle">每 日 三 省 · 破 局 人 生</div>
+    <div class="cover-count">{count} 道</div>
     <div class="cover-domain">{domains}</div>
   </div>
 </div>'''
