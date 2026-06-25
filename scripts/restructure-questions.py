@@ -1,13 +1,20 @@
 """
 日课一问 题库结构化重构脚本
+运行方式: cd 到项目根目录后执行 python scripts/restructure-questions.py
 Plan A: 修复文本瑕疵 + 补充标签
 Plan B: 双层分类体系（领域×维度）+ 深度评级 + 按领域重编号
 """
 import json
 import re
+import os
 from collections import Counter
 import sys
 import io
+
+# 脚本在 scripts/ 子目录，数据文件在项目根目录
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+QUESTIONS_PATH = os.path.join(ROOT, 'questions.json')
+DATA_JS_PATH = os.path.join(ROOT, 'data.js')
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # ═══ 配置 ═══
@@ -108,7 +115,7 @@ def renumber_by_domain(questions):
 
 # ═══ 主流程 ═══
 def main():
-    with open("questions.json", "r", encoding="utf-8") as f:
+    with open(QUESTIONS_PATH, "r", encoding="utf-8") as f:
         questions = json.load(f)
     
     stats = {"fixed_commas": 0, "tags_bumped": 0}
@@ -156,7 +163,7 @@ def main():
     dim_counts = Counter(d for q in questions for d in q["dimension"])
     avg_tags = sum(len(q["tags"]) for q in questions) / len(questions)
     
-    with open("questions.json", "w", encoding="utf-8") as f:
+    with open(QUESTIONS_PATH, "w", encoding="utf-8") as f:
         json.dump(questions, f, ensure_ascii=False, indent=2)
     
     print(f"✅ 完成！修复前导逗号: {stats['fixed_commas']} 处")

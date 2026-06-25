@@ -70,7 +70,7 @@
 
 ### 快速开始
 
-仓库中提供了模板文件 [`questions-template.json`](./questions-template.json)，内含完整字段说明，下载后修改即可。
+仓库中提供了模板文件 [`questions-template.json`](./data/questions-template.json)，内含完整字段说明，下载后修改即可。
 
 导入时注意：
 - 文件编码必须为 **UTF-8**（中文不乱码）
@@ -84,11 +84,11 @@
 
 除了 Chrome 扩展，我们还准备了 **420 道题目的 A6 卡片 PDF**，可打印成实体卡片，随时抽取反思。
 
-![PDF 预览](PDF预览.png)
+![PDF 预览](downloads/PDF预览.png)
 
 ### 📥 下载
 
-[📥 完整版 420 题](./日课一问_完整版.pdf) — 免费下载，包含全部问题 + 封面
+[📥 完整版 420 题](./downloads/日课一问_完整版.pdf) — 免费下载，包含全部问题 + 封面
 
 ### 📋 卡片规格
 
