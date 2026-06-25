@@ -153,7 +153,7 @@ function getWeekNumber(d) {
     return Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
 }
 
-// ═══ 年度进度矩阵 ═══
+// ═══ 年度进度矩阵（从左往右列优先填充） ═══
 function renderProgress() {
     const grid = document.getElementById('progress-grid');
     const txt = document.getElementById('progress-text');
@@ -168,10 +168,12 @@ function renderProgress() {
 
     txt.textContent = `今天是 ${year} 年的第 ${dayOfYear} 天，进度 ${((dayOfYear / totalDays) * 100).toFixed(1)}%`;
 
-    const cols = totalDays <= 365 ? 73 : 61;
-    const rows = Math.ceil(totalDays / cols);
-    grid.style.gridTemplateColumns = `repeat(${cols}, minmax(0, 1fr))`;
+    // 固定行数，grid-auto-flow: column 让格子从上往下排列、从左往右推进
+    const rows = totalDays <= 365 ? 5 : 6;
+    const cols = Math.ceil(totalDays / rows);
     grid.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
+    grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+    grid.style.gridAutoFlow = 'column';
 
     grid.innerHTML = '';
     const fragment = document.createDocumentFragment();
