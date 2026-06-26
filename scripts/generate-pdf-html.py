@@ -119,9 +119,9 @@ CARD = '''
 COVER = '''
 <div class="card cover">
   <div class="card-inner">
-    <div class="cover-brand">D A I L Y &nbsp; Q U E S T I O N</div>
-    <div class="cover-title">日课一问</div>
-    <div class="cover-subtitle">每 日 三 省 · 破 局 人 生</div>
+    <div class="cover-brand">L I F E &nbsp; D E V E L O P M E N T</div>
+    <div class="cover-title">人生发展卡包</div>
+    <div class="cover-subtitle">4 2 0 道 深 度 反 思</div>
     <div class="cover-line"></div>
     <div class="cover-count">{count} 道灵魂拷问</div>
     <div class="cover-domain">{domain1}<br>{domain2}</div>
@@ -162,8 +162,8 @@ def generate():
         bar_w = max(4, int(cnt / max_cnt * 40))
         table_rows += f'<tr><td>{d}</td><td class="toc-num">{cnt} 张</td><td class="toc-bar"><span class="toc-bar-inner" style="width:{bar_w}mm"></span></td></tr>'
     index = INDEX.format(
-        intro='「日课一问」是一套深度反思卡片，效法「吾日三省吾身」的精神，每天抽取一张，直面一个灵魂拷问。适合个人反思、团队破冰、写作灵感、教练工具等场景。',
-        logic='卡片按六个领域组织——事业与财富、创作与表达、技能与成长、关系与连接、认知与思维、意义与存在。每张卡片包含一个核心问题和三个延伸追问，难度由浅入深。',
+        intro='「人生发展卡包」是一套覆盖人生六大领域的深度反思卡片。效法「吾日三省吾身」的精神，每天抽取一张，直面一个灵魂拷问。适合个人反思、团队破冰、写作灵感、教练工具等场景。',
+        logic='卡片按六个领域组织，事业与财富、创作与表达、技能与成长、关系与连接、认知与思维、意义与存在。每张卡片包含一个核心问题和三个延伸追问，难度由浅入深，覆盖人生发展的完整维度。',
         table_rows=table_rows,
         total=len(real))
 
