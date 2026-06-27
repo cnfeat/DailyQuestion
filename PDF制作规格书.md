@@ -7,14 +7,13 @@
 
 ## 1. 产品概述
 
-基于「日课一问」题库，生成 A6 标准卡片 PDF 和 A4 打印 PDF。支持封面、目录、卡片正文三页头结构，满足在线阅读和实体打印两种场景。
+基于「日课一问」题库，生成 A6 标准卡片 PDF。支持封面、目录、卡片正文三页头结构，满足在线阅读和实体打印场景。
 
 ### 输出物
 
 | 产物 | 用途 | 生成脚本 |
 |------|------|---------|
 | A6 完整版 HTML + PDF | 在线阅读 / 单张打印 | `scripts/generate-pdf-html.py` |
-| A4 打印版 HTML + PDF | 批量打印 8 张/页 | `scripts/generate-a4-print.py` |
 | AI创业决策卡包 HTML + PDF | 主题卡包 | `scripts/generate-ai-startup-pdf.py` |
 
 ---
@@ -35,25 +34,25 @@
 
 ### 2.2 卡片规格
 
-| 属性 | A6 完整版 | A4 打印版 |
-|------|----------|----------|
-| 页面尺寸 | 105 × 148 mm (A6) | 297 × 210 mm (A4 横版) |
-| 卡片背景 | 纯白 `#fff` | 暖白 `#faf8f5` |
-| 外框 | 1.5px 豆瓣绿细线 | 无 |
-| 顶部装饰 | 豆瓣绿渐变线 | 无 |
-| 内边距 | 10mm-9mm | 2.5mm-2mm |
+| 属性 | A6 完整版 |
+|------|----------|
+| 页面尺寸 | 105 × 148 mm (A6) |
+| 卡片背景 | 纯白 `#fff` |
+| 外框 | 1.5px 豆瓣绿细线 |
+| 顶部装饰 | 豆瓣绿渐变线 |
+| 内边距 | 10mm-9mm |
 
 ### 2.3 文字排版
 
-| 元素 | A6 完整版 | A4 打印版 |
-|------|----------|----------|
-| 问题层 | 17pt Bold | 7.5pt Bold |
-| 分割线 | 14mm 豆瓣绿 | 7mm 豆瓣绿 |
-| 延伸层 | 10pt Light × 1.8 | 5.5pt Light × 1.5 |
-| 品牌名 | 7pt | 5pt |
-| 卡片编号 | 6.5pt | 4.5pt |
-| 领域标签 | 6.5pt | 4.5pt |
-| 底部出处 | 5.5pt | 无 |
+| 元素 | A6 完整版 |
+|------|----------|
+| 问题层 | 17pt Bold |
+| 分割线 | 14mm 豆瓣绿 |
+| 延伸层 | 10pt Light × 1.8 |
+| 品牌名 | 7pt |
+| 卡片编号 | 6.5pt |
+| 领域标签 | 6.5pt |
+| 底部出处 | 5.5pt |
 
 ### 2.4 目录页排版
 
@@ -145,15 +144,7 @@ python scripts/generate-pdf-html.py
 chrome --headless --print-to-pdf=output.pdf --no-pdf-header-footer index.html
 ```
 
-### 5.2 A4 打印版
-
-```bash
-python scripts/generate-a4-print.py
-# 输出: downloads/日课一问_A4打印版.html + .pdf
-# 每页 4 列 × 2 行 = 8 张卡片, A7 比例 (74×105mm)
-```
-
-### 5.3 AI创业决策卡包
+### 5.2 AI创业决策卡包
 
 ```bash
 python scripts/generate-ai-startup-pdf.py
@@ -162,7 +153,7 @@ python scripts/generate-ai-startup-pdf.py
 # 100 张卡片, 四阶段分类
 ```
 
-### 5.4 PDF 生成依赖
+### 5.3 PDF 生成依赖
 
 - Chrome/Chromium 浏览器（用于 headless `--print-to-pdf`）
 - Python 3.x + 标准库（json, collections）
@@ -174,7 +165,6 @@ python scripts/generate-ai-startup-pdf.py
 | 脚本 | 用途 |
 |------|------|
 | `scripts/generate-pdf-html.py` | A6 完整版 HTML 生成 |
-| `scripts/generate-a4-print.py` | A4 打印版 HTML + PDF |
 | `scripts/generate-ai-startup-pdf.py` | AI创业决策卡包 HTML + PDF |
 | `scripts/audit-questions.py` | 好问题标准审计 |
 | `scripts/fix-jargon.py` | 术语解释嵌入 |
